@@ -7,6 +7,12 @@ OnlyMemes allows you to share your originally created memes, its important that 
 Best part about sharing these funny images is that they (optionally) are behind a paywall that followers have to pay for if they want access, so stonks for you.
 As a creator I'll buy you a beer and host a party for you in my 25k USD mansion (you have to pay for transport yourself)
 
+## Important note
+This project is made completely for fun.
+You shouldn't make any opinion about my tech skills based on this project.
+Many technical decisions are made because sane person wouldn't do it, Im curious and I'll go there.
+I want to learn make bad decisions and learn from them.
+
 ## S#@t to do
 1. ~~Figure out a reasonable architecture~~
 	2. Provider high availability and performance, no one wants to wait for memes they pay for - research performance
@@ -24,6 +30,13 @@ Its just a draft
 
 ## Content Filtering
 TODO
+
+## User identity
+
+Im not going to store any users personal data because of RODO
+Users will log in using their email and password, I'll store only hash values of those for verification.
+This creates a problem of what to display as a user name under a comment or a meme publisher - this will be resolved as a "display name" which user will set manually when registering.
+Additionally I will forbid of using emails as a display name because thats a personal information.
 
 ## Features
 
