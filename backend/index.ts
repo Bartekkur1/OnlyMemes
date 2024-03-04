@@ -1,11 +1,6 @@
-import express from 'express';
+import HealthCheck from "./src/Adapter/Web/Handlers/HealthCheck";
+import WebServer from "./src/Adapter/Web/WebServer";
 
-const app = express();
-
-app.use((req, res) => {
-  res.sendStatus(404);
-});
-
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
+const webServer = new WebServer({ port: 3000 });
+webServer.addHandler(HealthCheck);
+webServer.start();
