@@ -1,38 +1,47 @@
 import express from 'express';
-import { RouteSymbol } from './decorator';
-import type { Request, Response, NextFunction, Express } from 'express';
-import type { RouteInformation, WebHandler, WebServerConfig } from './types';
+import type { Request, Response, NextFunction, Express, Router } from 'express';
+import { HttpError, type WebServerConfig } from './types';
+import Routes from './routes';
 
+// @TODO: Add rate limiter
 class WebServer {
 
+  private router: Router;
   private server: Express;
   private config: WebServerConfig;
 
   constructor(config: WebServerConfig) {
     this.config = config;
     this.server = express();
+    this.router = express.Router();
   }
 
-  addHandler(handler: WebHandler) {
-    const ownRouteMetadata = Reflect.hasOwnMetadata(RouteSymbol, handler.constructor);
-    if (!ownRouteMetadata) {
-      throw new Error(`Missing handler ${handler.constructor.name} metadata!`);
-    }
+  registerRoutes(callback: (router: Router) => void) {
+    callback(this.router);
+  }
 
-    const { method, path } = Reflect.getMetadata(RouteSymbol, handler.constructor) as RouteInformation;
-    this.server[method](path, async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const result = await handler.handler(req, res, next);
-        if (result) {
-          res.send(result);
-        }
-      } catch (e) {
-        next(e);
+  private addErrorHandler() {
+    this.server.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+      console.error(err);
+      if (err instanceof HttpError) {
+        return res.status(err.status).json({ error: err.message });
+      } else {
+        return res.status(500).send('Internal Server Error');
       }
+    });
+
+  }
+
+  private addNotFoundHandler() {
+    this.server.use((req: Request, res: Response, next: NextFunction) => {
+      return res.status(404).send('Not Found');
     });
   }
 
   start() {
+    this.server.use(Routes.prefix, this.router);
+    this.addErrorHandler();
+    this.addNotFoundHandler();
     this.server.listen(this.config.port, () => {
       console.log(`Server listening on port ${this.config.port}`);
     });

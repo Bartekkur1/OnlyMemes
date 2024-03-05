@@ -1,6 +1,8 @@
-import HealthCheck from "./src/Adapter/Web/Handlers/HealthCheck";
-import WebServer from "./src/Adapter/Web/WebServer";
+import { createWebModule } from "./src/Adapter/Web";
+import createSQLBasedApplicationContext from "./src/Application/context";
 
-const webServer = new WebServer({ port: 3000 });
-webServer.addHandler(HealthCheck);
-webServer.start();
+(async () => {
+  const appContext = createSQLBasedApplicationContext();
+  const webServer = createWebModule(appContext);
+  webServer.start();
+})();
