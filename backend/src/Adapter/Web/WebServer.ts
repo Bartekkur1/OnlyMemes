@@ -2,6 +2,7 @@ import express from 'express';
 import type { Request, Response, NextFunction, Express, Router } from 'express';
 import { HttpError, type WebServerConfig } from './types';
 import Routes from './routes';
+import bodyParser from 'body-parser';
 
 // @TODO: Add rate limiter
 class WebServer {
@@ -22,14 +23,13 @@ class WebServer {
 
   private addErrorHandler() {
     this.server.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-      console.error(err);
+      console.log(err);
       if (err instanceof HttpError) {
         return res.status(err.status).json({ error: err.message });
       } else {
         return res.status(500).send('Internal Server Error');
       }
     });
-
   }
 
   private addNotFoundHandler() {
@@ -39,6 +39,8 @@ class WebServer {
   }
 
   start() {
+    this.server.use(bodyParser.json());
+    this.server.use(bodyParser.urlencoded({ extended: true }));
     this.server.use(Routes.prefix, this.router);
     this.addErrorHandler();
     this.addNotFoundHandler();

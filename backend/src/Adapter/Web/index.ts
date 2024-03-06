@@ -10,8 +10,9 @@ export const createWebModule = (applicationContext: ApplicationContext) => {
   const identityHandler = new IdentityHandler(applicationContext.identity);
 
   server.registerRoutes(router => {
-    router.get(Routes.health, healthCheck.handler);
-    router.post(Routes.login, identityHandler.login);
+    router.get(Routes.health, healthCheck.handler.bind(healthCheck));
+    router.post(Routes.login, identityHandler.login.bind(identityHandler));
+    router.post(Routes.register, identityHandler.register.bind(identityHandler));
   });
 
   return server;
