@@ -1,0 +1,21 @@
+version: '3'
+
+name: OnlyMemes
+
+services:
+  database:
+    image: postgres:15.3-alpine3.18
+    container_name: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: onlymemes
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - ./tmp:/var/lib/postgresql/data
+
+networks:
+  default:
+    name: onlymemes_network

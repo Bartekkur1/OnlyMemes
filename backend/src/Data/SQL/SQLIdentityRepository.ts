@@ -1,7 +1,10 @@
 import type { Credentials, IdentityRepository, UserIdentity } from "../../Application/Identity/types";
-// import type SQLClient from "./SQLClient";
+import SQLClient from "./SQLClient";
 
 export default class SQLIdentityRepository implements IdentityRepository {
+
+  constructor(private client: SQLClient) { }
+
   findUser(credentials: Credentials): Promise<UserIdentity> {
     throw new Error("Method not implemented.");
   }

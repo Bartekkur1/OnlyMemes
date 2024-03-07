@@ -9,13 +9,9 @@ const requireEnv = (name: string, defaultVal?: string): string => {
   return envValue;
 }
 
-const loadConfig = <T>(baseConfig: { [k in keyof T]: string }): T => {
+export const loadConfig = <T>(baseConfig: { [k in keyof T]: string }): T => {
   config({ path: '.env' });
   const newConfig: { [key: string]: string } = {};
   Object.keys(baseConfig).forEach(key => (newConfig[key] = requireEnv(baseConfig[key as keyof T])));
   return newConfig as T;
 }
-
-export {
-  loadConfig
-};
