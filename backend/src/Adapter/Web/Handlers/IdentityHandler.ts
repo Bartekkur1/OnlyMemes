@@ -4,10 +4,11 @@ import { InvalidCredentialsError, UserNotFoundError } from "../../../Application
 import { HttpError } from "../types";
 import { UnexpectedError } from "../../../Application/types";
 
-// @TODO: Add handler related logs
 class IdentityHandler {
 
-  constructor(private readonly identity: Identity) { }
+  constructor(
+    private readonly identity: Identity,
+  ) { }
 
   async login(req: Request, res: Response, next: NextFunction) {
     try {
@@ -25,10 +26,11 @@ class IdentityHandler {
     }
   }
 
+  // @TODO: Make the display name unique
   async register(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password, displayName } = (req.body || {});
-      const token = await this.identity.register({
+      await this.identity.register({
         credentials: {
           email, password
         },
@@ -36,7 +38,7 @@ class IdentityHandler {
           displayName
         }
       });
-      return res.json({ token });
+      return res.sendStatus(201);
     } catch (error) {
       if (error instanceof InvalidCredentialsError) {
         return next(new HttpError(400, error.message));

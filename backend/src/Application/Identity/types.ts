@@ -17,7 +17,7 @@ export interface UserIdentity {
 }
 
 export interface IdentityRepository {
-  findUser(credentials: Credentials): Promise<UserIdentity>;
+  findUser(email: string): Promise<UserIdentity>;
   createUser(credentials: UserIdentity): Promise<void>;
   isEmailTaken(email: string): Promise<boolean>;
 }

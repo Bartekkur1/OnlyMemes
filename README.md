@@ -41,7 +41,10 @@ Additionally I will forbid of using emails as a display name because thats a per
 ## Features
 
 - [ ] User identity
-	- [ ] Itegrate login with google/facebook (Im not going to bother storing user credentials, maybe in future when I'll have more time to waste)
+	- [ ] ~~Itegrate login with google/facebook (Im not going to bother storing user credentials, maybe in future when I'll have more time to waste)~~ edit: Yeah, turns out I will
+	- [ ] Login
+	- [ ] Register
+	- [ ] Password recovery
  - [ ] Memes
  	- [ ] Figure out where and how to store memes efficiently
 	- [ ] Upload

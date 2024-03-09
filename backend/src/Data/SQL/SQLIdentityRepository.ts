@@ -5,13 +5,35 @@ export default class SQLIdentityRepository implements IdentityRepository {
 
   constructor(private client: SQLClient) { }
 
-  findUser(credentials: Credentials): Promise<UserIdentity> {
-    throw new Error("Method not implemented.");
+  findUser(email: string): Promise<UserIdentity> {
+    const query = 'SELECT email, password, display_name FROM "user" WHERE email = $1';
+    return this.client.query(query, [email])
+      .then(result => {
+        const user = result[0];
+        return {
+          credentials: {
+            email: user.email,
+            password: user.password
+          },
+          profile: {
+            displayName: user.display_name
+          }
+        };
+      });
   }
+
   createUser(credentials: UserIdentity): Promise<void> {
-    throw new Error("Method not implemented.");
+    const query = 'INSERT INTO "user" (email, password, display_name) VALUES ($1, $2, $3)';
+    const { email, password } = credentials.credentials;
+    const { displayName } = credentials.profile;
+    return this.client.query(query, [email, password, displayName]);
   }
+
   isEmailTaken(email: string): Promise<boolean> {
-    throw new Error("Method not implemented.");
+    const query = 'SELECT COUNT(*) FROM "user" WHERE email = $1';
+    return this.client.query(query, [email])
+      .then(result => {
+        return result[0].count > 0;
+      });
   }
 }
