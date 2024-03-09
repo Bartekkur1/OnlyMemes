@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Button, Container, Grid, Link } from '@mui/material';
+import { useAuth } from '../../Context/AuthContext';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login, user } = useAuth();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
+    login({ email, password });
   };
 
   return (
@@ -59,12 +60,12 @@ const Login: React.FC = () => {
         </form>
         <Grid container justifyContent={'space-between'}>
           <Grid item>
-            <Link href="#" variant="body2">
+            <Link variant="body2">
               Forgot password?
             </Link>
           </Grid>
           <Grid item>
-            <Link href="#" variant="body2">
+            <Link href='/register' variant="body2">
               Sign Up
             </Link>
           </Grid>

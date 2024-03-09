@@ -1,23 +1,30 @@
 import React from 'react';
 import './App.css';
-import { AuthProvider } from 'oidc-react';
 import { Route, Routes } from 'react-router-dom';
-import { Login } from '@mui/icons-material';
-
-const oidcConfig = {
-  onSignIn: () => {
-    console.log('User signed in');
-  },
-  authority: 'https://oidc.io/oauth',
-  clientId: 'this-is-a-client-id',
-  redirectUri: 'https://my-app.com/',
-};
+import Register from './Pages/Register/Register';
+import Login from './Pages/Login/Login';
+import AuthProvider, { RequireAuth, RequireNoAuth } from './Context/AuthContext';
+import { Home } from './Pages/Home/Home';
 
 function App() {
   return (
-    <AuthProvider {...oidcConfig}>
+    <AuthProvider>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={
+          <RequireNoAuth>
+            <Login />
+          </RequireNoAuth>
+        } />
+        <Route path="/register" element={
+          <RequireNoAuth>
+            <Register />
+          </RequireNoAuth>
+        } />
+        <Route path="/" element={
+          <RequireAuth>
+            <Home />
+          </RequireAuth>
+        } />
       </Routes>
     </AuthProvider>
   );

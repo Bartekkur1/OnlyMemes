@@ -5,7 +5,7 @@ import WebServer from "./WebServer";
 import Routes from "./routes";
 
 export const createWebModule = (applicationContext: ApplicationContext) => {
-  const server = new WebServer({ port: 3000 });
+  const server = new WebServer();
   const healthCheck = new HealthCheck();
   const identityHandler = new IdentityHandler(applicationContext.identity);
 

@@ -3,6 +3,7 @@ import type { Request, Response, NextFunction, Express, Router } from 'express';
 import { HttpError, type WebServerConfig } from './types';
 import Routes from './routes';
 import bodyParser from 'body-parser';
+import { loadConfig } from '../../config';
 
 // @TODO: Add rate limiter
 class WebServer {
@@ -11,8 +12,10 @@ class WebServer {
   private server: Express;
   private config: WebServerConfig;
 
-  constructor(config: WebServerConfig) {
-    this.config = config;
+  constructor() {
+    this.config = loadConfig<WebServerConfig>({
+      port: 'API_PORT'
+    });
     this.server = express();
     this.router = express.Router();
   }
