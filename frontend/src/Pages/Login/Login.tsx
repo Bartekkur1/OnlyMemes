@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Button, Container, Grid, Link } from '@mui/material';
 import { useAuth } from '../../Context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login, user } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,7 +67,7 @@ const Login: React.FC = () => {
             </Link>
           </Grid>
           <Grid item>
-            <Link href='/register' variant="body2">
+            <Link onClick={() => navigate('/register')} variant="body2">
               Sign Up
             </Link>
           </Grid>
