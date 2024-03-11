@@ -7,7 +7,7 @@ import { hashCredentials } from "./util";
 import { validateLoginCredentials, validateUserIdentity } from "./validator";
 import { sign } from 'jsonwebtoken';
 
-// @TODO: Add business logic related logs
+// @TODO: Add password/account recovery
 class Identity {
 
   constructor(
