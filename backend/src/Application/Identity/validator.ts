@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import type { Credentials, UserIdentity } from './types';
+import type { Credentials, UnregisteredUserIdentity, UserIdentity } from './types';
 
 const credentialsPartialValidator = Joi.object({
   email: Joi.string().email().required(),
@@ -32,11 +32,11 @@ export const validateLoginCredentials = (credentials: Omit<Credentials, 'display
   return validate(credentials, credentialsPartialValidator);
 };
 
-export const validateUserIdentity = (identity: UserIdentity): string | undefined => {
+export const validateUserIdentity = (identity: UnregisteredUserIdentity): string | undefined => {
   return validate(identity, userIdentityValidator);
 }
 
-const validate = (credentials: UserIdentity | Credentials, schema: Joi.ObjectSchema) => {
+const validate = (credentials: UnregisteredUserIdentity | Credentials, schema: Joi.ObjectSchema) => {
   const { error } = schema.validate(credentials);
   return error ? error.message : undefined;
 }

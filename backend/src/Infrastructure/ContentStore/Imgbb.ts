@@ -29,6 +29,10 @@ class ImgBB implements ContentStore {
     });
   }
 
+  async deleteMeme(id: string) {
+    this.logger.debug(`Deleting meme with id ${id}`);
+  }
+
   private getUploadUrl() {
     return `${UPLOAD_URL}?key=${this.config.apiKey}`;
   }

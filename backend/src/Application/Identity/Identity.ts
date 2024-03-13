@@ -3,7 +3,7 @@ import { getConsoleLogger } from "../../Util/logger";
 import type { Logger } from "../../Util/types";
 import { UnexpectedError } from "../types";
 import { InvalidCredentialsError, UserNotFoundError } from "./types";
-import type { Credentials, IdentityConfiguration, IdentityRepository, JWTPayload, UserIdentity } from "./types";
+import type { Credentials, IdentityConfiguration, IdentityRepository, JWTPayload, UnregisteredUserIdentity, UserIdentity } from "./types";
 import { hashCredentials } from "./util";
 import { validateLoginCredentials, validateUserIdentity } from "./validator";
 import { sign } from 'jsonwebtoken';
@@ -42,12 +42,12 @@ class Identity {
 
     this.logger.debug(`User ${searchCredentials.email} logged in successfully`);
     return sign(<JWTPayload>{
-      email: searchCredentials.email,
-      displayname: user.profile.displayName
+      id: user.id,
+      displayName: user.profile.displayName
     }, this.config.JWTSecret);
   }
 
-  async register(identity: UserIdentity): Promise<boolean> {
+  async register(identity: UnregisteredUserIdentity): Promise<boolean> {
     this.logger.debug('Registering user...');
     const errorMessage = validateUserIdentity(identity);
     if (errorMessage) {

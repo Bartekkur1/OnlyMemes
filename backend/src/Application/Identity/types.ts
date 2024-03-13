@@ -12,14 +12,32 @@ export interface Credentials {
 }
 
 export interface UserIdentity {
+  id: string;
   credentials: Credentials;
   profile: UserProfile;
 }
 
+export type UnregisteredUserIdentity = Omit<UserIdentity, 'id'>;
+
 export interface IdentityRepository {
   findUser(email: string): Promise<UserIdentity>;
-  createUser(credentials: UserIdentity): Promise<void>;
+  createUser(credentials: UnregisteredUserIdentity): Promise<void>;
   isEmailTaken(email: string): Promise<boolean>;
+}
+
+export interface Meme {
+  id: string;
+  content: string;
+  // user id
+  author: number;
+  publishedDate: Date;
+  title: string;
+  url?: string;
+}
+
+export interface ContentRepository {
+  saveMeme(meme: Meme): Promise<void>;
+  deleteMeme(id: string): Promise<void>;
 }
 
 export class InvalidCredentialsError extends Error {
@@ -35,6 +53,6 @@ export class UserNotFoundError extends Error {
 }
 
 export interface JWTPayload {
-  email: string;
-  displayname: string;
+  id: string;
+  displayName: string;
 }

@@ -16,6 +16,7 @@ class QueryError extends Error {
   }
 }
 
+// @TODO: Implement query builder
 export default class SQLClient implements DataClient {
 
   private config: SQLClientConfig;

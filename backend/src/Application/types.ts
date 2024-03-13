@@ -1,3 +1,4 @@
+import type Content from "./Content/Content";
 import type Identity from "./Identity/Identity";
 
 export class UnexpectedError extends Error {
@@ -8,4 +9,5 @@ export class UnexpectedError extends Error {
 
 export interface ApplicationContext {
   identity: Identity;
+  content: Content;
 }

@@ -27,5 +27,8 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
-  }
+  },
+  "files": [
+    "./custom.d.ts"
+  ]
 }
