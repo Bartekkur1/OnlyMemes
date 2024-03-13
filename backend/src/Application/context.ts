@@ -7,7 +7,7 @@ const createSQLBasedApplicationContext = (): ApplicationContext => {
   const sqlClient = new SQLClient();
 
   return {
-    identity: new Identity({ JWTSecret: 'TODO' }, new SQLIdentityRepository(sqlClient))
+    identity: new Identity(new SQLIdentityRepository(sqlClient))
   }
 };
 

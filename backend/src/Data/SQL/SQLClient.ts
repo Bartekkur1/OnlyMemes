@@ -1,4 +1,4 @@
-import { loadConfig } from "../../config";
+import { loadConfig } from "../../Infrastructure/config";
 import { Pool } from 'pg';
 import type { DataClient } from "../types";
 

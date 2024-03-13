@@ -6,10 +6,10 @@ import UploadForm from './UploadForm';
 const Upload: FC = () => {
   const [previewImage, setPreviewImage] = useState<string | undefined>();
   const [uploadStage, setUploadStage] = useState<'upload' | 'form'>('upload');
-  const [form, setForm] = useState<{ title: string, description: string }>();
+  const [form, setForm] = useState<{ title: string }>();
 
-  const onSubmitForm = (title: string, description: string) => {
-    setForm({ title, description });
+  const onSubmitForm = (title: string) => {
+    setForm({ title });
     console.log(form);
   }
 

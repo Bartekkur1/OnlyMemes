@@ -1,3 +1,4 @@
+import { loadConfig } from "../../Infrastructure/config";
 import { getConsoleLogger } from "../../Util/logger";
 import type { Logger } from "../../Util/types";
 import { UnexpectedError } from "../types";
@@ -10,8 +11,11 @@ import { sign } from 'jsonwebtoken';
 // @TODO: Add password/account recovery
 class Identity {
 
+  private config: IdentityConfiguration = loadConfig<IdentityConfiguration>({
+    JWTSecret: 'JWT_SECRET'
+  });
+
   constructor(
-    private config: IdentityConfiguration,
     private repository: IdentityRepository,
     private logger: Logger = getConsoleLogger('Identity')
   ) { }

@@ -3,7 +3,7 @@ import type { Request, Response, NextFunction, Express, Router } from 'express';
 import { HttpError, type WebServerConfig } from './types';
 import Routes from './routes';
 import bodyParser from 'body-parser';
-import { loadConfig } from '../../config';
+import { loadConfig } from '../../Infrastructure/config';
 import type { Logger } from '../../Util/types';
 import { getConsoleLogger } from '../../Util/logger';
 
