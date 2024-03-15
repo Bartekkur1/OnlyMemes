@@ -5,12 +5,13 @@ import IdentityHandler from "./Handlers/IdentityHandler";
 import WebServer from "./WebServer";
 import Routes from "./routes";
 import { requireAuth } from './Middleware/requireAuth';
+import ImgBB from '../../Infrastructure/ContentStore/Imgbb';
 
 export const createWebModule = (applicationContext: ApplicationContext) => {
   const server = new WebServer();
   const healthCheck = new HealthCheck();
   const identityHandler = new IdentityHandler(applicationContext.identity);
-  const contentHandler = new ContentHandler();
+  const contentHandler = new ContentHandler(applicationContext.content);
 
   server.registerRoutes(router => {
     router.get(Routes.health, healthCheck.handler.bind(healthCheck));

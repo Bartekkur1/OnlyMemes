@@ -27,6 +27,7 @@ export interface IdentityRepository {
 
 export interface Meme {
   id: string;
+  // base64 image
   content: string;
   // user id
   author: number;
