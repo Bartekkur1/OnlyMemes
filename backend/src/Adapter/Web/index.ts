@@ -5,7 +5,6 @@ import IdentityHandler from "./Handlers/IdentityHandler";
 import WebServer from "./WebServer";
 import Routes from "./routes";
 import { requireAuth } from './Middleware/requireAuth';
-import ImgBB from '../../Infrastructure/ContentStore/Imgbb';
 
 export const createWebModule = (applicationContext: ApplicationContext) => {
   const server = new WebServer();
@@ -20,6 +19,7 @@ export const createWebModule = (applicationContext: ApplicationContext) => {
     router.post(Routes.register, identityHandler.register.bind(identityHandler));
     // CONTENT
     router.post(Routes.content, requireAuth, contentHandler.uploadContent.bind(contentHandler));
+    router.get(Routes.content, requireAuth, contentHandler.getMemesHomepage.bind(contentHandler));
   });
 
   return server;

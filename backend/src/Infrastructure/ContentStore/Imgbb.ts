@@ -17,7 +17,9 @@ interface ImgBBResponse {
   success: boolean;
 }
 
-
+/**
+ * This service is an absolute garbonzo
+ */
 class ImgBB implements ContentStore {
 
   private config: ImgBBConfig;
@@ -31,6 +33,7 @@ class ImgBB implements ContentStore {
 
   async deleteMeme(id: string) {
     this.logger.debug(`Deleting meme with id ${id}`);
+    // Imgbb doesnt support this feature lol
   }
 
   private getUploadUrl() {

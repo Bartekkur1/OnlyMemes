@@ -1,4 +1,4 @@
-import type { Credentials, IdentityRepository, UserIdentity } from "../../Application/Identity/types";
+import type { IdentityRepository, UserIdentity } from "../../Application/Identity/types";
 import SQLClient from "./SQLClient";
 
 export default class SQLIdentityRepository implements IdentityRepository {
@@ -6,10 +6,11 @@ export default class SQLIdentityRepository implements IdentityRepository {
   constructor(private client: SQLClient) { }
 
   findUser(email: string): Promise<UserIdentity> {
-    const query = 'SELECT id, email, password, display_name FROM "User" WHERE email = $1';
-    return this.client.query(query, [email])
-      .then(result => {
-        const user = result[0];
+    return this.client.query('User')
+      .select('id', 'email', 'password', 'display_name')
+      .where('email', email)
+      .then(rows => {
+        const user = rows[0];
         return {
           id: user.id,
           credentials: {
@@ -20,21 +21,22 @@ export default class SQLIdentityRepository implements IdentityRepository {
             displayName: user.display_name
           }
         };
-      });
+      })
   }
 
   createUser(credentials: UserIdentity): Promise<void> {
-    const query = 'INSERT INTO "User" (email, password, display_name) VALUES ($1, $2, $3)';
     const { email, password } = credentials.credentials;
     const { displayName } = credentials.profile;
-    return this.client.query(query, [email, password, displayName]);
+    return this.client.query('User')
+      .insert({ email, password, display_name: displayName });
   }
 
   isEmailTaken(email: string): Promise<boolean> {
-    const query = 'SELECT COUNT(*) FROM "User" WHERE email = $1';
-    return this.client.query(query, [email])
-      .then(result => {
-        return result[0].count > 0;
-      });
+    return this.client.query('User')
+      .count('*')
+      .where('email', email)
+      .then(rows => {
+        return Number(rows[0].count) > 0
+      })
   }
 }

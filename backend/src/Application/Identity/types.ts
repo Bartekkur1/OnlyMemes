@@ -39,6 +39,7 @@ export interface Meme {
 export interface ContentRepository {
   saveMeme(meme: Meme): Promise<void>;
   deleteMeme(id: string): Promise<void>;
+  findMemes(): Promise<Meme[]>;
 }
 
 export class InvalidCredentialsError extends Error {

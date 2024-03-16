@@ -1,6 +1,6 @@
+import { DataClientError, type DataClient } from "../types";
 import { loadConfig } from "../../Infrastructure/config";
-import { Pool } from 'pg';
-import type { DataClient } from "../types";
+import { knex } from 'knex';
 
 interface SQLClientConfig {
   host: string;
@@ -10,17 +10,10 @@ interface SQLClientConfig {
   database: string;
 }
 
-class QueryError extends Error {
-  constructor(message: string, public query: string, public params: any[]) {
-    super(message);
-  }
-}
-
-// @TODO: Implement query builder
 export default class SQLClient implements DataClient {
 
   private config: SQLClientConfig;
-  private pool: Pool;
+  query: knex.Knex;
 
   constructor() {
     this.config = loadConfig<SQLClientConfig>({
@@ -31,30 +24,23 @@ export default class SQLClient implements DataClient {
       database: 'POSTGRES_DATABASE'
     });
 
-    this.pool = new Pool({
-      ...this.config,
-      max: 20,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 2000
+    this.query = knex({
+      client: 'pg',
+      connection: {
+        ...this.config
+      },
+      pool: {
+        min: 0,
+        max: 10
+      }
     });
   }
 
   async init() {
-    const client = await this.pool.connect();
-    client.release();
-  }
-
-  async query(query: string, params: any[] = []): Promise<any> {
-    const client = await this.pool.connect();
     try {
-      const result = await client.query(query, params);
-      client.release();
-      return result.rows;
+      await this.query.raw('SELECT 1');
     } catch (err) {
-      client.release();
-      const error = err as Error;
-      throw new QueryError(error.message, query, params);
+      throw new DataClientError('Database connection failed!');
     }
   }
-
 }

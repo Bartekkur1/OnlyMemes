@@ -13,7 +13,7 @@ export class HttpError extends Error {
 
 export interface AuthorizedRequest extends Request {
   user: {
-    id: string;
+    id: number;
     displayName: string;
   }
 }
