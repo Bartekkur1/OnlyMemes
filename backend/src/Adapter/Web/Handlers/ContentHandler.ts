@@ -21,7 +21,7 @@ class ContentHandler {
       });
       return res.sendStatus(200);
     } catch (err) {
-      return res.json({ error: err.message }).status(400);
+      return res.status(400).json({ error: err.message });
     }
   }
 
@@ -31,7 +31,6 @@ class ContentHandler {
       const memes = await this.content.findMemes();
       return res.json(memes).status(200);
     } catch (err) {
-      console.log(err);
       return res.sendStatus(400);
     }
   }

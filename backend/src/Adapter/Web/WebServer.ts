@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import { loadConfig } from '../../Infrastructure/config';
 import type { Logger } from '../../Util/types';
 import { getConsoleLogger } from '../../Util/logger';
+import cors from 'cors';
 
 // @TODO: Add rate limiter
 class WebServer {
@@ -49,6 +50,9 @@ class WebServer {
   start() {
     this.server.use(bodyParser.json());
     this.server.use(bodyParser.urlencoded({ extended: true }));
+    this.server.use(cors({
+      origin: '*' // @TODO: Change this
+    }));
     this.server.use((req: Request, res: Response, next: NextFunction) => {
       this.logger.debug(`Incoming request ${req.method} ${req.url}`);
       return next();

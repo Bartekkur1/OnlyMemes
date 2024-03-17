@@ -1,11 +1,11 @@
 import { Credentials, Register } from "../Types/Auth";
-// import httpClient from "./HttpClient";
+import getHttpClient from "./HttpClient";
 
 const AuthClient = {
 
   login: async (login: Credentials): Promise<string> => {
-    // const response = await httpClient.post('/identity/login', login);
-    return 'token 123';
+    const response = await getHttpClient().post('/identity/login', login);
+    return response.data.token;
   },
 
   register: async (register: Register) => {

@@ -3,9 +3,10 @@ import { FC, useRef } from "react";
 
 interface UploadFieldProps {
   setPreviewImage: (previewImage: string) => void;
+  setPayloadImage: (payloadImage: string) => void;
 }
 
-const UploadField: FC<UploadFieldProps> = ({ setPreviewImage }) => {
+const UploadField: FC<UploadFieldProps> = ({ setPreviewImage, setPayloadImage }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   // const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -17,9 +18,14 @@ const UploadField: FC<UploadFieldProps> = ({ setPreviewImage }) => {
   // };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files![0];
+    let reader = new FileReader();
+
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setPayloadImage(reader.result as string);
+    };
     if (file) {
-      // setSelectedFile(file);
       if (file.type.startsWith('image/')) {
         setPreviewImage(URL.createObjectURL(file));
       }
