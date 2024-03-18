@@ -42,11 +42,11 @@ Additionally I will forbid of using emails as a display name because thats a per
 
 - [ ] User identity
 	- [ ] ~~Itegrate login with google/facebook (Im not going to bother storing user credentials, maybe in future when I'll have more time to waste)~~ edit: Yeah, turns out I will
-	- [ ] Login
-	- [ ] Register
+	- [x] Login
+	- [x] Register
 	- [ ] Password recovery
  - [ ] Memes
- 	- [ ] Figure out where and how to store memes efficiently
+ 	- [x] Figure out where and how to store memes efficiently
 	- [ ] Upload
 	- [ ] Fetching memes and feed? like home page that shows you trending/fresh/top
   	- [ ] Scoring system, likes etc.
