@@ -1,4 +1,4 @@
-import { ImageUploadPayload } from "../Types/Content";
+import { ImageUploadPayload, Meme } from "../Types/Content";
 import getHttpClient from "./HttpClient";
 
 export const ContentApi = {
@@ -9,6 +9,11 @@ export const ContentApi = {
     });
 
     console.log(response);
+  },
+
+  fetchMemes: async (): Promise<Meme[]> => {
+    const response = await getHttpClient().get('/content');
+    return response.data as Meme[];
   }
 
 }
