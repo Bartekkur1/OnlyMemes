@@ -1,12 +1,12 @@
 import React from 'react';
 import Navbar from '../../Shared/Navbar';
-import { Meme } from './Meme';
+import MemeList from './MemeList';
 
 const Home = () => {
   return (
     <>
       <Navbar />
-      <Meme />
+      <MemeList />
     </>
   );
 };

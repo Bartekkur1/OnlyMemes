@@ -32,7 +32,7 @@ export default class SQLContentRepository implements ContentRepository {
           id: row.id,
           url: row.url,
           author: row.display_name,
-          publishedDate: new Date(),
+          publishedDate: row.published_at,
           title: row.title
         }))
       });

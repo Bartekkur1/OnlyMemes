@@ -1,35 +1,40 @@
 import { FC } from "react";
-import { Avatar, Card, CardContent, CardHeader, CardMedia, Typography } from "@mui/material";
+import { Card, CardContent, CardHeader, CardMedia, Typography } from "@mui/material";
+import { Meme } from "../../Types/Content";
 
 const cardStyle = {
-  width: '35%',
+  width: '45%',
+  minWidth: '500px',
   margin: 'auto',
   marginBottom: '16px',
   marginTop: '30px'
 };
 
-export const Meme: FC = () => {
+// @TODO: Add infinite scroll
+export const MemePost: FC<{ meme: Meme }> = ({ meme: { author, title, url, publishedDate } }) => {
+  const date = (new Date(publishedDate)).toLocaleDateString();
   return (
     <Card style={cardStyle}>
+      {/* @TODO: Add user icon */}
       <CardHeader
-        avatar={
-          <Avatar aria-label="author">
-            {'Author'}
-          </Avatar>
-        }
-        title={'title'}
-        subheader={`By author`}
+        // avatar={
+        //   <Avatar aria-label="author">
+        //     {author}
+        //   </Avatar>
+        // }
+        title={title}
+        subheader={`${author} published: ${date}`}
       />
       <CardMedia
         component="img"
-        alt={'title'}
+        alt={title}
         height="auto"
-        image={'https://dummyimage.com/600x400/000/fff&text=Test'}
-        title={'title'}
+        image={url}
+        title={title}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {/* Additional details if needed */}
+          TODO: Meme statistics, comments and likes etc.
         </Typography>
       </CardContent>
     </Card>
