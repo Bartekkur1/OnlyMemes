@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import type { Credentials, UnregisteredUserIdentity, UserIdentity } from './types';
+import { Credentials, UnregisteredUserIdentity } from '../../Types/Identity';
 
 const credentialsPartialValidator = Joi.object({
   email: Joi.string().email().required(),

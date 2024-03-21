@@ -1,7 +1,8 @@
 import type { ContentStore } from "../../Infrastructure/ContentStore/types";
+import { ContentRepository, Meme } from "../../Types/Content";
+import { Pagination } from "../../Types/Shared";
 import { getConsoleLogger } from "../../Util/logger";
 import type { Logger } from "../../Util/types";
-import type { ContentRepository, Meme } from "../Identity/types";
 import { UploadMemeError } from "./error";
 
 class Content {
@@ -34,9 +35,9 @@ class Content {
     }
   }
 
-  async findMemes(): Promise<Meme[]> {
-    const memes = await this.contentRepository.findMemes();
-    return memes;
+  async findMemes({ page = 1, size = 10 }: Pagination): Promise<Meme[]> {
+    this.logger.debug('Finding memes...');
+    return this.contentRepository.findMemes({ page, size });
   }
 
 }

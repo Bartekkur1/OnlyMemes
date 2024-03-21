@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import type Identity from "../../../Application/Identity/Identity";
-import { InvalidCredentialsError, UserNotFoundError } from "../../../Application/Identity/types";
+import { InvalidCredentialsError, UserNotFoundError } from "../../../Application/Identity/error";
 import { HttpError } from "../types";
 import { UnexpectedError } from "../../../Application/types";
 

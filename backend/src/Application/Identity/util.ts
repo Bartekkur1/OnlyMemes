@@ -1,5 +1,5 @@
-import type { Credentials } from "./types";
 import * as crypto from 'crypto';
+import { Credentials } from '../../Types/Identity';
 
 const createHash = (input: string): string => {
   const hash = crypto.createHash('sha256');

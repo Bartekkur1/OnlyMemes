@@ -1,4 +1,5 @@
-import type { ContentRepository, IdentityRepository, Meme } from "../../Application/Identity/types";
+import { ContentRepository, Meme } from "../../Application/Content/types";
+import { Pagination } from "../../Application/types";
 import type SQLClient from "./SQLClient";
 
 
@@ -6,6 +7,7 @@ export default class SQLContentRepository implements ContentRepository {
 
   constructor(private client: SQLClient) { }
 
+  // @TODO: implement
   async deleteMeme(id: string): Promise<void> {
     // throw new Error("Method not implemented.");
   }
@@ -20,12 +22,13 @@ export default class SQLContentRepository implements ContentRepository {
       });
   }
 
-  async findMemes(): Promise<Meme[]> {
+  async findMemes(pagination: Required<Pagination>): Promise<Meme[]> {
     return this.client.query('Meme')
       .select('Meme.*', 'User.display_name')
       .from('Meme')
       .join('User', 'User.id', '=', 'Meme.author')
-      .limit(20)
+      .limit(pagination.size)
+      .offset((pagination.page - 1) * pagination.size)
       .orderBy('published_at', 'desc')
       .then(rows => {
         return rows.map(row => (<Meme>{

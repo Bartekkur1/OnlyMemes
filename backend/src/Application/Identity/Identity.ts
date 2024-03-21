@@ -2,11 +2,12 @@ import { loadConfig } from "../../Infrastructure/config";
 import { getConsoleLogger } from "../../Util/logger";
 import type { Logger } from "../../Util/types";
 import { UnexpectedError } from "../types";
-import { InvalidCredentialsError, UserNotFoundError } from "./types";
-import type { Credentials, IdentityConfiguration, IdentityRepository, JWTPayload, UnregisteredUserIdentity, UserIdentity } from "./types";
 import { hashCredentials } from "./util";
-import { validateLoginCredentials, validateUserIdentity } from "./validator";
 import { sign } from 'jsonwebtoken';
+import { validateLoginCredentials, validateUserIdentity } from '../../Infrastructure/Validation/CredentialsValidator';
+import { InvalidCredentialsError, UserNotFoundError } from "./error";
+import { Credentials, IdentityRepository, JWTPayload, UnregisteredUserIdentity } from "../../Types/Identity";
+import { IdentityConfiguration } from './config';
 
 // @TODO: Add password/account recovery
 class Identity {
