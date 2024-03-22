@@ -11,8 +11,10 @@ export const ContentApi = {
     console.log(response);
   },
 
-  fetchMemes: async (): Promise<Meme[]> => {
-    const response = await getHttpClient().get('/content');
+
+  // @TODO: Change page size lol
+  fetchMemes: async (page: number): Promise<Meme[]> => {
+    const response = await getHttpClient().get(`/content?page=${page}&size=2`);
     return response.data as Meme[];
   }
 
