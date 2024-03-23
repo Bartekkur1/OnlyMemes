@@ -1,5 +1,5 @@
 export const containerStyle: React.CSSProperties = {
   margin: 'auto',
-  marginTop: '16px',
+  marginTop: '64px',
   marginBottom: '16px'
 };
