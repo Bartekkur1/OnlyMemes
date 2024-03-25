@@ -3,7 +3,8 @@ enum Routes {
   register = '/identity/register',
   health = '/health',
   prefix = '/api',
-  content = '/content'
+  content = '/content',
+  profile = '/profile/:id'
 }
 
 export default Routes;

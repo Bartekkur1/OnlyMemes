@@ -1,5 +1,5 @@
-import { ContentRepository, Meme } from "../../Application/Content/types";
-import { Pagination } from "../../Application/types";
+import { ContentRepository, Meme } from "../../Types/Content";
+import { Pagination } from "../../Types/Shared";
 import type SQLClient from "./SQLClient";
 
 

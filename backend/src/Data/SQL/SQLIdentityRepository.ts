@@ -1,4 +1,4 @@
-import type { IdentityRepository, UserIdentity } from "../../Application/Identity/types";
+import { IdentityRepository, UserIdentity } from "../../Types/Identity";
 import SQLClient from "./SQLClient";
 
 export default class SQLIdentityRepository implements IdentityRepository {
