@@ -1,16 +1,44 @@
 import { useNavigate, useParams } from "react-router-dom";
-import Navbar from "../../Shared/Navbar";
+import { useEffect, useState } from "react";
+import { UserProfile } from "../../Types/Profile";
+import { ProfileApi } from "../../Api/Profile";
+import { HomeLayout } from "../../Shared/HomeLayout";
+import { Avatar, Grid, Typography } from "@mui/material";
+import { AccountCircle } from "@mui/icons-material";
+import MemeList from "../Meme/MemeList";
 
-// @TODO: Finish this
+// @TODO: Add better profile information, avatar, likes, comments, memes count etc.
 const Profile = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { displayName } = useParams();
+  const [userProfile, setUserProfile] = useState<UserProfile | undefined>();
+
+  useEffect(() => {
+    if (displayName === undefined) return;
+    ProfileApi.findProfile(displayName).then((profile) => {
+      if (!profile) {
+        navigate('/');
+      }
+      setUserProfile(profile);
+    });
+  }, []);
+
+  if (userProfile?.displayName === undefined) return (<div>Loading...</div>);
 
   return (
-    <>
-      <Navbar />
-      <h1> Profile</h1>
-    </>
+    <HomeLayout>
+      <Grid container alignItems="center" spacing={2} style={{ display: 'flex', justifyContent: 'center' }}>
+        <Grid item>
+          <Avatar>
+            <AccountCircle />
+          </Avatar>
+        </Grid>
+        <Grid item>
+          <Typography variant="h6">{userProfile?.displayName}</Typography>
+        </Grid>
+      </Grid>
+      <MemeList author={userProfile?.displayName} />
+    </HomeLayout>
   );
 };
 

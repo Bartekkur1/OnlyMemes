@@ -20,7 +20,7 @@ class Content {
       this.logger.debug('Uploading image...');
       meme.url = await this.contentStore.uploadImage({
         id: meme.id,
-        content: meme.content
+        content: meme.content!
       });
       this.logger.debug('Saving meme database record...');
       await this.contentRepository.saveMeme(meme);
@@ -35,9 +35,10 @@ class Content {
     }
   }
 
-  async findMemes({ page = 1, size = 10 }: Pagination): Promise<Meme[]> {
-    this.logger.debug('Finding memes...');
-    return this.contentRepository.findMemes({ page, size });
+  // @TODO: Add size limit, we dont want someone to pull all memes at once
+  async findMemes({ page = 1, size = 10 }: Pagination, author?: string): Promise<Meme[]> {
+    this.logger.debug(`Searching for memes with filter: page ${page} size ${size} author ${author}...`);
+    return this.contentRepository.findMemes({ pagination: { page, size }, author });
   }
 
 }

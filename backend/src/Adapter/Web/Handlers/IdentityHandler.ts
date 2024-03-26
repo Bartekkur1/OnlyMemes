@@ -27,6 +27,7 @@ class IdentityHandler {
   }
 
   // @TODO: Make the display name unique
+  // @TODO: Make display name unique case sensitive
   async register(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password, displayName } = (req.body || {});

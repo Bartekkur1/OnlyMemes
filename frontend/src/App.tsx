@@ -20,7 +20,7 @@ function App() {
         {SecuredRoute({ element: <Home />, path: '/' })}
         {SecuredRoute({ element: <Upload />, path: '/upload' })}
         {SecuredRoute({ element: <Logout />, path: '/logout' })}
-        {SecuredRoute({ element: <Profile />, path: '/profile/:id' })}
+        {SecuredRoute({ element: <Profile />, path: '/profile/:displayName' })}
         {<Route path='*' element={<Navigate to={'/'} />} />}
       </Routes>
     </AuthProvider>

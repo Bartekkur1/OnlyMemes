@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '../../Shared/Navbar';
-import MemeList from './MemeList';
+import MemeList from '../Meme/MemeList';
 
 const Home = () => {
   return (

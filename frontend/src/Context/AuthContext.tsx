@@ -32,7 +32,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         });
         localStorage.setItem('token', token);
       } catch (err) {
-        console.log('');
+        console.log(err);
       }
     },
     logout() {

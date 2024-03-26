@@ -4,7 +4,7 @@ enum Routes {
   health = '/health',
   prefix = '/api',
   content = '/content',
-  profile = '/profile/:id'
+  profile = '/profile/:displayName'
 }
 
 export default Routes;

@@ -1,6 +1,12 @@
 import { ImageUploadPayload, Meme } from "../Types/Content";
 import getHttpClient from "./HttpClient";
 
+interface FetchMemesQuery {
+  page: number;
+  size: number;
+  author?: string;
+}
+
 export const ContentApi = {
 
   uploadMeme: async (payload: ImageUploadPayload) => {
@@ -13,8 +19,14 @@ export const ContentApi = {
 
 
   // @TODO: Change page size lol
-  fetchMemes: async (page: number): Promise<Meme[]> => {
-    const response = await getHttpClient().get(`/content?page=${page}&size=2`);
+  fetchMemes: async ({ page, size, author }: FetchMemesQuery): Promise<Meme[]> => {
+    const params = new URLSearchParams();
+    params.append('page', page.toString());
+    params.append('size', size.toString());
+    if (author) {
+      params.append('author', author.toString());
+    }
+    const response = await getHttpClient().get(`/content?${params.toString()}`);
     return response.data as Meme[];
   }
 

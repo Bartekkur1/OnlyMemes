@@ -18,9 +18,10 @@ class ContentHandler {
       await this.content.uploadMeme({
         author: req.user.id,
         content: req.body.image,
+        authorDisplayName: req.user.displayName,
         id: memeId,
         title: req.body.title,
-        publishedDate: new Date()
+        publishedDate: new Date(),
       });
       return res.sendStatus(200);
     } catch (err) {
@@ -28,7 +29,6 @@ class ContentHandler {
     }
   }
 
-  // @TODO: Add pagination
   async getMemesHomepage(req: AuthorizedRequest, res: Response, next: NextFunction) {
     try {
       const pagination = extractPagination(req);
@@ -37,7 +37,8 @@ class ContentHandler {
         return res.status(400).json({ error: paginationValidatorError });
       }
 
-      const memes = await this.content.findMemes(pagination);
+      const author = req.query.author ? String(req.query.author) : undefined;
+      const memes = await this.content.findMemes(pagination, author);
       return res.json(memes).status(200);
     } catch (err) {
       console.log(err);

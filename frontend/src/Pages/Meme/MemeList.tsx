@@ -2,11 +2,15 @@ import React, { FC, useEffect, useState } from 'react';
 import { Container, Grid } from '@mui/material';
 import { Meme } from '../../Types/Content';
 import { MemePost } from './Meme';
-import { containerStyle } from './Styles';
+import { containerStyle } from '../Home/Styles';
 import { ContentApi } from '../../Api/Content';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-const MemeList: FC = () => {
+interface MemeListProps {
+  author?: string;
+}
+
+const MemeList: FC<MemeListProps> = ({ author }) => {
 
   const [page, setPage] = useState<number>(1);
   const [memes, setMemes] = useState<Meme[]>([]);
@@ -19,7 +23,11 @@ const MemeList: FC = () => {
     }
 
     pageCache[page] = true;
-    ContentApi.fetchMemes(page).then(response => {
+    ContentApi.fetchMemes({
+      page,
+      author: author || undefined,
+      size: 5
+    }).then(response => {
       setHasMore(response.length > 0);
       setMemes([...memes, ...response]);
       setPage(page => page + 1);
@@ -33,7 +41,7 @@ const MemeList: FC = () => {
   return (
     <Container style={containerStyle}>
       <Grid container spacing={1}>
-        <Grid xs={12}>
+        <Grid item xs={12}>
           <InfiniteScroll
             dataLength={memes.length}
             next={() => {

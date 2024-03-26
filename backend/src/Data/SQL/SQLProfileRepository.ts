@@ -5,11 +5,11 @@ export default class SQLProfileRepository implements ProfileRepository {
 
   constructor(private client: SQLClient) { }
 
-  findUser(id: string): Promise<UserProfile | null> {
+  findUser(displayName: string): Promise<UserProfile | null> {
     return this.client.query('User')
       .select('User.*')
       .from('User')
-      .where('User.id', '=', id)
+      .where('User.display_name', '=', displayName)
       .then(rows => {
         if (rows.length === 0) {
           return null;

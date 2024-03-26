@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Card, CardContent, CardHeader, CardMedia, Typography } from "@mui/material";
 import { Meme } from "../../Types/Content";
+import { useNavigate } from "react-router-dom";
 
 const cardStyle = {
   width: '45%',
@@ -10,8 +11,8 @@ const cardStyle = {
   marginTop: '30px'
 };
 
-// @TODO: Add infinite scroll
 export const MemePost: FC<{ meme: Meme }> = ({ meme: { author, title, url, publishedDate } }) => {
+  const navigate = useNavigate();
   const date = (new Date(publishedDate)).toLocaleDateString();
   return (
     <Card style={cardStyle}>
@@ -23,7 +24,19 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme: { author, title, url, publi
         //   </Avatar>
         // }
         title={title}
-        subheader={`${author} published: ${date}`}
+        subheader={
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+
+            <Typography
+              style={{ cursor: 'pointer', paddingRight: '4px' }}
+              onClick={() => {
+                navigate(`/profile/${author}`);
+              }}>
+              {`${author}`}
+            </Typography>
+            <Typography>{`published: ${date}`}</Typography>
+          </div>
+        }
       />
       <CardMedia
         component="img"
