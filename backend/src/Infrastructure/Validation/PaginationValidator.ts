@@ -1,5 +1,6 @@
 import Joi from "joi";
 import { Pagination } from "../../Types/Shared";
+import { validate } from "./Shared";
 
 export const validatePagination = (pagination: Pagination) => {
   const paginationSchema = Joi.object({
@@ -8,9 +9,4 @@ export const validatePagination = (pagination: Pagination) => {
   });
 
   return validate(pagination, paginationSchema);
-}
-
-const validate = (input: any, schema: Joi.ObjectSchema) => {
-  const { error } = schema.validate(input);
-  return error ? error.message : undefined;
-}
+};
