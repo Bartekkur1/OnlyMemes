@@ -35,7 +35,6 @@ class Content {
     }
   }
 
-  // @TODO: Add size limit, we dont want someone to pull all memes at once
   async findMemes({ page = 1, size = 10 }: Pagination, author?: string): Promise<Meme[]> {
     this.logger.debug(`Searching for memes with filter: page ${page} size ${size} author ${author}...`);
     return this.contentRepository.findMemes({ pagination: { page, size }, author });
