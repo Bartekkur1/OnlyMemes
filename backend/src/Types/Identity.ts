@@ -16,7 +16,7 @@ export interface UserIdentity {
 export type UnregisteredUserIdentity = Omit<UserIdentity, 'id'>;
 
 export interface IdentityRepository {
-  findUser(email: string): Promise<UserIdentity>;
+  findUser(email: string): Promise<UserIdentity | undefined>;
   createUser(credentials: UnregisteredUserIdentity): Promise<void>;
   isEmailTaken(email: string): Promise<boolean>;
 }
