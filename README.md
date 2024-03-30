@@ -54,7 +54,9 @@ Additionally I will forbid of using emails as a display name because thats a per
 - [ ] Paywall - enable possibility to upload paid content
 - [ ] Payments - I have no idea what Im doing
 
-TBC...
+## TODO
+
+Add tests 🥶
 
 ### PS
 If I forget a single commit this project yeets straight to **trash**

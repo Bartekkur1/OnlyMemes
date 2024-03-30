@@ -49,6 +49,16 @@ class IdentityHandler {
       return next(error);
     }
   }
+
+  async verifyToken(req: Request, res: Response, next: NextFunction) {
+    try {
+      const token = (req.headers.authorization || "").replace("Bearer ", "");
+      this.identity.verifyToken(token);
+      return res.sendStatus(200);
+    } catch (err) {
+      return res.sendStatus(401);
+    }
+  }
 }
 
 export default IdentityHandler;

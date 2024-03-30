@@ -3,7 +3,7 @@ import { getConsoleLogger } from "../../Util/logger";
 import type { Logger } from "../../Util/types";
 import { UnexpectedError } from "../types";
 import { hashCredentials } from "./util";
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import { validateLoginCredentials, validateUserIdentity } from '../../Infrastructure/Validation/CredentialsValidator';
 import { InvalidCredentialsError, UserNotFoundError } from "./error";
 import { Credentials, IdentityRepository, JWTPayload, UnregisteredUserIdentity } from "../../Types/Identity";
@@ -75,6 +75,18 @@ class Identity {
       const error = err as Error;
       this.logger.error(`Error creating user: ${error.message}`);
       throw new UnexpectedError(error.message);
+    }
+  }
+
+  // Returns true if token is valid
+  verifyToken(token: string): boolean {
+    this.logger.debug('Verifying token...');
+    try {
+      verify(token, this.config.JWTSecret);
+      return true;
+    } catch (err) {
+      this.logger.error(`Error verifying token: ${err.message}`);
+      return false;
     }
   }
 

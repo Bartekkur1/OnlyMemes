@@ -10,6 +10,19 @@ const AuthClient = {
 
   register: async (register: Register) => {
 
+  },
+
+  verifyToken: async (token: string): Promise<boolean> => {
+    try {
+      await getHttpClient().post('/identity/verify', {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      return true;
+    } catch (err) {
+      return false;
+    }
   }
 
 }

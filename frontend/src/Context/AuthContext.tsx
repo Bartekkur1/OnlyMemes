@@ -55,12 +55,18 @@ const RequireNoAuth: FC<{ children: React.ReactElement }> = ({ children }) => {
 };
 
 const RequireAuth: FC<{ children: React.ReactElement }> = ({ children }) => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const location = useLocation();
 
   if (!user || user.token === undefined) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
+
+  AuthClient.verifyToken(user.token).then((isValid) => {
+    if (!isValid) {
+      logout();
+    }
+  });
 
   return children;
 };
