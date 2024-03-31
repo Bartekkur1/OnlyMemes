@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "types": [
-      "reflect-metadata"
+      "reflect-metadata",
+      "bun-types"
     ],
     // Enable latest features
     "lib": [
