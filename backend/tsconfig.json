@@ -1,17 +1,16 @@
 {
   "compilerOptions": {
     "types": [
-      "reflect-metadata",
-      "bun-types"
+      "reflect-metadata"
     ],
     // Enable latest features
     "lib": [
-      "ESNext"
+      "ES6"
     ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "target": "ESNext",
-    "module": "ESNext",
+    "target": "ES6",
+    "module": "ES6",
     "moduleDetection": "force",
     "jsx": "react-jsx",
     "allowJs": true,
@@ -27,7 +26,8 @@
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+    "esModuleInterop": true
   },
   "files": [
     "./custom.d.ts"
