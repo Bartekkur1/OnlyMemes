@@ -10,8 +10,10 @@ interface FetchMemesQuery {
 export const ContentApi = {
 
   uploadMeme: async (payload: ImageUploadPayload) => {
-    const response = await getHttpClient().post('/content', {
-      ...payload
+    const response = await getHttpClient().post('/content', payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     });
 
     console.log(response);

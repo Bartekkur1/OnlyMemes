@@ -1,35 +1,21 @@
 import { Box } from "@mui/material";
-import { FC, useRef } from "react";
+import { FC, useRef, useState } from "react";
 
 interface UploadFieldProps {
   setPreviewImage: (previewImage: string) => void;
-  setPayloadImage: (payloadImage: string) => void;
+  setPayloadImage: (file: File) => void;
 }
 
 const UploadField: FC<UploadFieldProps> = ({ setPreviewImage, setPayloadImage }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-
-  // const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-  //   e.preventDefault();
-  // };
-
-  // const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-  //   e.preventDefault();
-  // };
+  // const [file, setFile] = useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files![0];
-    let reader = new FileReader();
+    if (!e.target.files) return;
+    const file = e.target.files[0];
 
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setPayloadImage(reader.result as string);
-    };
-    if (file) {
-      if (file.type.startsWith('image/')) {
-        setPreviewImage(URL.createObjectURL(file));
-      }
-    }
+    setPayloadImage(file);
+    setPreviewImage(URL.createObjectURL(file));
   };
 
   const handleClick = () => {

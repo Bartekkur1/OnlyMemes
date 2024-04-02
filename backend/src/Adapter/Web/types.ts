@@ -1,4 +1,5 @@
 import type { Request } from 'express';
+import { FileArray } from 'express-fileupload';
 
 export interface WebServerConfig {
   port: number;
@@ -16,4 +17,8 @@ export interface AuthorizedRequest extends Request {
     id: number;
     displayName: string;
   }
+}
+
+export interface FileUploadRequest extends AuthorizedRequest {
+  files: FileArray;
 }

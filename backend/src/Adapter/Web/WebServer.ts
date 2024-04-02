@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import { loadConfig } from '../../Infrastructure/config';
 import type { Logger } from '../../Util/types';
 import { getConsoleLogger } from '../../Util/logger';
+import fileUpload from 'express-fileupload';
 import cors from 'cors';
 
 // @TODO: Add rate limiter
@@ -48,8 +49,9 @@ class WebServer {
   }
 
   start() {
-    this.server.use(bodyParser.json());
+    this.server.use(fileUpload());
     this.server.use(bodyParser.urlencoded({ extended: true }));
+    this.server.use(bodyParser.json());
     this.server.use(cors({
       origin: '*' // @TODO: Change this
     }));

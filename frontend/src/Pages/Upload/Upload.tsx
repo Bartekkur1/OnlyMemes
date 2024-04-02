@@ -8,17 +8,19 @@ import { useNavigate } from 'react-router-dom';
 const Upload: FC = () => {
   const navigate = useNavigate();
   const [previewImage, setPreviewImage] = useState<string | undefined>();
-  const [imagePayload, setImagePayload] = useState<string | undefined>();
+  const [imagePayload, setImagePayload] = useState<File | null>(null);
   const [uploadStage, setUploadStage] = useState<'upload' | 'form'>('upload');
   // const [error, setError] = useState<string | undefined>();
 
   const onSubmitForm = (title: string) => {
-    if (imagePayload === undefined) {
+    if (imagePayload === null) {
       return;
     }
 
+    const formData = new FormData();
+    formData.append('file', imagePayload);
     ContentApi.uploadMeme({
-      image: imagePayload.split(';base64,')[1],
+      image: imagePayload,
       title
     }).then(() => {
       navigate('/');

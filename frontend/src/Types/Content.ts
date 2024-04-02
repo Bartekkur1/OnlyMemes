@@ -1,6 +1,6 @@
 export interface ImageUploadPayload {
   title: string;
-  image: string;
+  image: File;
 }
 
 export interface Meme {
