@@ -7,6 +7,7 @@ CREATE TABLE "User" (
 
 CREATE TABLE "Meme" (
   "id" SERIAL PRIMARY KEY,
+  "external_id" text,
   "title" varchar(64),
   "author" int,
   "url" text,

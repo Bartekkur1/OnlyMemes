@@ -18,10 +18,12 @@ class Content {
     this.logger.debug(`User ${meme.author} uploading meme...`);
     try {
       this.logger.debug('Uploading image...');
-      meme.url = await this.contentStore.uploadImage({
-        id: meme.id,
-        content: meme.content!
+      const uploadRes = await this.contentStore.uploadImage({
+        file: meme.content!,
+        id: meme.id
       });
+      meme.externalId = uploadRes.externalId;
+      meme.url = uploadRes.url;
       this.logger.debug('Saving meme database record...');
       await this.contentRepository.saveMeme(meme);
     } catch (err) {
@@ -30,7 +32,7 @@ class Content {
       this.logger.debug('Removing back meme database record...');
       await this.contentRepository.deleteMeme(meme.id);
       this.logger.debug('Removing uploaded meme...');
-      await this.contentStore.deleteMeme(meme.id);
+      await this.contentStore.deleteMeme(meme.externalId!);
       throw new UploadMemeError('Failed to upload image!');
     }
   }

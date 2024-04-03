@@ -26,7 +26,7 @@ const UploadForm: FC<UploadFormProps> = ({ previewImage, submitForm, cancel }) =
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      marginTop="20px"
+      marginTop={32}
     >
       <Box width="25%" marginBottom="20px" display='flex' justifyContent='center'>
         <img src={previewImage} alt="Preview" style={{ maxWidth: '100%', minWidth: '100%' }} />

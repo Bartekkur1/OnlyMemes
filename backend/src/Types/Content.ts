@@ -2,8 +2,9 @@ import { Pagination } from './Shared';
 
 export interface Meme {
   id: string;
+  externalId?: string;
   // base64 image
-  content?: string;
+  content?: Buffer;
   // user display name
   author: number;
   authorDisplayName: string;

@@ -12,13 +12,14 @@ export default class SQLContentRepository implements ContentRepository {
     // throw new Error("Method not implemented.");
   }
 
-  async saveMeme({ title, author, url, publishedDate }: Meme): Promise<void> {
+  async saveMeme({ title, author, url, publishedDate, externalId }: Meme): Promise<void> {
     return this.client.query('Meme')
       .insert({
         title: title,
         author: author,
         url: url,
-        published_at: publishedDate
+        published_at: publishedDate,
+        external_id: externalId
       });
   }
 

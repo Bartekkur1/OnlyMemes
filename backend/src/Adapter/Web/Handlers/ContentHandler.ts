@@ -5,15 +5,14 @@ import { v4 } from 'uuid';
 // @TODO: Add module mapper
 import { validatePagination } from '../../../Infrastructure/Validation/PaginationValidator';
 import { extractPagination } from '../../../Util/pagination';
-import { Meme } from '../../../Types/Content';
-import { validateMeme } from '../../../Infrastructure/Validation/UploadValidator';
 import { UploadedFile } from 'express-fileupload';
+import { Meme } from '../../../Types/Content';
 
 class ContentHandler {
 
   constructor(private content: Content) { }
 
-  // @TODO: Image as base64 is really bac idea, temporary solution, doesn't support gifs :(
+  // @TODO: add validation
   async uploadContent(req: FileUploadRequest, res: Response, next: NextFunction) {
     const memeId = v4();
     try {
@@ -27,11 +26,16 @@ class ContentHandler {
         return res.status(400).json({ error: 'No title provided' });
       }
 
-      console.log({
-        image,
-        title
-      });
+      const meme: Meme = {
+        author: req.user.id,
+        authorDisplayName: req.user.displayName,
+        id: memeId,
+        publishedDate: new Date(),
+        title: title,
+        content: image.data,
+      };
 
+      await this.content.uploadMeme(meme);
       return res.sendStatus(200);
     } catch (err) {
       return res.status(400).json({ error: err.message });

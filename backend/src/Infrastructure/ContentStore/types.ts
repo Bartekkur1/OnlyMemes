@@ -1,10 +1,14 @@
+export interface ContentUploadResult {
+  externalId?: string;
+  url: string;
+}
+
 export interface ContentStore {
-  // Returns URL to meme
-  uploadImage: (image: Image) => Promise<string>;
+  uploadImage: (image: Image) => Promise<ContentUploadResult>;
   deleteMeme: (id: string) => Promise<void>;
 }
 
 export interface Image {
   id: string;
-  content: string;
+  file: Buffer;
 }
