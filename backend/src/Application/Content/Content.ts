@@ -30,7 +30,7 @@ class Content {
       this.logger.error(err);
       this.logger.debug('Rolling back meme upload...');
       this.logger.debug('Removing back meme database record...');
-      await this.contentRepository.deleteMeme(meme.id);
+      await this.contentRepository.deleteMeme(meme.id, meme.author!);
       this.logger.debug('Removing uploaded meme...');
       await this.contentStore.deleteMeme(meme.externalId!);
       throw new UploadMemeError('Failed to upload image!');
@@ -40,6 +40,22 @@ class Content {
   async findMemes({ page = 1, size = 10 }: Pagination, author?: string): Promise<Meme[]> {
     this.logger.debug(`Searching for memes with filter: page ${page} size ${size} author ${author}...`);
     return this.contentRepository.findMemes({ pagination: { page, size }, author });
+  }
+
+  async deleteMeme(id: string, userId: number): Promise<boolean> {
+    try {
+      const meme = await this.contentRepository.findMeme(id);
+      if (!meme) {
+        return false;
+      } else {
+        const recordDelete = await this.contentRepository.deleteMeme(id, userId);
+        const imageDelete = await this.contentStore.deleteMeme(meme.externalId!);
+        return recordDelete && imageDelete;
+      }
+    } catch (err) {
+      this.logger.error(err);
+      return false;
+    }
   }
 
 }

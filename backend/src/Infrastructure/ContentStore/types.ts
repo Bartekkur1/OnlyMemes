@@ -5,7 +5,7 @@ export interface ContentUploadResult {
 
 export interface ContentStore {
   uploadImage: (image: Image) => Promise<ContentUploadResult>;
-  deleteMeme: (id: string) => Promise<void>;
+  deleteMeme: (id: string) => Promise<boolean>;
 }
 
 export interface Image {

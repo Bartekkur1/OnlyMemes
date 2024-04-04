@@ -7,9 +7,13 @@ export default class SQLContentRepository implements ContentRepository {
 
   constructor(private client: SQLClient) { }
 
-  // @TODO: implement
-  async deleteMeme(id: string): Promise<void> {
-    // throw new Error("Method not implemented.");
+  async deleteMeme(id: string, userId: number): Promise<boolean> {
+    const deletedRow = await this.client.query('Meme')
+      .where('id', id)
+      .andWhere('author', userId)
+      .del();
+
+    return deletedRow > 0;
   }
 
   async saveMeme({ title, author, url, publishedDate, externalId }: Meme): Promise<void> {
@@ -46,6 +50,23 @@ export default class SQLContentRepository implements ContentRepository {
         title: row.title
       }))
     });
+  }
+
+  async findMeme(id: string): Promise<Meme | undefined> {
+    return this.client.query('Meme')
+      .select('Meme.*')
+      .from('Meme')
+      .where('Meme.id', id)
+      .first()
+      .then(row => {
+        return row ? <Meme>{
+          id: row.id,
+          url: row.url,
+          title: row.title,
+          externalId: row.external_id,
+          publishedDate: row.published_at
+        } : undefined
+      });
   }
 
 }

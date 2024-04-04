@@ -5,6 +5,7 @@ enum Routes {
   health = '/health',
   prefix = '/api',
   content = '/content',
+  contentId = '/content/:id',
   profile = '/profile/:displayName'
 }
 

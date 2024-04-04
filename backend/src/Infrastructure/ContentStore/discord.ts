@@ -70,11 +70,11 @@ class DiscordStore implements ContentStore {
     }
   }
 
-  async deleteMeme(externalId: string): Promise<void> {
+  async deleteMeme(externalId: string): Promise<boolean> {
     const storageChannel = await this.getStorageChannel();
-
     const message = await storageChannel.messages.fetch(externalId);
     await message.delete();
+    return true;
   }
 
 }

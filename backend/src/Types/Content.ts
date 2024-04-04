@@ -20,6 +20,7 @@ export interface ContentSearchQuery {
 
 export interface ContentRepository {
   saveMeme(meme: Meme): Promise<void>;
-  deleteMeme(id: string): Promise<void>;
+  deleteMeme(id: string, userId: number): Promise<boolean>;
   findMemes(query: ContentSearchQuery): Promise<Meme[]>;
+  findMeme(id: string): Promise<Meme | undefined>;
 }

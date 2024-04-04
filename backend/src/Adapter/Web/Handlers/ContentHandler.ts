@@ -59,6 +59,19 @@ class ContentHandler {
     }
   }
 
+  async deleteMeme(req: AuthorizedRequest, res: Response, next: NextFunction) {
+    const memeId = req.params.id;
+    try {
+      const deleted = await this.content.deleteMeme(memeId, req.user.id);
+      if (!deleted) {
+        return res.status(400).json({ error: 'Failed to delete meme' });
+      }
+      return res.sendStatus(200);
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
+  }
+
 }
 
 export default ContentHandler;
