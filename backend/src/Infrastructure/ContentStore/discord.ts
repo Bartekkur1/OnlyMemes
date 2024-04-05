@@ -51,7 +51,6 @@ class DiscordStore implements ContentStore {
     const storageChannel = await this.getStorageChannel();
 
     const mimeType = await fileTypeFromBuffer(file);
-    console.log(mimeType);
     if (!mimeType) throw new Error('Invalid file type');
     const message = await storageChannel.send({
       content: id,

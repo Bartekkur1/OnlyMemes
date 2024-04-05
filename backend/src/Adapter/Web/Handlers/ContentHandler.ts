@@ -59,6 +59,7 @@ class ContentHandler {
     }
   }
 
+  // @TODO: figure out how to handle rollback
   async deleteMeme(req: AuthorizedRequest, res: Response, next: NextFunction) {
     const memeId = req.params.id;
     try {

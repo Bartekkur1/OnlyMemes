@@ -1,7 +1,8 @@
 import { FC } from "react";
-import { Card, CardContent, CardHeader, CardMedia, Typography } from "@mui/material";
+import { Card, CardContent, CardHeader, CardMedia, Grid, Typography } from "@mui/material";
 import { Meme } from "../../Types/Content";
 import { useNavigate } from "react-router-dom";
+import { MemeOption } from "./MemeOption";
 
 const cardStyle = {
   width: '45%',
@@ -25,17 +26,21 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme: { author, title, url, publi
         // }
         title={title}
         subheader={
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-
-            <Typography
-              style={{ cursor: 'pointer', paddingRight: '4px' }}
-              onClick={() => {
-                navigate(`/profile/${author}`);
-              }}>
-              {`${author}`}
-            </Typography>
-            <Typography>{`published: ${date}`}</Typography>
-          </div>
+          <Grid container>
+            <Grid item xs={6}>
+              <Typography
+                style={{ cursor: 'pointer', paddingRight: '4px' }}
+                onClick={() => {
+                  navigate(`/profile/${author}`);
+                }}>
+                {`${author}`}
+              </Typography>
+              <Typography>{`published: ${date}`}</Typography>
+            </Grid>
+            <Grid item xs={6} textAlign={'end'}>
+              <MemeOption />
+            </Grid>
+          </Grid>
         }
       />
       <CardMedia
