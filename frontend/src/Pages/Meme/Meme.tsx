@@ -12,9 +12,9 @@ const cardStyle = {
   marginTop: '30px'
 };
 
-export const MemePost: FC<{ meme: Meme }> = ({ meme: { author, title, url, publishedDate } }) => {
+export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
   const navigate = useNavigate();
-  const date = (new Date(publishedDate)).toLocaleDateString();
+  const date = (new Date(meme.publishedDate)).toLocaleDateString();
   return (
     <Card style={cardStyle}>
       {/* @TODO: Add user icon */}
@@ -24,31 +24,31 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme: { author, title, url, publi
         //     {author}
         //   </Avatar>
         // }
-        title={title}
+        title={meme.title}
         subheader={
           <Grid container>
             <Grid item xs={6}>
               <Typography
                 style={{ cursor: 'pointer', paddingRight: '4px' }}
                 onClick={() => {
-                  navigate(`/profile/${author}`);
+                  navigate(`/profile/${meme.author}`);
                 }}>
-                {`${author}`}
+                {`${meme.author}`}
               </Typography>
               <Typography>{`published: ${date}`}</Typography>
             </Grid>
             <Grid item xs={6} textAlign={'end'}>
-              <MemeOption />
+              <MemeOption meme={meme} />
             </Grid>
           </Grid>
         }
       />
       <CardMedia
         component="img"
-        alt={title}
+        alt={meme.title}
         height="auto"
-        image={url}
-        title={title}
+        image={meme.url}
+        title={meme.title}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">

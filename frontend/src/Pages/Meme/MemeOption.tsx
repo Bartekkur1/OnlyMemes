@@ -1,8 +1,14 @@
 import { FC, useEffect, useState } from "react";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Button, Popover } from "@mui/material";
+import { Button, Grid, Popover } from "@mui/material";
+import { MemeDelete } from "./MemeDelete";
+import { Meme } from "../../Types/Content";
 
-export const MemeOption: FC = () => {
+interface MemeOptionProps {
+  meme: Meme;
+}
+
+export const MemeOption: FC<MemeOptionProps> = ({ meme }) => {
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [isOpen, setOpen] = useState(false);
@@ -12,10 +18,6 @@ export const MemeOption: FC = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  useEffect(() => {
-    console.log(isOpen);
-  }, [isOpen]);
-
   return (
     <>
       <Button
@@ -24,12 +26,25 @@ export const MemeOption: FC = () => {
         <MoreVertIcon />
       </Button>
       <Popover
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
         open={isOpen}
         anchorEl={anchorEl}
         onClose={() => setOpen(false)}
       >
-        <h1>Hello world</h1>
-      </Popover>
+        <Grid container style={{ padding: '16px' }}>
+          <Grid item xs={12}>
+            <MemeDelete memeId={meme.id} />
+          </Grid>
+        </Grid>
+      </Popover >
     </>
   )
 };
+

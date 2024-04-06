@@ -30,6 +30,11 @@ export const ContentApi = {
     }
     const response = await getHttpClient().get(`/content?${params.toString()}`);
     return response.data as Meme[];
+  },
+
+  deleteMeme: async (memeId: number) => {
+    const response = await getHttpClient().delete(`/content/${memeId}`);
+    return response;
   }
 
 }
