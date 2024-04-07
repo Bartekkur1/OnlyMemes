@@ -1,22 +1,21 @@
 import { Button } from "@mui/material";
-import { FC } from "react";
-import { ContentApi } from "../../Api/Content";
+import { FC, useContext } from "react";
+import { MemeContext } from "../../Context/MemeContext";
 
 interface MemeDeleteProps {
+  closePopover: () => void;
   memeId: number;
 }
 
-export const MemeDelete: FC<MemeDeleteProps> = ({ memeId }) => {
+export const MemeDelete: FC<MemeDeleteProps> = ({ memeId, closePopover }) => {
+  const { deleteMeme } = useContext(MemeContext);
 
   const handleMemeDelete = () => {
     const confirmed = window.confirm('Are you sure you want to delete this post?');
-    console.log(confirmed);
     if (confirmed) {
-      ContentApi.deleteMeme(memeId)
-        .then(() => {
-          // @TODO: Move memes into context store and refetch them on delete
-        })
+      deleteMeme(memeId);
     }
+    closePopover();
   };
 
   return (

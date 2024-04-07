@@ -11,3 +11,9 @@ export interface Meme {
   publishedDate: string;
   title: string;
 }
+
+export interface FetchMemesQuery {
+  page: number;
+  size: number;
+  author?: string;
+}

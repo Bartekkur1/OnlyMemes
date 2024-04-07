@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Button, Grid, Popover } from "@mui/material";
 import { MemeDelete } from "./MemeDelete";
@@ -40,7 +40,7 @@ export const MemeOption: FC<MemeOptionProps> = ({ meme }) => {
       >
         <Grid container style={{ padding: '16px' }}>
           <Grid item xs={12}>
-            <MemeDelete memeId={meme.id} />
+            <MemeDelete memeId={meme.id} closePopover={() => setOpen(false)} />
           </Grid>
         </Grid>
       </Popover >

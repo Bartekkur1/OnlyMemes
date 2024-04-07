@@ -1,10 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { Container, Grid } from '@mui/material';
-import { Meme } from '../../Types/Content';
 import { MemePost } from './Meme';
 import { containerStyle } from '../Home/Styles';
-import { ContentApi } from '../../Api/Content';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { MemeContext } from '../../Context/MemeContext';
 
 interface MemeListProps {
   author?: string;
@@ -12,25 +11,24 @@ interface MemeListProps {
 
 const MemeList: FC<MemeListProps> = ({ author }) => {
 
+  const { memes, fetchMemes } = useContext(MemeContext);
   const [page, setPage] = useState<number>(1);
-  const [memes, setMemes] = useState<Meme[]>([]);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const pageCache: Record<number, boolean> = {};
 
-  const handleFetchMemes = () => {
+  const handleFetchMemes = async () => {
     if (pageCache[page]) {
       return;
     }
 
     pageCache[page] = true;
-    ContentApi.fetchMemes({
+    fetchMemes({
       page,
       author: author || undefined,
       size: 5
-    }).then(response => {
-      setHasMore(response.length > 0);
-      setMemes([...memes, ...response]);
-      setPage(page => page + 1);
+    }).then((count) => {
+      setHasMore(count > 0);
+      setPage(page + 1);
     });
   };
 

@@ -1,11 +1,5 @@
-import { ImageUploadPayload, Meme } from "../Types/Content";
+import { FetchMemesQuery, ImageUploadPayload, Meme } from "../Types/Content";
 import getHttpClient from "./HttpClient";
-
-interface FetchMemesQuery {
-  page: number;
-  size: number;
-  author?: string;
-}
 
 export const ContentApi = {
 
@@ -18,7 +12,6 @@ export const ContentApi = {
 
     console.log(response);
   },
-
 
   // @TODO: Change page size lol
   fetchMemes: async ({ page, size, author }: FetchMemesQuery): Promise<Meme[]> => {
@@ -34,7 +27,7 @@ export const ContentApi = {
 
   deleteMeme: async (memeId: number) => {
     const response = await getHttpClient().delete(`/content/${memeId}`);
-    return response;
+    return response.status === 200;
   }
 
 }
