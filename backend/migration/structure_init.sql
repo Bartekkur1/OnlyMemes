@@ -14,4 +14,25 @@ CREATE TABLE "Meme" (
   "published_at" date
 );
 
+CREATE TABLE "Vote" (
+  "id" SERIAL PRIMARY KEY,
+  "meme" int,
+  "user" int,
+  "up" boolean
+);
+
+CREATE TABLE "Comment" (
+  "id" SERIAL PRIMARY KEY,
+  "meme" int,
+  "user" int,
+  "content" text,
+  "published_at" date
+);
+
 ALTER TABLE "Meme" ADD FOREIGN KEY ("author") REFERENCES "User" ("id");
+
+ALTER TABLE "Vote" ADD FOREIGN KEY ("user") REFERENCES "User" ("id");
+ALTER TABLE "Vote" ADD FOREIGN KEY ("meme") REFERENCES "Meme" ("id");
+
+ALTER TABLE "Comment" ADD FOREIGN KEY ("user") REFERENCES "User" ("id");
+ALTER TABLE "Comment" ADD FOREIGN KEY ("meme") REFERENCES "Meme" ("id");

@@ -47,8 +47,8 @@ Additionally I will forbid of using emails as a display name because thats a per
 	- [ ] Password recovery
  - [ ] Memes
  	- [x] Figure out where and how to store memes efficiently
-	- [ ] Upload
-	- [ ] Fetching memes and feed? like home page that shows you trending/fresh/top
+	- [x] Upload
+	- [x] Fetching memes and feed? like home page that shows you trending/fresh/top
   	- [ ] Scoring system, likes etc.
 - [ ] Comments system?
 - [ ] Paywall - enable possibility to upload paid content
