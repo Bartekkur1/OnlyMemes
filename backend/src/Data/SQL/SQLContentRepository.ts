@@ -27,7 +27,7 @@ export default class SQLContentRepository implements ContentRepository {
       });
   }
 
-  async findMemes({ pagination, author }: ContentSearchQuery): Promise<Meme[]> {
+  async findMemes({ pagination, authorId }: ContentSearchQuery): Promise<Meme[]> {
     let query = this.client.query('Meme')
       .select('Meme.*', 'User.display_name')
       .from('Meme')
@@ -36,8 +36,8 @@ export default class SQLContentRepository implements ContentRepository {
       .offset((pagination.page - 1) * pagination.size)
       .orderBy('published_at', 'desc');
 
-    if (author && author !== undefined) {
-      query = query.where('User.display_name', author);
+    if (authorId && authorId !== undefined) {
+      query = query.where('Meme.author', authorId);
     }
 
     return query.then(rows => {
@@ -45,7 +45,7 @@ export default class SQLContentRepository implements ContentRepository {
         id: row.id,
         url: row.url,
         author: row.display_name,
-        authorDisplayName: '',
+        authorId: row.author,
         publishedDate: row.published_at,
         title: row.title
       }))

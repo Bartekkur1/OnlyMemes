@@ -37,11 +37,12 @@ class Content {
     }
   }
 
-  async findMemes({ page = 1, size = 10 }: Pagination, author?: string): Promise<Meme[]> {
-    this.logger.debug(`Searching for memes with filter: page ${page} size ${size} author ${author}...`);
-    return this.contentRepository.findMemes({ pagination: { page, size }, author });
+  async findMemes({ page = 1, size = 10 }: Pagination, authorId?: number): Promise<Meme[]> {
+    this.logger.debug(`Searching for memes with filter: page ${page} size ${size} author ${authorId}...`);
+    return this.contentRepository.findMemes({ pagination: { page, size }, authorId });
   }
 
+  // @TODO: Check if user can remove meme
   async deleteMeme(id: string, userId: number): Promise<boolean> {
     try {
       const meme = await this.contentRepository.findMeme(id);

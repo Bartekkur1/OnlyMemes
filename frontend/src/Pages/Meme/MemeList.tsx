@@ -6,7 +6,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { MemeContext } from '../../Context/MemeContext';
 
 interface MemeListProps {
-  author?: string;
+  author?: number;
 }
 
 const MemeList: FC<MemeListProps> = ({ author }) => {

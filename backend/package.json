@@ -10,7 +10,7 @@
     "@types/joi": "^17.2.3",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/knex": "^0.16.1",
-    "@types/node": "^20.12.2",
+    "@types/node": "^20.12.6",
     "@types/pg": "^8.11.2",
     "@types/uuid": "^9.0.8",
     "@types/express-fileupload": "^1.5.0",

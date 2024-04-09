@@ -43,7 +43,7 @@ class Identity {
 
     this.logger.debug(`User ${searchCredentials.email} logged in successfully`);
     return sign(<JWTPayload>{
-      id: user.id,
+      id: Number(user.id),
       displayName: user.profile.displayName
     }, this.config.JWTSecret);
   }

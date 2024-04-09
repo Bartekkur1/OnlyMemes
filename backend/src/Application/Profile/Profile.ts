@@ -9,9 +9,9 @@ class Profile {
     private logger: Logger = getConsoleLogger('Profile')
   ) { }
 
-  async findUser(displayName: string): Promise<UserProfile | null> {
-    this.logger.debug(`Finding user ${displayName}`);
-    return this.repository.findUser(displayName);
+  async findUser(userId: number): Promise<UserProfile | null> {
+    this.logger.debug(`Finding user ${userId}`);
+    return this.repository.findUser(userId);
   }
 
 }

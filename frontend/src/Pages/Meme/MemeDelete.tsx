@@ -5,9 +5,10 @@ import { MemeContext } from "../../Context/MemeContext";
 interface MemeDeleteProps {
   closePopover: () => void;
   memeId: number;
+  disabled?: boolean;
 }
 
-export const MemeDelete: FC<MemeDeleteProps> = ({ memeId, closePopover }) => {
+export const MemeDelete: FC<MemeDeleteProps> = ({ memeId, disabled, closePopover }) => {
   const { deleteMeme } = useContext(MemeContext);
 
   const handleMemeDelete = () => {
@@ -20,7 +21,7 @@ export const MemeDelete: FC<MemeDeleteProps> = ({ memeId, closePopover }) => {
 
   return (
     <>
-      <Button onClick={() => handleMemeDelete()}>
+      <Button disabled={disabled} onClick={() => handleMemeDelete()}>
         Delete this post
       </Button>
     </>

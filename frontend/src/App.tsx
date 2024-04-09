@@ -22,7 +22,7 @@ function App() {
           {SecuredRoute({ element: <Home />, path: '/' })}
           {SecuredRoute({ element: <Upload />, path: '/upload' })}
           {SecuredRoute({ element: <Logout />, path: '/logout' })}
-          {SecuredRoute({ element: <Profile />, path: '/profile/:displayName' })}
+          {SecuredRoute({ element: <Profile />, path: '/profile/:userId' })}
           {<Route path='*' element={<Navigate to={'/'} />} />}
         </Routes>
       </MemeProvider>

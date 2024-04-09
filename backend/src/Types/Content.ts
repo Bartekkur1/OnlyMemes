@@ -2,19 +2,21 @@ import { Pagination } from './Shared';
 
 export interface Meme {
   id: string;
+  // content storage id
   externalId?: string;
   // base64 image
   content?: Buffer;
   // user display name
   author: number;
-  authorDisplayName: string;
+  // user id
+  authorId: number;
   publishedDate: Date;
   title: string;
   url?: string;
 }
 
 export interface ContentSearchQuery {
-  author?: string;
+  authorId?: number;
   pagination: Pagination;
 }
 

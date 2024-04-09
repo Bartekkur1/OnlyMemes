@@ -15,5 +15,5 @@ export interface Meme {
 export interface FetchMemesQuery {
   page: number;
   size: number;
-  author?: string;
+  author?: number;
 }

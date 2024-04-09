@@ -4,5 +4,5 @@ export interface UserProfile {
 }
 
 export interface ProfileRepository {
-  findUser(id: string): Promise<UserProfile | null>;
+  findUser(userId: number): Promise<UserProfile | null>;
 }

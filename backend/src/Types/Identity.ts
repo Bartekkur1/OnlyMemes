@@ -22,6 +22,6 @@ export interface IdentityRepository {
 }
 
 export interface JWTPayload {
-  id: string;
+  id: number;
   displayName: string;
 }

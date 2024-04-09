@@ -3,7 +3,7 @@ import { loadConfig } from "../../../Infrastructure/config";
 import type { AuthorizedRequest } from "../types";
 import { Logger } from "../../../Util/types";
 import { getConsoleLogger } from "../../../Util/logger";
-import { JWTPayload } from "../../../Application/Identity/types";
+import { JWTPayload } from '../../../Types/Identity';
 
 interface AuthMiddlewareConfig {
   JWTSecret: string;

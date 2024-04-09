@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { Card, CardContent, CardHeader, CardMedia, Grid, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { Meme } from "../../Types/Content";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { MemeOption } from "./MemeOption";
 
 const cardStyle = {
@@ -13,36 +13,30 @@ const cardStyle = {
 };
 
 export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
-  const navigate = useNavigate();
-  const date = (new Date(meme.publishedDate)).toLocaleDateString();
   return (
     <Card style={cardStyle}>
       {/* @TODO: Add user icon */}
-      <CardHeader
-        // avatar={
-        //   <Avatar aria-label="author">
-        //     {author}
-        //   </Avatar>
-        // }
-        title={meme.title}
-        subheader={
-          <Grid container>
-            <Grid item xs={6}>
+      <Box padding={2}>
+        <Grid container>
+          <Grid item xs={6}>
+            <Link to={`/profile/${meme.authorId}`} style={{ 'textDecoration': 'none' }}>
               <Typography
-                style={{ cursor: 'pointer', paddingRight: '4px' }}
-                onClick={() => {
-                  navigate(`/profile/${meme.author}`);
-                }}>
-                {`${meme.author}`}
+                sx={{ fontSize: 12 }}
+                color="text.secondary"
+                gutterBottom
+              >
+                {meme.author}
               </Typography>
-              <Typography>{`published: ${date}`}</Typography>
-            </Grid>
-            <Grid item xs={6} textAlign={'end'}>
-              <MemeOption meme={meme} />
-            </Grid>
+            </Link>
+            <Typography variant="h5" component="div">
+              {meme.title}
+            </Typography>
           </Grid>
-        }
-      />
+          <Grid item xs={6} textAlign={'end'}>
+            <MemeOption meme={meme} />
+          </Grid>
+        </Grid>
+      </Box>
       <CardMedia
         component="img"
         alt={meme.title}

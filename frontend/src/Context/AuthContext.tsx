@@ -2,9 +2,11 @@ import React, { FC, PropsWithChildren, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import AuthClient from '../Api/Auth';
 import { Credentials } from '../Types/Auth';
+import { jwtDecode } from 'jwt-decode';
 
 interface User {
   token: string;
+  id: number;
 }
 
 interface AuthContextType {
@@ -15,11 +17,20 @@ interface AuthContextType {
 
 const AuthContext = React.createContext<AuthContextType>({} as AuthContextType);
 
+const getUserId = (token: string): number => {
+  const payload = jwtDecode(token);
+  if (payload && typeof payload === 'object' && 'id' in payload) {
+    return Number(payload['id']);
+  }
+  throw new Error('Invalid token');
+};
+
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<User | undefined>();
   const storedToken = localStorage.getItem('token');
+
   if (storedToken && user?.token === undefined) {
-    setUser({ token: storedToken });
+    setUser({ token: storedToken, id: getUserId(storedToken) });
   }
 
   const contextValue: AuthContextType = {
@@ -28,6 +39,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
       try {
         const token = await AuthClient.login(credentials);
         setUser({
+          id: getUserId(token),
           token
         });
         localStorage.setItem('token', token);

@@ -10,12 +10,13 @@ import MemeList from "../Meme/MemeList";
 // @TODO: Add better profile information, avatar, likes, comments, memes count etc.
 const Profile = () => {
   const navigate = useNavigate();
-  const { displayName } = useParams();
+  const { userId } = useParams();
   const [userProfile, setUserProfile] = useState<UserProfile | undefined>();
 
   useEffect(() => {
-    if (displayName === undefined) return;
-    ProfileApi.findProfile(displayName).then((profile) => {
+    if (userId === undefined) return;
+    // @TODO: check if userId is number
+    ProfileApi.findProfile(Number(userId)).then((profile) => {
       if (!profile) {
         navigate('/');
       }
@@ -23,7 +24,7 @@ const Profile = () => {
     });
   }, []);
 
-  if (userProfile?.displayName === undefined) return (<div>Loading...</div>);
+  if (userProfile?.id === undefined) return (<div>Loading...</div>);
 
   return (
     <HomeLayout>
@@ -37,7 +38,7 @@ const Profile = () => {
           <Typography variant="h6">{userProfile?.displayName}</Typography>
         </Grid>
       </Grid>
-      <MemeList author={userProfile?.displayName} />
+      <MemeList author={userProfile?.id} />
     </HomeLayout>
   );
 };
