@@ -61,6 +61,7 @@ export default class SQLContentRepository implements ContentRepository {
       .then(row => {
         return row ? <Meme>{
           id: row.id,
+          authorId: row.author,
           url: row.url,
           title: row.title,
           externalId: row.external_id,

@@ -7,7 +7,7 @@ export interface Meme {
   // base64 image
   content?: Buffer;
   // user display name
-  author: number;
+  author: string;
   // user id
   authorId: number;
   publishedDate: Date;

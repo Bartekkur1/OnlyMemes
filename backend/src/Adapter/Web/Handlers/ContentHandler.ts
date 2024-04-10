@@ -27,8 +27,8 @@ class ContentHandler {
       }
 
       const meme: Meme = {
-        author: req.user.id,
-        authorDisplayName: req.user.displayName,
+        authorId: req.user.id,
+        author: req.user.displayName,
         id: memeId,
         publishedDate: new Date(),
         title: title,
@@ -50,7 +50,7 @@ class ContentHandler {
         return res.status(400).json({ error: paginationValidatorError });
       }
 
-      const author = req.query.author ? String(req.query.author) : undefined;
+      const author = req.query.author ? Number(req.query.author) : undefined;
       const memes = await this.content.findMemes(pagination, author);
       return res.json(memes).status(200);
     } catch (err) {

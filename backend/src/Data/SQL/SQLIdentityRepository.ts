@@ -5,6 +5,26 @@ export default class SQLIdentityRepository implements IdentityRepository {
 
   constructor(private client: SQLClient) { }
 
+  findUserBydId(id: number): Promise<UserIdentity | undefined> {
+    return this.client.query('User')
+      .select('id', 'email', 'password', 'display_name')
+      .where('id', id)
+      .then((rows) => {
+        if (rows.length === 0) return undefined;
+        const user = rows[0];
+        return {
+          id: user.id,
+          credentials: {
+            email: user.email,
+            password: user.password
+          },
+          profile: {
+            displayName: user.display_name
+          }
+        };
+      });
+  }
+
   findUser(email: string): Promise<UserIdentity | undefined> {
     return this.client.query('User')
       .select('id', 'email', 'password', 'display_name')

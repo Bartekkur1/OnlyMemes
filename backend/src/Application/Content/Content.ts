@@ -1,9 +1,10 @@
 import type { ContentStore } from "../../Infrastructure/ContentStore/types";
 import { ContentRepository, Meme } from "../../Types/Content";
+import { IdentityRepository } from "../../Types/Identity";
 import { Pagination } from "../../Types/Shared";
 import { getConsoleLogger } from "../../Util/logger";
 import type { Logger } from "../../Util/types";
-import { UploadMemeError } from "./error";
+import { NotAuthorizedError, UploadMemeError } from "./error";
 
 class Content {
 
@@ -11,7 +12,8 @@ class Content {
 
   constructor(
     private contentStore: ContentStore,
-    private contentRepository: ContentRepository
+    private contentRepository: ContentRepository,
+    private identityRepository: IdentityRepository
   ) { }
 
   async uploadMeme(meme: Meme): Promise<void> {
@@ -46,6 +48,12 @@ class Content {
   async deleteMeme(id: string, userId: number): Promise<boolean> {
     try {
       const meme = await this.contentRepository.findMeme(id);
+      const user = await this.identityRepository.findUserBydId(userId);
+
+      if (meme?.authorId !== user?.id) {
+        throw new NotAuthorizedError('User is not authorized to delete this meme!');
+      }
+
       if (!meme) {
         return false;
       } else {

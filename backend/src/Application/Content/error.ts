@@ -3,3 +3,9 @@ export class UploadMemeError extends Error {
     super(message);
   }
 }
+
+export class NotAuthorizedError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
