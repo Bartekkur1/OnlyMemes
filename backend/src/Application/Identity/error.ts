@@ -9,3 +9,9 @@ export class UserNotFoundError extends Error {
     super('User not found');
   }
 }
+
+export class InvalidInviteTokenError extends Error {
+  constructor() {
+    super('Invalid invite token');
+  }
+}

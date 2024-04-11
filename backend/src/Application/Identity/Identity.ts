@@ -1,13 +1,14 @@
 import { loadConfig } from "../../Infrastructure/config";
 import { getConsoleLogger } from "../../Util/logger";
 import type { Logger } from "../../Util/types";
-import { UnexpectedError } from "../types";
-import { hashCredentials } from "./util";
+import { TokenAlreadyGenerated, UnexpectedError } from "../types";
+import { hashCredentials, hashRegisterForm } from "./util";
 import { sign, verify } from 'jsonwebtoken';
-import { validateLoginCredentials, validateUserIdentity } from '../../Infrastructure/Validation/CredentialsValidator';
-import { InvalidCredentialsError, UserNotFoundError } from "./error";
-import { Credentials, IdentityRepository, JWTPayload, UnregisteredUserIdentity } from "../../Types/Identity";
+import { validateLoginCredentials, validateRegisterForm } from '../../Infrastructure/Validation/CredentialsValidator';
+import { InvalidCredentialsError, InvalidInviteTokenError, UserNotFoundError } from "./error";
+import { Credentials, IdentityRepository, JWTPayload, RegisterForm } from "../../Types/Identity";
 import { IdentityConfiguration } from './config';
+import { randomBytes } from 'crypto';
 
 // @TODO: Add password/account recovery
 class Identity {
@@ -48,27 +49,32 @@ class Identity {
     }, this.config.JWTSecret);
   }
 
-  async register(identity: UnregisteredUserIdentity): Promise<boolean> {
+  async register(form: RegisterForm): Promise<boolean> {
     this.logger.debug('Registering user...');
-    const errorMessage = validateUserIdentity(identity);
+    const errorMessage = validateRegisterForm(form);
     if (errorMessage) {
       this.logger.error(`Invalid user identity: ${errorMessage}`);
       throw new InvalidCredentialsError(errorMessage);
     }
 
-    const hashedCredentials = hashCredentials(identity.credentials);
+    const { email, password } = form;
+    const hashedCredentials = hashCredentials({ email, password });
     const emailTaken = await this.repository.isEmailTaken(hashedCredentials.email);
     if (emailTaken) {
       this.logger.error(`Email ${hashedCredentials.email} is already taken`);
       throw new InvalidCredentialsError('Email is already taken');
     }
 
+    const tokenValid = await this.repository.isInviteTokenValid(form.inviteToken);
+    if (!tokenValid) {
+      throw new InvalidInviteTokenError();
+    } else {
+      await this.repository.useInviteToken(form.inviteToken);
+    }
+
     try {
       this.logger.debug(`Creating user ${hashedCredentials.email}...`);
-      await this.repository.createUser({
-        credentials: hashCredentials(identity.credentials),
-        profile: identity.profile
-      });
+      await this.repository.registerUser(hashRegisterForm(form));
       this.logger.info(`User ${hashedCredentials.email} created successfully`);
       return true;
     } catch (err) {
@@ -88,6 +94,21 @@ class Identity {
       this.logger.error(`Error verifying token: ${err.message}`);
       return false;
     }
+  }
+
+  async generateInviteToken(userId: number): Promise<string> {
+    this.logger.debug('Generating invite token...');
+    const tokenExists = await this.repository.userInviteTokenExists(userId);
+    if (tokenExists) {
+      this.logger.error(`Invite token for user ${userId} already exists`);
+      return this.repository.findUserInviteToken(userId);
+    }
+
+    const inviteToken = randomBytes(32).toString("hex");
+    console.log(inviteToken);
+    await this.repository.saveInviteToken(userId, inviteToken);
+    this.logger.info(`Invite token for user ${userId} generated successfully`);
+    return inviteToken;
   }
 
 };

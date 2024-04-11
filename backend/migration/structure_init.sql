@@ -2,7 +2,8 @@ CREATE TABLE "User" (
   "id" SERIAL PRIMARY KEY,
   "email" varchar(64),
   "password" varchar(64),
-  "display_name" varchar(64)
+  "display_name" varchar(64),
+  "inviteToken" varchar(64)
 );
 
 CREATE TABLE "Meme" (
@@ -29,6 +30,13 @@ CREATE TABLE "Comment" (
   "published_at" date
 );
 
+CREATE TABLE "InviteToken" (
+  "id" SERIAL PRIMARY KEY,
+  "token" varchar(64),
+  "owner" int,
+  "invites" int
+);
+
 ALTER TABLE "Meme" ADD FOREIGN KEY ("author") REFERENCES "User" ("id");
 
 ALTER TABLE "Vote" ADD FOREIGN KEY ("user") REFERENCES "User" ("id");
@@ -36,3 +44,5 @@ ALTER TABLE "Vote" ADD FOREIGN KEY ("meme") REFERENCES "Meme" ("id");
 
 ALTER TABLE "Comment" ADD FOREIGN KEY ("user") REFERENCES "User" ("id");
 ALTER TABLE "Comment" ADD FOREIGN KEY ("meme") REFERENCES "Meme" ("id");
+
+ALTER TABLE "InviteToken" ADD FOREIGN KEY ("owner") REFERENCES "User" ("id");

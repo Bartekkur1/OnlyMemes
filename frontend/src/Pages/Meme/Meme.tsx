@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Box, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { Meme } from "../../Types/Content";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { MemeOption } from "./MemeOption";
 
 const cardStyle = {
@@ -13,21 +13,22 @@ const cardStyle = {
 };
 
 export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
+  const navigate = useNavigate();
   return (
     <Card style={cardStyle}>
       {/* @TODO: Add user icon */}
       <Box padding={2}>
         <Grid container>
           <Grid item xs={6}>
-            <Link to={`/profile/${meme.authorId}`} style={{ 'textDecoration': 'none' }}>
-              <Typography
-                sx={{ fontSize: 12 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                {meme.author}
-              </Typography>
-            </Link>
+            <Typography
+              onClick={() => navigate(`/profile/${meme.authorId}`)}
+              sx={{ fontSize: 12 }}
+              color="text.secondary"
+              style={{ cursor: 'pointer' }}
+              gutterBottom
+            >
+              {meme.author}
+            </Typography>
             <Typography variant="h5" component="div">
               {meme.title}
             </Typography>

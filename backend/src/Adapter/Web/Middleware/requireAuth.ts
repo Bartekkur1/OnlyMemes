@@ -18,12 +18,13 @@ const authMiddlewareLogger: Logger = getConsoleLogger('AuthMiddleware');
 export const requireAuth = (req: AuthorizedRequest, res, next) => {
   try {
     authMiddlewareLogger.debug('Checking for authorization token');
-    const token = req.headers.authorization;
-    if (!token) {
+    const tokenBearer = req.headers.authorization;
+    if (!tokenBearer) {
       authMiddlewareLogger.debug('No token found!');
       return res.status(401).json({ message: "Unauthorized" });
     }
 
+    const token = tokenBearer.replace('Bearer ', '');
     authMiddlewareLogger.debug('Verifying token');
     verify(token, config.JWTSecret, {}, (err, decoded) => {
       if (err) {

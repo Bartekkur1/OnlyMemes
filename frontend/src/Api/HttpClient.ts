@@ -4,7 +4,7 @@ const getHttpClient = () => {
   const headers: any = {};
   const token = localStorage.getItem('token');
   if (token !== null) {
-    headers['Authorization'] = token;
+    headers['Authorization'] = `Bearer ${token}`;
   }
   const httpClient = axios.create({
     baseURL: 'http://localhost:3001/api/',

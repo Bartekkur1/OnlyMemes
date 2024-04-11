@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 import type Identity from "../../../Application/Identity/Identity";
-import { InvalidCredentialsError, UserNotFoundError } from "../../../Application/Identity/error";
-import { HttpError } from "../types";
-import { UnexpectedError } from "../../../Application/types";
+import { InvalidCredentialsError, InvalidInviteTokenError, UserNotFoundError } from "../../../Application/Identity/error";
+import { AuthorizedRequest, HttpError } from "../types";
+import { TokenAlreadyGenerated, UnexpectedError } from "../../../Application/types";
 
 class IdentityHandler {
 
@@ -30,20 +30,19 @@ class IdentityHandler {
   // @TODO: Make display name unique case sensitive
   async register(req: Request, res: Response, next: NextFunction) {
     try {
-      const { email, password, displayName } = (req.body || {});
+      const { email, password, displayName, inviteToken } = (req.body || {});
       await this.identity.register({
-        credentials: {
-          email, password
-        },
-        profile: {
-          displayName
-        }
+        email, password,
+        displayName,
+        inviteToken
       });
       return res.sendStatus(201);
     } catch (error) {
-      if (error instanceof InvalidCredentialsError) {
+      if (error instanceof InvalidCredentialsError
+        || error instanceof InvalidInviteTokenError) {
         return next(new HttpError(400, error.message));
-      } else if (error instanceof UnexpectedError) {
+      }
+      else if (error instanceof UnexpectedError) {
         return next(new HttpError(500, error.message));
       }
       return next(error);
@@ -58,6 +57,19 @@ class IdentityHandler {
     } catch (err) {
       return res.sendStatus(401);
     }
+  }
+
+  async generateInviteToken(req: AuthorizedRequest, res: Response, next: NextFunction) {
+    try {
+      const token = await this.identity.generateInviteToken(req.user.id);
+      return res.json({ token });
+    } catch (error) {
+      if (error instanceof UnexpectedError) {
+        return next(new HttpError(500, error.message));
+      }
+      return next(error);
+    }
+
   }
 }
 

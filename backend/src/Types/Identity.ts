@@ -13,13 +13,24 @@ export interface UserIdentity {
   profile: UserProfile;
 }
 
-export type UnregisteredUserIdentity = Omit<UserIdentity, 'id'>;
+export interface RegisterForm {
+  email: string;
+  password: string;
+  displayName: string;
+  inviteToken: string;
+}
 
 export interface IdentityRepository {
   findUser(email: string): Promise<UserIdentity | undefined>;
   findUserBydId(id: number): Promise<UserIdentity | undefined>;
-  createUser(credentials: UnregisteredUserIdentity): Promise<void>;
+  registerUser(form: RegisterForm): Promise<void>;
   isEmailTaken(email: string): Promise<boolean>;
+  // INVITE TOKEN
+  userInviteTokenExists(userId: number): Promise<boolean>;
+  findUserInviteToken(userId: number): Promise<string>;
+  saveInviteToken(userId: number, token: string): Promise<void>;
+  isInviteTokenValid(token: string): Promise<boolean>;
+  useInviteToken(token: string): Promise<void>;
 }
 
 export interface JWTPayload {

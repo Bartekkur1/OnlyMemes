@@ -1,5 +1,5 @@
 import * as crypto from 'crypto';
-import { Credentials } from '../../Types/Identity';
+import { Credentials, RegisterForm } from '../../Types/Identity';
 
 const createHash = (input: string): string => {
   const hash = crypto.createHash('sha256');
@@ -11,4 +11,10 @@ const createHash = (input: string): string => {
 export const hashCredentials = (credentials: Credentials): Credentials => ({
   email: createHash(credentials.email),
   password: createHash(credentials.password)
+});
+
+export const hashRegisterForm = (form: RegisterForm): RegisterForm => ({
+  ...form,
+  email: createHash(form.email),
+  password: createHash(form.password)
 });

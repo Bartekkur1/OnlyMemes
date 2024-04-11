@@ -8,6 +8,12 @@ export class UnexpectedError extends Error {
   }
 }
 
+export class TokenAlreadyGenerated extends Error {
+  constructor() {
+    super('Token has already been generated for this user');
+  }
+}
+
 export interface ApplicationContext {
   identity: Identity;
   content: Content;

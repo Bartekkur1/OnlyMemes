@@ -7,8 +7,14 @@ import { validatePagination } from '../../../Infrastructure/Validation/Paginatio
 import { extractPagination } from '../../../Util/pagination';
 import { UploadedFile } from 'express-fileupload';
 import { Meme } from '../../../Types/Content';
+import { getConsoleLogger } from '../../../Util/logger';
+import { Logger } from '../../../Util/types';
 
+
+// @TODO: Add meme upload limit
 class ContentHandler {
+
+  private logger: Logger = getConsoleLogger('WebServer');
 
   constructor(private content: Content) { }
 
@@ -38,6 +44,7 @@ class ContentHandler {
       await this.content.uploadMeme(meme);
       return res.sendStatus(200);
     } catch (err) {
+      this.logger.error(err);
       return res.status(400).json({ error: err.message });
     }
   }
@@ -54,7 +61,7 @@ class ContentHandler {
       const memes = await this.content.findMemes(pagination, author);
       return res.json(memes).status(200);
     } catch (err) {
-      console.log(err);
+      this.logger.error(err);
       return res.sendStatus(400);
     }
   }
@@ -69,6 +76,7 @@ class ContentHandler {
       }
       return res.sendStatus(200);
     } catch (err) {
+      this.logger.error(err);
       return res.status(400).json({ error: err.message });
     }
   }
