@@ -7,6 +7,7 @@ const getHttpClient = () => {
     headers['Authorization'] = `Bearer ${token}`;
   }
   const httpClient = axios.create({
+    // @TODO: Move this to environment variables
     baseURL: 'http://localhost:3001/api/',
     headers
   });

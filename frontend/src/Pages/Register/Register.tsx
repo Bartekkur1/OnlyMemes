@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Grid, Link } from '@mui/material';
+import AuthClient from '../../Api/Auth';
+import { useNavigate } from 'react-router-dom';
 
 interface FormData {
   displayName: string;
   email: string;
   password: string;
   confirmPassword: string;
+  inviteToken: string;
 }
 
 const Register: React.FC = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState<FormData>({
     displayName: '',
     email: '',
     password: '',
     confirmPassword: '',
+    inviteToken: ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +32,15 @@ const Register: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    AuthClient.register({
+      displayName: formData.displayName,
+      email: formData.email,
+      password: formData.password,
+      inviteToken: formData.inviteToken
+    }).then(() => {
+      // @TODO: Handle notification and error
+      return navigate('/login');
+    });
   };
 
   return (
@@ -83,6 +98,19 @@ const Register: React.FC = () => {
           id="confirmPassword"
           autoComplete="new-password"
           value={formData.confirmPassword}
+          onChange={handleChange}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="inviteToken"
+          label="Invite Token"
+          type="text"
+          id="inviteToken"
+          autoComplete="inviteToken"
+          value={formData.inviteToken}
           onChange={handleChange}
         />
         <Button

@@ -59,10 +59,10 @@ class IdentityHandler {
     }
   }
 
-  async generateInviteToken(req: AuthorizedRequest, res: Response, next: NextFunction) {
+  async getInviteToken(req: AuthorizedRequest, res: Response, next: NextFunction) {
     try {
-      const token = await this.identity.generateInviteToken(req.user.id);
-      return res.json({ token });
+      const details = await this.identity.getInviteToken(req.user.id);
+      return res.json(details);
     } catch (error) {
       if (error instanceof UnexpectedError) {
         return next(new HttpError(500, error.message));

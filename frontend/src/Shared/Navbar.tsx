@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Link } from '@mui/material';
-import { AccountCircle, CloudUpload, Logout } from '@mui/icons-material';
+import { AccountCircle, CloudUpload, Logout, Key } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
@@ -14,6 +14,11 @@ const Navbar = () => {
             OnlyMemes
           </Link>
         </Typography>
+        <IconButton
+          color="inherit"
+          onClick={() => navigate('/invite')}>
+          <Key />
+        </IconButton>
         <IconButton
           color="inherit"
           onClick={() => navigate('/profile')}

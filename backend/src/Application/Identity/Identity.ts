@@ -1,7 +1,7 @@
 import { loadConfig } from "../../Infrastructure/config";
 import { getConsoleLogger } from "../../Util/logger";
 import type { Logger } from "../../Util/types";
-import { TokenAlreadyGenerated, UnexpectedError } from "../types";
+import { InviteTokenDetails, TokenAlreadyGenerated, UnexpectedError } from "../types";
 import { hashCredentials, hashRegisterForm } from "./util";
 import { sign, verify } from 'jsonwebtoken';
 import { validateLoginCredentials, validateRegisterForm } from '../../Infrastructure/Validation/CredentialsValidator';
@@ -96,7 +96,7 @@ class Identity {
     }
   }
 
-  async generateInviteToken(userId: number): Promise<string> {
+  async getInviteToken(userId: number): Promise<InviteTokenDetails> {
     this.logger.debug('Generating invite token...');
     const tokenExists = await this.repository.userInviteTokenExists(userId);
     if (tokenExists) {
@@ -108,7 +108,10 @@ class Identity {
     console.log(inviteToken);
     await this.repository.saveInviteToken(userId, inviteToken);
     this.logger.info(`Invite token for user ${userId} generated successfully`);
-    return inviteToken;
+    return {
+      token: inviteToken,
+      invites: 5
+    };
   }
 
 };

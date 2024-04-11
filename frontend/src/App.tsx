@@ -11,6 +11,7 @@ import Upload from './Pages/Upload/Upload';
 import Logout from './Pages/Logout/Logout';
 import Profile from './Pages/Profile/Profile';
 import MemeProvider from './Context/MemeContext';
+import { InviteToken } from './Pages/InviteToken/InviteToken';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           {SecuredRoute({ element: <Home />, path: '/' })}
           {SecuredRoute({ element: <Upload />, path: '/upload' })}
           {SecuredRoute({ element: <Logout />, path: '/logout' })}
+          {SecuredRoute({ element: <InviteToken />, path: '/invite' })}
           {SecuredRoute({ element: <Profile />, path: '/profile/:userId' })}
           {<Route path='*' element={<Navigate to={'/'} />} />}
         </Routes>

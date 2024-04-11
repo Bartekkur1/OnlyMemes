@@ -21,7 +21,7 @@ export const createWebModule = (applicationContext: ApplicationContext) => {
     router.post(Routes.login, identityHandler.login.bind(identityHandler));
     router.post(Routes.register, identityHandler.register.bind(identityHandler));
     router.post(Routes.verify, identityHandler.verifyToken.bind(identityHandler));
-    router.get(Routes.generateToken, requireAuth, identityHandler.generateInviteToken.bind(identityHandler));
+    router.get(Routes.getToken, requireAuth, identityHandler.getInviteToken.bind(identityHandler));
     // CONTENT
     router.post(Routes.content, requireAuth, contentHandler.uploadContent.bind(contentHandler));
     router.get(Routes.content, requireAuth, contentHandler.getMemesHomepage.bind(contentHandler));

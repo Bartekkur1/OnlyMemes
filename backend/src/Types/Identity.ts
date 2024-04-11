@@ -1,3 +1,5 @@
+import { InviteTokenDetails } from "../Application/types";
+
 export interface UserProfile {
   displayName: string;
 }
@@ -27,7 +29,7 @@ export interface IdentityRepository {
   isEmailTaken(email: string): Promise<boolean>;
   // INVITE TOKEN
   userInviteTokenExists(userId: number): Promise<boolean>;
-  findUserInviteToken(userId: number): Promise<string>;
+  findUserInviteToken(userId: number): Promise<InviteTokenDetails>;
   saveInviteToken(userId: number, token: string): Promise<void>;
   isInviteTokenValid(token: string): Promise<boolean>;
   useInviteToken(token: string): Promise<void>;

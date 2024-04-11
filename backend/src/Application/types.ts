@@ -19,3 +19,8 @@ export interface ApplicationContext {
   content: Content;
   profile: Profile;
 }
+
+export interface InviteTokenDetails {
+  token: string;
+  invites: number;
+}

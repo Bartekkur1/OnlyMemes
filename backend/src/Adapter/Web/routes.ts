@@ -2,7 +2,7 @@ enum Routes {
   login = '/identity/login',
   register = '/identity/register',
   verify = '/identity/verify',
-  generateToken = '/identity/generateToken',
+  getToken = '/identity/getToken',
   health = '/health',
   prefix = '/api',
   content = '/content',

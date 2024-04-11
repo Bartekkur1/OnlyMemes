@@ -1,3 +1,4 @@
+import { InviteTokenDetails } from "../../Application/types";
 import { IdentityRepository, RegisterForm, UserIdentity } from "../../Types/Identity";
 import SQLClient from "./SQLClient";
 
@@ -5,11 +6,14 @@ export default class SQLIdentityRepository implements IdentityRepository {
 
   constructor(private client: SQLClient) { }
 
-  findUserInviteToken(userId: number): Promise<string> {
+  findUserInviteToken(userId: number): Promise<InviteTokenDetails> {
     return this.client.query('InviteToken')
-      .select('token')
+      .select('*')
       .where('owner', userId)
-      .then(rows => rows[0].token);
+      .then(rows => {
+        const { invites, token } = rows[0];
+        return { token, invites };
+      });
   }
 
   async useInviteToken(token: string): Promise<void> {

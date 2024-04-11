@@ -1,4 +1,4 @@
-import { Credentials, Register } from "../Types/Auth";
+import { Credentials, InviteTokenDetails, Register } from "../Types/Auth";
 import getHttpClient from "./HttpClient";
 
 const AuthClient = {
@@ -8,8 +8,9 @@ const AuthClient = {
     return response.data.token;
   },
 
-  register: async (register: Register) => {
-
+  register: async (register: Register): Promise<boolean> => {
+    const response = await getHttpClient().post('/identity/register', register);
+    return response.status === 201;
   },
 
   verifyToken: async (token: string): Promise<boolean> => {
@@ -23,6 +24,11 @@ const AuthClient = {
     } catch (err) {
       return false;
     }
+  },
+
+  getInviteToken: async (): Promise<InviteTokenDetails> => {
+    const response = await getHttpClient().get('/identity/getToken');
+    return response.data;
   }
 
 }
