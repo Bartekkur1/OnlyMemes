@@ -32,7 +32,7 @@ class Content {
       this.logger.error(err);
       this.logger.debug('Rolling back meme upload...');
       this.logger.debug('Removing back meme database record...');
-      await this.contentRepository.deleteMeme(meme.id, meme.author!);
+      await this.contentRepository.deleteMeme(meme.id, meme.authorId!);
       this.logger.debug('Removing uploaded meme...');
       await this.contentStore.deleteMeme(meme.externalId!);
       throw new UploadMemeError('Failed to upload image!');

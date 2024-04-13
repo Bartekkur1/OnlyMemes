@@ -33,7 +33,7 @@ CREATE TABLE "Comment" (
 CREATE TABLE "InviteToken" (
   "id" SERIAL PRIMARY KEY,
   "token" varchar(64),
-  "owner" int,
+  "owner" int NULL,
   "invites" int
 );
 

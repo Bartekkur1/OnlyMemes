@@ -3,7 +3,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Button, Grid, Popover } from "@mui/material";
 import { MemeDelete } from "./MemeDelete";
 import { Meme } from "../../Types/Content";
-import { UserProfile } from "../../Types/Profile";
 import { useAuth } from "../../Context/AuthContext";
 
 interface MemeOptionProps {
