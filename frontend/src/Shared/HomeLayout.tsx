@@ -5,7 +5,7 @@ export const HomeLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <Navbar />
-      <div style={{ marginTop: '74px', width: '100%' }}>
+      <div style={{ marginTop: '74px', width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
         {children}
       </div>
     </>

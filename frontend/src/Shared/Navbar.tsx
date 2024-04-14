@@ -2,9 +2,11 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Link } from '@mui/material';
 import { AccountCircle, CloudUpload, Logout, Key } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../Context/AuthContext';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   return (
     <AppBar position="fixed">
@@ -21,7 +23,7 @@ const Navbar = () => {
         </IconButton>
         <IconButton
           color="inherit"
-          onClick={() => navigate('/profile')}
+          onClick={() => navigate(`/profile/${user?.id}`)}
           sx={{ marginRight: '10px' }}>
           <AccountCircle />
         </IconButton>

@@ -16,6 +16,7 @@ class Content {
     private identityRepository: IdentityRepository
   ) { }
 
+  // @TODO: I need to fix this asap, its cringe
   async uploadMeme(meme: Meme): Promise<void> {
     this.logger.debug(`User ${meme.author} uploading meme...`);
     try {

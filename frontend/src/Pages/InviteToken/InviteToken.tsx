@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from "react";
-import Navbar from "../../Shared/Navbar";
 import { InviteTokenDetails } from "../../Types/Auth";
 import AuthClient from "../../Api/Auth";
 import { Box, Container, Typography } from "@mui/material";
 import { ContentCopy } from "@mui/icons-material";
+import { HomeLayout } from "../../Shared/HomeLayout";
 
 export const InviteToken: FC = () => {
   const [details, setDetails] = useState<InviteTokenDetails | undefined>();
@@ -25,9 +25,8 @@ export const InviteToken: FC = () => {
 
   // @TODO: Maybe add a list of invited users?
   return (
-    <>
-      <Navbar />
-      <Container maxWidth="md" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+    <HomeLayout>
+      <Container maxWidth="md" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '80vh' }}>
         <Box sx={{ textAlign: 'center', marginBottom: 4, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <Typography paddingRight={2} variant="h3" gutterBottom>Invite Token</Typography>
           <ContentCopy style={{ cursor: 'pointer' }} onClick={() => copyToClipboard()} />
@@ -38,6 +37,6 @@ export const InviteToken: FC = () => {
           <Typography variant="h2" gutterBottom>{details?.invites}</Typography>
         </Box>
       </Container>
-    </>
+    </HomeLayout>
   )
 }

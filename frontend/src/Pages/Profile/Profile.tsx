@@ -6,15 +6,16 @@ import { HomeLayout } from "../../Shared/HomeLayout";
 import { Avatar, Grid, Typography } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import MemeList from "../Meme/MemeList";
+import { useAuth } from "../../Context/AuthContext";
 
 // @TODO: Add better profile information, avatar, likes, comments, memes count etc.
 const Profile = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
   const [userProfile, setUserProfile] = useState<UserProfile | undefined>();
+  const { user } = useAuth();
 
   useEffect(() => {
-    if (userId === undefined) return;
     // @TODO: check if userId is number
     ProfileApi.findProfile(Number(userId)).then((profile) => {
       if (!profile) {
@@ -24,18 +25,21 @@ const Profile = () => {
     });
   }, []);
 
-  if (userProfile?.id === undefined) return (<div>Loading...</div>);
-
   return (
     <HomeLayout>
-      <Grid container alignItems="center" spacing={2} style={{ display: 'flex', justifyContent: 'center' }}>
+      <Grid
+        container
+        spacing={2}
+        alignItems={'center'}
+        style={{ display: 'flex', width: '25%', minWidth: 500, paddingTop: 50 }}>
         <Grid item>
           <Avatar>
             <AccountCircle />
           </Avatar>
         </Grid>
         <Grid item>
-          <Typography variant="h6">{userProfile?.displayName}</Typography>
+          <Typography variant="h4">{userProfile?.displayName}</Typography>
+          <Typography>Posts: {1}</Typography>
         </Grid>
       </Grid>
       <MemeList author={userProfile?.id} />
