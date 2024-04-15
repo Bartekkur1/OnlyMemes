@@ -1,3 +1,4 @@
+import { AsyncResultObject } from '../Util/types';
 import { Pagination } from './Shared';
 
 export interface Meme {
@@ -21,8 +22,14 @@ export interface ContentSearchQuery {
 }
 
 export interface ContentRepository {
-  saveMeme(meme: Meme): Promise<void>;
+  saveMeme(meme: Meme): AsyncResultObject<boolean>;
   deleteMeme(id: string, userId: number): Promise<boolean>;
   findMemes(query: ContentSearchQuery): Promise<Meme[]>;
   findMeme(id: string): Promise<Meme | undefined>;
+}
+
+export abstract class Transactional {
+  abstract createTransaction(): Promise<string>;
+  abstract commitTransaction(id: string): Promise<void>;
+  abstract rollbackTransaction(id: string): Promise<void>;
 }

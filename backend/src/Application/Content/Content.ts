@@ -6,6 +6,7 @@ import { getConsoleLogger } from "../../Util/logger";
 import type { Logger } from "../../Util/types";
 import { NotAuthorizedError, UploadMemeError } from "./error";
 
+// @TODO: Migrate all functions to ResultObject
 class Content {
 
   private logger: Logger = getConsoleLogger('Content');
@@ -19,25 +20,30 @@ class Content {
   // @TODO: I need to fix this asap, its cringe
   async uploadMeme(meme: Meme): Promise<void> {
     this.logger.debug(`User ${meme.author} uploading meme...`);
-    try {
-      this.logger.debug('Uploading image...');
-      const uploadRes = await this.contentStore.uploadImage({
-        file: meme.content!,
-        id: meme.id
-      });
-      meme.externalId = uploadRes.externalId;
-      meme.url = uploadRes.url;
-      this.logger.debug('Saving meme database record...');
-      await this.contentRepository.saveMeme(meme);
-    } catch (err) {
-      this.logger.error(err);
-      this.logger.debug('Rolling back meme upload...');
-      this.logger.debug('Removing back meme database record...');
-      await this.contentRepository.deleteMeme(meme.id, meme.authorId!);
-      this.logger.debug('Removing uploaded meme...');
-      await this.contentStore.deleteMeme(meme.externalId!);
+    this.logger.debug('Uploading image...');
+    const uploadResult = await this.contentStore.uploadImage({
+      file: meme.content!,
+      id: meme.id
+    });
+
+    if (uploadResult.error || !uploadResult.data) {
       throw new UploadMemeError('Failed to upload image!');
     }
+
+    this.logger.debug('Image uploaded successfully!');
+    meme.externalId = uploadResult.data.externalId;
+    meme.url = uploadResult.data.url;
+
+
+    this.logger.debug('Saving meme database record...');
+    const saveResult = await this.contentRepository.saveMeme(meme);
+    if (saveResult.status === 'error' && uploadResult.status === 'success') {
+      this.logger.debug('Rolling back meme upload...');
+      await this.contentStore.deleteMeme(meme.externalId!);
+      throw new UploadMemeError('Failed to save meme!');
+    }
+
+    this.logger.debug('Meme saved successfully!');
   }
 
   async findMemes({ page = 1, size = 10 }: Pagination, authorId?: number): Promise<Meme[]> {
@@ -59,8 +65,8 @@ class Content {
         return false;
       } else {
         const recordDelete = await this.contentRepository.deleteMeme(id, userId);
-        const imageDelete = await this.contentStore.deleteMeme(meme.externalId!);
-        return recordDelete && imageDelete;
+        const imageDeleteResult = await this.contentStore.deleteMeme(meme.externalId!);
+        return recordDelete && imageDeleteResult.status === 'success';
       }
     } catch (err) {
       this.logger.error(err);

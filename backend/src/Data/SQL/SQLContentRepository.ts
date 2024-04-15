@@ -1,11 +1,9 @@
 import { ContentRepository, ContentSearchQuery, Meme } from "../../Types/Content";
-import { Pagination } from "../../Types/Shared";
-import type SQLClient from "./SQLClient";
+import { AsyncResultObject } from "../../Util/types";
+import { SQLRepositoryBase } from "./SQLRepository";
 
 
-export default class SQLContentRepository implements ContentRepository {
-
-  constructor(private client: SQLClient) { }
+export default class SQLContentRepository extends SQLRepositoryBase implements ContentRepository {
 
   async deleteMeme(id: string, userId: number): Promise<boolean> {
     const deletedRow = await this.client.query('Meme')
@@ -16,15 +14,33 @@ export default class SQLContentRepository implements ContentRepository {
     return deletedRow > 0;
   }
 
-  async saveMeme({ title, author, url, publishedDate, externalId }: Meme): Promise<void> {
-    return this.client.query('Meme')
-      .insert({
-        title: title,
-        author: author,
-        url: url,
-        published_at: publishedDate,
-        external_id: externalId
-      });
+  async saveMeme({ title, author, url, publishedDate, externalId }: Meme): AsyncResultObject<boolean> {
+    try {
+      const queryResult = await this.client.query('Meme')
+        .insert({
+          title: title,
+          author: author,
+          url: url,
+          published_at: publishedDate,
+          external_id: externalId
+        });
+      if (queryResult[0] === 1) {
+        return {
+          status: 'success',
+          data: true
+        }
+      } else {
+        return {
+          status: 'error',
+          error: 'Failed to save meme'
+        }
+      }
+    } catch (err) {
+      return {
+        status: 'error',
+        error: err.message
+      }
+    }
   }
 
   async findMemes({ pagination, authorId }: ContentSearchQuery): Promise<Meme[]> {

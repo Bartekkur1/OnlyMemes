@@ -4,3 +4,11 @@ export interface Logger {
   warn: (message: string) => void;
   debug: (message: string) => void;
 }
+
+export interface ResultObject<T> {
+  data?: T;
+  status: 'success' | 'error';
+  error?: string;
+}
+
+export type AsyncResultObject<T> = Promise<ResultObject<T>>;

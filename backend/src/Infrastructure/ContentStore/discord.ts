@@ -2,6 +2,7 @@ import { Client, GatewayIntentBits, TextChannel } from 'discord.js';
 import { loadConfig } from '../config';
 import { ContentStore, ContentUploadResult, Image } from './types';
 import { fileTypeFromBuffer } from 'file-type';
+import { AsyncResultObject, ResultObject } from '../../Util/types';
 
 interface DiscordConfig {
   token: string;
@@ -47,33 +48,63 @@ class DiscordStore implements ContentStore {
     return this.storageChannel;
   }
 
-  async uploadImage({ id, file }: Image): Promise<ContentUploadResult> {
-    const storageChannel = await this.getStorageChannel();
+  async uploadImage({ id, file }: Image): AsyncResultObject<ContentUploadResult> {
+    try {
+      const storageChannel = await this.getStorageChannel();
 
-    const mimeType = await fileTypeFromBuffer(file);
-    if (!mimeType) throw new Error('Invalid file type');
-    const message = await storageChannel.send({
-      content: id,
-      files: [{
-        attachment: file,
-        name: `file.${mimeType.ext}`
-      }]
-    });
+      const mimeType = await fileTypeFromBuffer(file);
+      if (!mimeType) {
+        return {
+          status: 'error',
+          error: 'Failed to determine file type'
+        }
+      }
+      const message = await storageChannel.send({
+        content: id,
+        files: [{
+          attachment: file,
+          name: `file.${mimeType.ext}`
+        }]
+      });
 
-    const messageId: string = message.id;
-    const url = message.attachments.first()?.url;
-    if (!url) throw new Error('Failed to upload image');
-    return {
-      externalId: messageId,
-      url
+      const messageId: string = message.id;
+      const url = message.attachments.first()?.url;
+      if (!url) {
+        return {
+          status: 'error',
+          error: 'Failed to upload image'
+        }
+      }
+      return {
+        status: 'success',
+        data: {
+          externalId: messageId,
+          url
+        }
+      }
+    } catch (err) {
+      return {
+        status: 'error',
+        error: err.message
+      }
     }
   }
 
-  async deleteMeme(externalId: string): Promise<boolean> {
-    const storageChannel = await this.getStorageChannel();
-    const message = await storageChannel.messages.fetch(externalId);
-    await message.delete();
-    return true;
+  async deleteMeme(externalId: string): AsyncResultObject<boolean> {
+    try {
+      const storageChannel = await this.getStorageChannel();
+      const message = await storageChannel.messages.fetch(externalId);
+      await message.delete();
+      return {
+        status: 'success',
+        data: true
+      }
+    } catch (err) {
+      return {
+        status: 'error',
+        error: err.message
+      }
+    }
   }
 
 }

@@ -1,6 +1,8 @@
 import { DataClientError, type DataClient } from "../types";
 import { loadConfig } from "../../Infrastructure/config";
-import { knex } from 'knex';
+import { knex, Knex } from 'knex';
+import { v4 } from 'uuid';
+import { Transactional } from "../../Types/Content";
 
 interface SQLClientConfig {
   host: string;
@@ -10,12 +12,14 @@ interface SQLClientConfig {
   database: string;
 }
 
-export default class SQLClient implements DataClient {
+export default class SQLClient extends Transactional implements DataClient {
 
   private config: SQLClientConfig;
+  private transactions: Record<string, Knex.Transaction> = {};
   query: knex.Knex;
 
   constructor() {
+    super();
     this.config = loadConfig<SQLClientConfig>({
       host: 'POSTGRES_HOST',
       port: 'POSTGRES_PORT',
@@ -42,5 +46,35 @@ export default class SQLClient implements DataClient {
     } catch (err) {
       throw new DataClientError('Database connection failed!');
     }
+  }
+
+  /**
+   * @returns Transaction id, transactions are stored in this instance at this.transactions property
+   */
+  async createTransaction(): Promise<string> {
+    const transactionId = v4();
+    const transaction = await this.query.transaction();
+    this.transactions[transactionId] = transaction;
+    return transactionId;
+  }
+
+  getTransaction(id: string): Knex.Transaction {
+    if (!this.transactions[id]) {
+      throw new DataClientError('Transaction not found!');
+    }
+
+    return this.transactions[id];
+  }
+
+  async commitTransaction(id: string): Promise<void> {
+    const transaction = this.getTransaction(id);
+    await transaction.commit();
+    delete this.transactions[id];
+  }
+
+  async rollbackTransaction(id: string) {
+    const transaction = this.getTransaction(id);
+    await transaction.rollback();
+    delete this.transactions[id];
   }
 }
