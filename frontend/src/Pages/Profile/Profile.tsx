@@ -6,14 +6,12 @@ import { HomeLayout } from "../../Shared/HomeLayout";
 import { Avatar, Grid, Typography } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import MemeList from "../Meme/MemeList";
-import { useAuth } from "../../Context/AuthContext";
 
 // @TODO: Add better profile information, avatar, likes, comments, memes count etc.
 const Profile = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
   const [userProfile, setUserProfile] = useState<UserProfile | undefined>();
-  const { user } = useAuth();
 
   useEffect(() => {
     // @TODO: check if userId is number
@@ -39,7 +37,7 @@ const Profile = () => {
         </Grid>
         <Grid item>
           <Typography variant="h4">{userProfile?.displayName}</Typography>
-          <Typography>Posts: {1}</Typography>
+          <Typography>Posts: {userProfile?.memesCount}</Typography>
         </Grid>
       </Grid>
       <MemeList author={userProfile?.id} />

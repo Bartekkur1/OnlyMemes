@@ -11,7 +11,14 @@ class Profile {
 
   async findUser(userId: number): Promise<UserProfile | null> {
     this.logger.debug(`Finding user ${userId}`);
-    return this.repository.findUser(userId);
+    const profile = await this.repository.findUser(userId);
+    if (!profile) {
+      return null;
+    }
+
+    const memesCount = await this.repository.countUserMemes(userId);
+    profile.memesCount = memesCount;
+    return profile;
   }
 
 }

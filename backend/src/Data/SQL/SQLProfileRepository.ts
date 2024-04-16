@@ -5,6 +5,16 @@ export default class SQLProfileRepository implements ProfileRepository {
 
   constructor(private client: SQLClient) { }
 
+  countUserMemes(userId: number): Promise<number> {
+    return this.client.query('Meme')
+      .count()
+      .from('Meme')
+      .where('Meme.user_id', '=', userId)
+      .then(rows => {
+        return Number(rows[0].count);
+      });
+  }
+
   findUser(userId: number): Promise<UserProfile | null> {
     return this.client.query('User')
       .select('User.*')
