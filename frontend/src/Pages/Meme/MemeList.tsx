@@ -7,14 +7,19 @@ import { MemeContext } from '../../Context/MemeContext';
 
 interface MemeListProps {
   author?: number;
+  onlyValidated?: boolean;
 }
 
-const MemeList: FC<MemeListProps> = ({ author }) => {
+const MemeList: FC<MemeListProps> = ({ author, onlyValidated }) => {
 
-  const { memes, fetchMemes } = useContext(MemeContext);
+  const { memes, fetchMemes, clearMemes } = useContext(MemeContext);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const pageCache: Record<number, boolean> = {};
+
+  useEffect(() => {
+    clearMemes();
+  }, []);
 
   const handleFetchMemes = async () => {
     if (pageCache[page]) {
@@ -25,6 +30,7 @@ const MemeList: FC<MemeListProps> = ({ author }) => {
     fetchMemes({
       page,
       author: author || undefined,
+      onlyValidated,
       size: 5
     }).then((count) => {
       setHasMore(count > 0);

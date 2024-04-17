@@ -1,7 +1,6 @@
 import type { ContentStore } from "../../Infrastructure/ContentStore/types";
-import { ContentRepository, Meme } from "../../Types/Content";
+import { ContentRepository, ContentSearch, Meme } from "../../Types/Content";
 import { IdentityRepository } from "../../Types/Identity";
-import { Pagination } from "../../Types/Shared";
 import { getConsoleLogger } from "../../Util/logger";
 import type { Logger } from "../../Util/types";
 import { NotAuthorizedError, UploadMemeError } from "./error";
@@ -46,9 +45,10 @@ class Content {
     this.logger.debug('Meme saved successfully!');
   }
 
-  async findMemes({ page = 1, size = 10 }: Pagination, authorId?: number): Promise<Meme[]> {
+  async findMemes(query: ContentSearch): Promise<Meme[]> {
+    const { pagination: { page = 1, size = 10 }, authorId } = query;
     this.logger.debug(`Searching for memes with filter: page ${page} size ${size} author ${authorId}...`);
-    return this.contentRepository.findMemes({ pagination: { page, size }, authorId });
+    return this.contentRepository.findMemes(query);
   }
 
   // @TODO: Check if user can remove meme

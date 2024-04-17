@@ -36,7 +36,8 @@ export const requireAuth = (req: AuthorizedRequest, res, next) => {
       const payload = decoded as JWTPayload;
       req.user = {
         id: payload.id,
-        displayName: payload.displayName
+        displayName: payload.displayName,
+        role: payload.role
       }
     });
 

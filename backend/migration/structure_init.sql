@@ -3,7 +3,8 @@ CREATE TABLE "User" (
   "email" varchar(64),
   "password" varchar(64),
   "display_name" varchar(64),
-  "inviteToken" varchar(64)
+  "inviteToken" varchar(64),
+  "role": varchar(32)
 );
 
 CREATE TABLE "Meme" (
@@ -12,7 +13,8 @@ CREATE TABLE "Meme" (
   "title" varchar(64),
   "author" int,
   "url" text,
-  "published_at" date
+  "published_at" date,
+  "validated": boolean default FALSE
 );
 
 CREATE TABLE "Vote" (

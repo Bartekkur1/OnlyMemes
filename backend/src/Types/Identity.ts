@@ -13,6 +13,7 @@ export interface UserIdentity {
   id: string;
   credentials: Credentials;
   profile: UserProfile;
+  role: Role;
 }
 
 export interface RegisterForm {
@@ -38,4 +39,11 @@ export interface IdentityRepository {
 export interface JWTPayload {
   id: number;
   displayName: string;
+  role: Role;
+  salt: string;
+}
+
+export enum Role {
+  ADMIN = 'ADMIN',
+  USER = 'USER'
 }

@@ -14,12 +14,15 @@ export const ContentApi = {
   },
 
   // @TODO: Change page size lol
-  fetchMemes: async ({ page, size, author }: FetchMemesQuery): Promise<Meme[]> => {
+  fetchMemes: async ({ page, size, author, onlyValidated }: FetchMemesQuery): Promise<Meme[]> => {
     const params = new URLSearchParams();
     params.append('page', page.toString());
     params.append('size', size.toString());
     if (author) {
       params.append('author', author.toString());
+    }
+    if (onlyValidated !== undefined) {
+      params.append('onlyValidated', onlyValidated ? 'true' : 'false');
     }
     const response = await getHttpClient().get(`/content?${params.toString()}`);
     return response.data as Meme[];

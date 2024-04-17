@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import type Identity from "../../../Application/Identity/Identity";
 import { InvalidCredentialsError, InvalidInviteTokenError, UserNotFoundError } from "../../../Application/Identity/error";
 import { AuthorizedRequest, HttpError } from "../types";
-import { TokenAlreadyGenerated, UnexpectedError } from "../../../Application/types";
+import { UnexpectedError } from "../../../Application/types";
 
 class IdentityHandler {
 

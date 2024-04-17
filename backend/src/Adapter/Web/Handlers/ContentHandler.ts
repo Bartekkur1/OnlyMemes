@@ -39,6 +39,7 @@ class ContentHandler {
         publishedDate: new Date(),
         title: title,
         content: image.data,
+        validated: false
       };
 
       await this.content.uploadMeme(meme);
@@ -58,7 +59,12 @@ class ContentHandler {
       }
 
       const author = req.query.author ? Number(req.query.author) : undefined;
-      const memes = await this.content.findMemes(pagination, author);
+      const memes = await this.content.findMemes({
+        pagination,
+        authorId: author,
+        role: req.user.role,
+        onlyValidated: req.query.onlyValidated === undefined ? true : req.query.onlyValidated === 'true'
+      });
       return res.json(memes).status(200);
     } catch (err) {
       this.logger.error(err);

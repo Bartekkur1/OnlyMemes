@@ -9,6 +9,7 @@ import { InvalidCredentialsError, InvalidInviteTokenError, UserNotFoundError } f
 import { Credentials, IdentityRepository, JWTPayload, RegisterForm } from "../../Types/Identity";
 import { IdentityConfiguration } from './config';
 import { randomBytes } from 'crypto';
+import { v4 } from "uuid";
 
 // @TODO: Add password/account recovery
 class Identity {
@@ -45,7 +46,9 @@ class Identity {
     this.logger.debug(`User ${searchCredentials.email} logged in successfully`);
     return sign(<JWTPayload>{
       id: Number(user.id),
-      displayName: user.profile.displayName
+      displayName: user.profile.displayName,
+      role: user.role,
+      salt: v4()
     }, this.config.JWTSecret);
   }
 

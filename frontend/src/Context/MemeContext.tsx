@@ -7,6 +7,7 @@ interface MemeContexetType {
   addMeme: (meme: Meme) => void;
   deleteMeme: (memeId: number) => Promise<void>;
   fetchMemes: (query: FetchMemesQuery) => Promise<number>;
+  clearMemes: () => void;
 }
 
 const MemeContext = createContext<MemeContexetType>({} as MemeContexetType);
@@ -32,11 +33,16 @@ const MemeProvider: FC<PropsWithChildren> = ({ children }) => {
     return result.length;
   };
 
+  const clearMemes = () => {
+    setMemes([]);
+  };
+
   const contextValue: MemeContexetType = {
     memes,
     addMeme,
     deleteMeme,
-    fetchMemes
+    fetchMemes,
+    clearMemes
   };
   return <MemeContext.Provider value={contextValue}> {children} </MemeContext.Provider>;
 };

@@ -1,8 +1,9 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Link } from '@mui/material';
-import { AccountCircle, CloudUpload, Logout, Key } from '@mui/icons-material';
+import { AccountCircle, CloudUpload, Logout, Key, Flag } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext';
+import RequireRole from './RequireRole';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -16,6 +17,17 @@ const Navbar = () => {
             OnlyMemes
           </Link>
         </Typography>
+        {
+          RequireRole({
+            role: 'ADMIN',
+            element:
+              <IconButton
+                color="inherit"
+                onClick={() => navigate('/validate')}>
+                <Flag />
+              </IconButton>
+          })
+        }
         <IconButton
           color="inherit"
           onClick={() => navigate('/invite')}>

@@ -16,4 +16,5 @@ export interface FetchMemesQuery {
   page: number;
   size: number;
   author?: number;
+  onlyValidated?: boolean;
 }

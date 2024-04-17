@@ -1,4 +1,5 @@
 import { AsyncResultObject } from '../Util/types';
+import { Role } from './Identity';
 import { Pagination } from './Shared';
 
 export interface Meme {
@@ -14,17 +15,20 @@ export interface Meme {
   publishedDate: Date;
   title: string;
   url?: string;
+  validated: boolean;
 }
 
-export interface ContentSearchQuery {
-  authorId?: number;
+export interface ContentSearch {
   pagination: Pagination;
+  authorId?: number;
+  role: Role;
+  onlyValidated?: boolean;
 }
 
 export interface ContentRepository {
   saveMeme(meme: Meme): AsyncResultObject<boolean>;
   deleteMeme(id: string, userId: number): Promise<boolean>;
-  findMemes(query: ContentSearchQuery): Promise<Meme[]>;
+  findMemes(query: ContentSearch): Promise<Meme[]>;
   findMeme(id: string): Promise<Meme | undefined>;
 }
 

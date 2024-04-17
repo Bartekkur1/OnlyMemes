@@ -1,6 +1,6 @@
-INSERT INTO public."User" (email, "password", display_name) values
-('f3273dd18d95bc19d51d3e6356e4a679e6f13824497272a270e7bb540b0abb9d', 'a15f8ae07675bfb96e084bfb4f52fb2c22091061aae86e0eb76a55f4e52dd74e', 'User1'),
-('0713fe419c9cdf793cd8c2d6e50ac07c21059d5364535387ae46f4003850294a', 'a15f8ae07675bfb96e084bfb4f52fb2c22091061aae86e0eb76a55f4e52dd74e', 'User2');
+INSERT INTO public."User" (email, "password", display_name, role) values
+('f3273dd18d95bc19d51d3e6356e4a679e6f13824497272a270e7bb540b0abb9d', 'a15f8ae07675bfb96e084bfb4f52fb2c22091061aae86e0eb76a55f4e52dd74e', 'User1', 'ADMIN'),
+('0713fe419c9cdf793cd8c2d6e50ac07c21059d5364535387ae46f4003850294a', 'a15f8ae07675bfb96e084bfb4f52fb2c22091061aae86e0eb76a55f4e52dd74e', 'User2', 'USER');
 
 INSERT INTO public."Meme" (title, author, url, published_at) VALUES
 ('Hilarious Cat', 1, 'https://placehold.co/1024x800/FF5733/000000', '2024-03-15'),

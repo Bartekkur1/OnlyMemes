@@ -4,9 +4,10 @@ import AuthClient from '../Api/Auth';
 import { Credentials } from '../Types/Auth';
 import { jwtDecode } from 'jwt-decode';
 
-interface User {
+export interface User {
   token: string;
   id: number;
+  role: string;
 }
 
 interface AuthContextType {
@@ -17,10 +18,13 @@ interface AuthContextType {
 
 const AuthContext = React.createContext<AuthContextType>({} as AuthContextType);
 
-const getUserId = (token: string): number => {
+const getTokenDetails = (token: string): { id: number, role: string } => {
   const payload = jwtDecode(token);
-  if (payload && typeof payload === 'object' && 'id' in payload) {
-    return Number(payload['id']);
+  if (payload && typeof payload === 'object' && 'id' in payload && 'role' in payload) {
+    return {
+      id: Number(payload['id']),
+      role: String(payload['role'])
+    }
   }
   throw new Error('Invalid token');
 };
@@ -30,7 +34,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const storedToken = localStorage.getItem('token');
 
   if (storedToken && user?.token === undefined) {
-    setUser({ token: storedToken, id: getUserId(storedToken) });
+    setUser({ token: storedToken, ...getTokenDetails(storedToken) });
   }
 
   const contextValue: AuthContextType = {
@@ -39,8 +43,8 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
       try {
         const token = await AuthClient.login(credentials);
         setUser({
-          id: getUserId(token),
-          token
+          token,
+          ...getTokenDetails(token)
         });
         localStorage.setItem('token', token);
       } catch (err) {

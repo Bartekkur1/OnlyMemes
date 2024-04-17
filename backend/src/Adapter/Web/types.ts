@@ -1,5 +1,6 @@
 import type { Request } from 'express';
 import { FileArray } from 'express-fileupload';
+import { Role } from '../../Types/Identity';
 
 export interface WebServerConfig {
   port: number;
@@ -16,6 +17,7 @@ export interface AuthorizedRequest extends Request {
   user: {
     id: number;
     displayName: string;
+    role: Role;
   }
 }
 

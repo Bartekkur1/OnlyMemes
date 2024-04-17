@@ -3,7 +3,7 @@ import './App.css';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Register from './Pages/Register/Register';
 import Login from './Pages/Login/Login';
-import AuthProvider from './Context/AuthContext';
+import AuthProvider, { useAuth } from './Context/AuthContext';
 import Home from './Pages/Home/Home';
 import SecuredRoute from './Shared/SecuredRoute';
 import UnsecuredRoute from './Shared/UnsecuredRoute';
@@ -12,8 +12,10 @@ import Logout from './Pages/Logout/Logout';
 import Profile from './Pages/Profile/Profile';
 import MemeProvider from './Context/MemeContext';
 import { InviteToken } from './Pages/InviteToken/InviteToken';
+import { Validate } from './Pages/Validate/validate';
 
 function App() {
+  const { user } = useAuth();
   return (
     <AuthProvider>
       <MemeProvider>
@@ -25,6 +27,8 @@ function App() {
           {SecuredRoute({ element: <Logout />, path: '/logout' })}
           {SecuredRoute({ element: <InviteToken />, path: '/invite' })}
           {SecuredRoute({ element: <Profile />, path: '/profile/:userId' })}
+          {SecuredRoute({ element: <Profile />, path: '/profile/:userId' })}
+          {SecuredRoute({ user, requiredRole: 'ADMIN', element: <Validate />, path: '/validate' })}
           {<Route path='*' element={<Navigate to={'/'} />} />}
         </Routes>
       </MemeProvider>

@@ -1,5 +1,5 @@
 import { InviteTokenDetails } from "../../Application/types";
-import { IdentityRepository, RegisterForm, UserIdentity } from "../../Types/Identity";
+import { IdentityRepository, RegisterForm, Role, UserIdentity } from "../../Types/Identity";
 import SQLClient from "./SQLClient";
 
 export default class SQLIdentityRepository implements IdentityRepository {
@@ -43,7 +43,7 @@ export default class SQLIdentityRepository implements IdentityRepository {
 
   findUserBydId(id: number): Promise<UserIdentity | undefined> {
     return this.client.query('User')
-      .select('id', 'email', 'password', 'display_name')
+      .select('id', 'email', 'password', 'display_name', 'role')
       .where('id', id)
       .then((rows) => {
         if (rows.length === 0) return undefined;
@@ -56,14 +56,15 @@ export default class SQLIdentityRepository implements IdentityRepository {
           },
           profile: {
             displayName: user.display_name
-          }
+          },
+          role: user.role
         };
       });
   }
 
   findUser(email: string): Promise<UserIdentity | undefined> {
     return this.client.query('User')
-      .select('id', 'email', 'password', 'display_name')
+      .select('id', 'email', 'password', 'display_name', 'role')
       .where('email', email)
       .then(rows => {
         if (rows.length === 0) return undefined;
@@ -77,7 +78,8 @@ export default class SQLIdentityRepository implements IdentityRepository {
           },
           profile: {
             displayName: user.display_name
-          }
+          },
+          role: user.role
         };
       })
   }
@@ -85,7 +87,7 @@ export default class SQLIdentityRepository implements IdentityRepository {
   registerUser(form: RegisterForm): Promise<void> {
     const { email, password, displayName, inviteToken } = form;
     return this.client.query('User')
-      .insert({ email, password, display_name: displayName, inviteToken });
+      .insert({ email, password, display_name: displayName, inviteToken, role: Role.USER });
   }
 
   isEmailTaken(email: string): Promise<boolean> {

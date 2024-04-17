@@ -1,4 +1,5 @@
-import { ContentRepository, ContentSearchQuery, Meme } from "../../Types/Content";
+import { ContentRepository, ContentSearch, Meme } from "../../Types/Content";
+import { Role } from "../../Types/Identity";
 import { AsyncResultObject } from "../../Util/types";
 import { SQLRepositoryBase } from "./SQLRepository";
 
@@ -43,7 +44,7 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
     }
   }
 
-  async findMemes({ pagination, authorId }: ContentSearchQuery): Promise<Meme[]> {
+  async findMemes({ pagination, authorId, role, onlyValidated = true }: ContentSearch): Promise<Meme[]> {
     let query = this.client.query('Meme')
       .select('Meme.*', 'User.display_name')
       .from('Meme')
@@ -56,6 +57,12 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
       query = query.where('Meme.author', authorId);
     }
 
+    if (role === Role.ADMIN) {
+      query = query.where('Meme.validated', onlyValidated);
+    }
+
+    console.log(query.toQuery())
+
     return query.then(rows => {
       return rows.map(row => (<Meme>{
         id: row.id,
@@ -63,7 +70,8 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
         author: row.display_name,
         authorId: row.author,
         publishedDate: row.published_at,
-        title: row.title
+        title: row.title,
+        validated: row.validated
       }))
     });
   }
