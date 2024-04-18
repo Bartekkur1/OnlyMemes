@@ -11,4 +11,4 @@ export interface ResultObject<T> {
   error?: string;
 }
 
-export type AsyncResultObject<T> = Promise<ResultObject<T>>;
+export type AsyncResultObject<T = undefined> = Promise<ResultObject<T>>;

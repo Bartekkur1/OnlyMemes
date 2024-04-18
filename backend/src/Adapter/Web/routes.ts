@@ -7,6 +7,7 @@ enum Routes {
   prefix = '/api',
   content = '/content',
   contentId = '/content/:id',
+  approve = '/content/:memeId/approve',
   profile = '/profile/:displayName'
 }
 

@@ -6,6 +6,13 @@ import { SQLRepositoryBase } from "./SQLRepository";
 
 export default class SQLContentRepository extends SQLRepositoryBase implements ContentRepository {
 
+  approveMeme(id: string): Promise<boolean> {
+    return this.client.query('Meme')
+      .update({ approved: true })
+      .where('id', id)
+      .then((count) => count >= 1);
+  }
+
   async deleteMeme(id: string, userId: number): Promise<boolean> {
     const deletedRow = await this.client.query('Meme')
       .where('id', id)
@@ -15,17 +22,17 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
     return deletedRow > 0;
   }
 
-  async saveMeme({ title, author, url, publishedDate, externalId }: Meme): AsyncResultObject<boolean> {
+  async saveMeme({ title, authorId, url, publishedDate, externalId }: Meme): AsyncResultObject<boolean> {
     try {
       const queryResult = await this.client.query('Meme')
         .insert({
           title: title,
-          author: author,
+          author: authorId,
           url: url,
           published_at: publishedDate,
           external_id: externalId
         });
-      if (queryResult[0] === 1) {
+      if (queryResult['rowCount'] === 1) {
         return {
           status: 'success',
           data: true
@@ -44,7 +51,7 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
     }
   }
 
-  async findMemes({ pagination, authorId, role, onlyValidated = true }: ContentSearch): Promise<Meme[]> {
+  async findMemes({ pagination, authorId, role, approved = true }: ContentSearch): Promise<Meme[]> {
     let query = this.client.query('Meme')
       .select('Meme.*', 'User.display_name')
       .from('Meme')
@@ -58,10 +65,8 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
     }
 
     if (role === Role.ADMIN) {
-      query = query.where('Meme.validated', onlyValidated);
+      query = query.where('Meme.approved', approved);
     }
-
-    console.log(query.toQuery())
 
     return query.then(rows => {
       return rows.map(row => (<Meme>{
@@ -71,7 +76,7 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
         authorId: row.author,
         publishedDate: row.published_at,
         title: row.title,
-        validated: row.validated
+        approved: row.approved
       }))
     });
   }

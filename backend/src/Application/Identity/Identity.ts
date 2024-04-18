@@ -108,7 +108,6 @@ class Identity {
     }
 
     const inviteToken = randomBytes(32).toString("hex");
-    console.log(inviteToken);
     await this.repository.saveInviteToken(userId, inviteToken);
     this.logger.info(`Invite token for user ${userId} generated successfully`);
     return {

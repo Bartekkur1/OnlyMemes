@@ -2,10 +2,10 @@ import { FC } from "react";
 import { HomeLayout } from "../../Shared/HomeLayout";
 import MemeList from "../Meme/MemeList";
 
-export const Validate: FC = () => {
+export const Approve: FC = () => {
   return (
     <HomeLayout>
-      <MemeList onlyValidated={false} />
+      <MemeList approved={false} />
     </HomeLayout>
   )
 };

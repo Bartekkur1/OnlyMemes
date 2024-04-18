@@ -8,6 +8,7 @@ interface MemeContexetType {
   deleteMeme: (memeId: number) => Promise<void>;
   fetchMemes: (query: FetchMemesQuery) => Promise<number>;
   clearMemes: () => void;
+  approveMeme: (memeId: number) => Promise<void>;
 }
 
 const MemeContext = createContext<MemeContexetType>({} as MemeContexetType);
@@ -37,12 +38,21 @@ const MemeProvider: FC<PropsWithChildren> = ({ children }) => {
     setMemes([]);
   };
 
+  // @TODO: Add error handling?
+  const approveMeme = async (memeId: number) => {
+    const success = await ContentApi.approveMeme(memeId);
+    if (success) {
+      setMemes(memes => memes.filter(meme => meme.id !== memeId));
+    }
+  };
+
   const contextValue: MemeContexetType = {
     memes,
     addMeme,
     deleteMeme,
     fetchMemes,
-    clearMemes
+    clearMemes,
+    approveMeme
   };
   return <MemeContext.Provider value={contextValue}> {children} </MemeContext.Provider>;
 };

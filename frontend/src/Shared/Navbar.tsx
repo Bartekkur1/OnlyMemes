@@ -23,7 +23,7 @@ const Navbar = () => {
             element:
               <IconButton
                 color="inherit"
-                onClick={() => navigate('/validate')}>
+                onClick={() => navigate('/approve')}>
                 <Flag />
               </IconButton>
           })

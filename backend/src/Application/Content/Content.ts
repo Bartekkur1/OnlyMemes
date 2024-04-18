@@ -2,7 +2,7 @@ import type { ContentStore } from "../../Infrastructure/ContentStore/types";
 import { ContentRepository, ContentSearch, Meme } from "../../Types/Content";
 import { IdentityRepository } from "../../Types/Identity";
 import { getConsoleLogger } from "../../Util/logger";
-import type { Logger } from "../../Util/types";
+import type { AsyncResultObject, Logger } from "../../Util/types";
 import { NotAuthorizedError, UploadMemeError } from "./error";
 
 // @TODO: Migrate all functions to ResultObject
@@ -71,6 +71,37 @@ class Content {
     } catch (err) {
       this.logger.error(err);
       return false;
+    }
+  }
+
+  async approveMeme(id: string): AsyncResultObject {
+    this.logger.debug(`Approving meme with id ${id}...`);
+    const meme = await this.contentRepository.findMeme(id);
+    if (!meme) {
+      return {
+        status: 'error',
+        error: 'Meme not found!'
+      };
+    }
+
+    if (meme.approved) {
+      return {
+        status: 'error',
+        error: 'Meme already approved!'
+      };
+    }
+
+    const approveResult = await this.contentRepository.approveMeme(id);
+    if (approveResult) {
+      return {
+        status: 'success',
+        data: undefined
+      };
+    } else {
+      return {
+        status: 'error',
+        error: 'Failed to approve meme!'
+      };
     }
   }
 

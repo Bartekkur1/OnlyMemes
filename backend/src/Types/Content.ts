@@ -15,14 +15,14 @@ export interface Meme {
   publishedDate: Date;
   title: string;
   url?: string;
-  validated: boolean;
+  approved: boolean;
 }
 
 export interface ContentSearch {
   pagination: Pagination;
   authorId?: number;
   role: Role;
-  onlyValidated?: boolean;
+  approved?: boolean;
 }
 
 export interface ContentRepository {
@@ -30,6 +30,7 @@ export interface ContentRepository {
   deleteMeme(id: string, userId: number): Promise<boolean>;
   findMemes(query: ContentSearch): Promise<Meme[]>;
   findMeme(id: string): Promise<Meme | undefined>;
+  approveMeme(id: string): Promise<boolean>;
 }
 
 export abstract class Transactional {

@@ -39,7 +39,7 @@ class ContentHandler {
         publishedDate: new Date(),
         title: title,
         content: image.data,
-        validated: false
+        approved: false
       };
 
       await this.content.uploadMeme(meme);
@@ -63,7 +63,7 @@ class ContentHandler {
         pagination,
         authorId: author,
         role: req.user.role,
-        onlyValidated: req.query.onlyValidated === undefined ? true : req.query.onlyValidated === 'true'
+        approved: req.query.approved === undefined ? true : req.query.approved === 'true'
       });
       return res.json(memes).status(200);
     } catch (err) {
@@ -79,6 +79,20 @@ class ContentHandler {
       const deleted = await this.content.deleteMeme(memeId, req.user.id);
       if (!deleted) {
         return res.status(400).json({ error: 'Failed to delete meme' });
+      }
+      return res.sendStatus(200);
+    } catch (err) {
+      this.logger.error(err);
+      return res.status(400).json({ error: err.message });
+    }
+  }
+
+  async approveMeme(req: AuthorizedRequest, res: Response, next: NextFunction) {
+    const memeId = req.params.memeId;
+    try {
+      const result = await this.content.approveMeme(memeId);
+      if (result.status === 'error') {
+        return res.status(400).json({ error: result.error });
       }
       return res.sendStatus(200);
     } catch (err) {
