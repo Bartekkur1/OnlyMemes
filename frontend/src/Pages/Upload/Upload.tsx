@@ -23,6 +23,7 @@ const Upload: FC = () => {
       image: imagePayload,
       title
     }).then(() => {
+      window.confirm('Meme uploaded successfully, moderation have to approve it');
       navigate('/');
     }).catch(err => {
       console.log(err);

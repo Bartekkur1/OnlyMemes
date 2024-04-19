@@ -12,7 +12,7 @@ import Logout from './Pages/Logout/Logout';
 import Profile from './Pages/Profile/Profile';
 import MemeProvider from './Context/MemeContext';
 import { InviteToken } from './Pages/InviteToken/InviteToken';
-import { Approve } from './Pages/Validate/validate';
+import { Approve } from './Pages/Approve/Approve';
 
 function App() {
   const { user } = useAuth();

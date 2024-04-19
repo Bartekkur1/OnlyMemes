@@ -10,6 +10,7 @@ export interface Meme {
   authorId: number;
   publishedDate: string;
   title: string;
+  approved: boolean;
 }
 
 export interface FetchMemesQuery {

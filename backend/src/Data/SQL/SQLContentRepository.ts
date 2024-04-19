@@ -6,9 +6,9 @@ import { SQLRepositoryBase } from "./SQLRepository";
 
 export default class SQLContentRepository extends SQLRepositoryBase implements ContentRepository {
 
-  approveMeme(id: string): Promise<boolean> {
+  approveMeme(id: string, approve: boolean): Promise<boolean> {
     return this.client.query('Meme')
-      .update({ approved: true })
+      .update({ approved: approve })
       .where('id', id)
       .then((count) => count >= 1);
   }

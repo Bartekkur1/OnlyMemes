@@ -30,7 +30,7 @@ export interface ContentRepository {
   deleteMeme(id: string, userId: number): Promise<boolean>;
   findMemes(query: ContentSearch): Promise<Meme[]>;
   findMeme(id: string): Promise<Meme | undefined>;
-  approveMeme(id: string): Promise<boolean>;
+  approveMeme(id: string, approve: boolean): Promise<boolean>;
 }
 
 export abstract class Transactional {

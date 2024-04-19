@@ -44,7 +44,7 @@ export const MemeOption: FC<MemeOptionProps> = ({ meme }) => {
         <Grid container style={{ padding: '16px' }}>
           <Grid item xs={12} display={'flex'} flexDirection={'column'}>
             <MemeDelete disabled={meme.authorId !== user?.id} memeId={meme.id} closePopover={() => setOpen(false)} />
-            <MemeApprove closePopover={() => setOpen(false)} memeId={meme.id} />
+            <MemeApprove approved={meme.approved} closePopover={() => setOpen(false)} memeId={meme.id} />
           </Grid>
         </Grid>
       </Popover >

@@ -1,13 +1,12 @@
 import React from 'react';
-import Navbar from '../../Shared/Navbar';
 import MemeList from '../Meme/MemeList';
+import { HomeLayout } from '../../Shared/HomeLayout';
 
 const Home = () => {
   return (
-    <>
-      <Navbar />
-      <MemeList />
-    </>
+    <HomeLayout>
+      <MemeList approved={true} />
+    </HomeLayout>
   );
 };
 

@@ -15,11 +15,8 @@ const MemeList: FC<MemeListProps> = ({ author, approved }) => {
   const { memes, fetchMemes, clearMemes } = useContext(MemeContext);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const [initialize, setInitialize] = useState<boolean>(false);
   const pageCache: Record<number, boolean> = {};
-
-  useEffect(() => {
-    clearMemes();
-  }, []);
 
   const handleFetchMemes = async () => {
     if (pageCache[page]) {
@@ -27,7 +24,7 @@ const MemeList: FC<MemeListProps> = ({ author, approved }) => {
     }
 
     pageCache[page] = true;
-    fetchMemes({
+    return fetchMemes({
       page,
       author: author || undefined,
       approved,
@@ -39,8 +36,18 @@ const MemeList: FC<MemeListProps> = ({ author, approved }) => {
   };
 
   useEffect(() => {
-    handleFetchMemes();
+    clearMemes();
+    handleFetchMemes().then(() => {
+      console.log({
+        memes, hasMore
+      })
+      setInitialize(true);
+    });
   }, []);
+
+  if (!initialize) {
+    return <h1 style={{ marginTop: 100 }}>Loading...</h1>
+  }
 
   return (
     <Container style={containerStyle}>

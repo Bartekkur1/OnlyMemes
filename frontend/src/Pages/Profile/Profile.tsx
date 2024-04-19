@@ -29,7 +29,7 @@ const Profile = () => {
         container
         spacing={2}
         alignItems={'center'}
-        style={{ display: 'flex', width: '25%', minWidth: 500, paddingTop: 50 }}>
+        style={{ display: 'flex', width: '25%', minWidth: 500, marginTop: '75px' }}>
         <Grid item>
           <Avatar>
             <AccountCircle />

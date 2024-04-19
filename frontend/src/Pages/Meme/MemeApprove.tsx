@@ -6,15 +6,16 @@ import { MemeContext } from "../../Context/MemeContext";
 interface MemeApproveProps {
   closePopover: () => void;
   memeId: number;
+  approved: boolean;
 }
 
-export const MemeApprove: FC<MemeApproveProps> = ({ closePopover, memeId }) => {
-  const { approveMeme } = useContext(MemeContext);
+export const MemeApprove: FC<MemeApproveProps> = ({ closePopover, memeId, approved }) => {
+  const { changeMemeApproval } = useContext(MemeContext);
 
   const handleMemeApprove = () => {
     const confirmed = window.confirm('Are you sure you want to approve this meme?');
     if (confirmed) {
-      approveMeme(memeId);
+      changeMemeApproval(memeId, approved ? false : true);
     }
     closePopover();
   };
@@ -22,7 +23,7 @@ export const MemeApprove: FC<MemeApproveProps> = ({ closePopover, memeId }) => {
   return (
     <RequireRole role="ADMIN" element={
       <Button onClick={() => handleMemeApprove()}>
-        Approve this post
+        {approved ? "Disable this post" : "Approve this post"}
       </Button>
     } />
   )

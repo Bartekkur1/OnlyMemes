@@ -87,10 +87,10 @@ class ContentHandler {
     }
   }
 
-  async approveMeme(req: AuthorizedRequest, res: Response, next: NextFunction) {
+  private async changeMemeApproval(req: AuthorizedRequest, res: Response, approved: boolean) {
     const memeId = req.params.memeId;
     try {
-      const result = await this.content.approveMeme(memeId);
+      const result = await this.content.approveMeme(memeId, approved);
       if (result.status === 'error') {
         return res.status(400).json({ error: result.error });
       }
@@ -99,6 +99,14 @@ class ContentHandler {
       this.logger.error(err);
       return res.status(400).json({ error: err.message });
     }
+  }
+
+  async approveMeme(req: AuthorizedRequest, res: Response, next: NextFunction) {
+    return this.changeMemeApproval(req, res, true);
+  }
+
+  async disableMeme(req: AuthorizedRequest, res: Response, next: NextFunction) {
+    return this.changeMemeApproval(req, res, false);
   }
 
 }

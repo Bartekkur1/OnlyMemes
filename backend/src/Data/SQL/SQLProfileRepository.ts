@@ -9,7 +9,7 @@ export default class SQLProfileRepository implements ProfileRepository {
     return this.client.query('Meme')
       .count()
       .from('Meme')
-      .where('Meme.user_id', '=', userId)
+      .where('Meme.author', '=', userId)
       .then(rows => {
         return Number(rows[0].count);
       });

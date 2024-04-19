@@ -34,7 +34,12 @@ export const ContentApi = {
   },
 
   approveMeme: async (memeId: number) => {
-    const response = await getHttpClient().post(`/content/${memeId}/approve`);
+    const response = await getHttpClient().patch(`/content/${memeId}/approve`);
+    return response.status === 200;
+  },
+
+  disableMeme: async (memeId: number) => {
+    const response = await getHttpClient().delete(`/content/${memeId}/approve`);
     return response.status === 200;
   }
 
