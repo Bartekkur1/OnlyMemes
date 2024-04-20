@@ -3,6 +3,7 @@ import { Box, Card, CardContent, CardMedia, Grid, Typography } from "@mui/materi
 import { Meme } from "../../Types/Content";
 import { useNavigate } from "react-router-dom";
 import { MemeOption } from "./MemeOption";
+import { ChatBubble, Favorite } from "@mui/icons-material";
 
 const cardStyle = {
   width: '45%',
@@ -46,9 +47,21 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
         title={meme.title}
       />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          TODO: Meme statistics, comments and likes etc.
-        </Typography>
+        {/* TODO: Meme statistics, comments and likes etc. */}
+        <Box alignContent={'center'} alignItems={'center'} display={'flex'} flexDirection={'row'}>
+          <Box display={'flex'} flexDirection={'row'} paddingRight={2}>
+            <Typography paddingRight={1}>
+              321
+            </Typography>
+            <Favorite />
+          </Box>
+          <Box display={'flex'} flexDirection={'row'}>
+            <Typography paddingRight={1}>
+              12343
+            </Typography>
+            <ChatBubble />
+          </Box>
+        </Box>
       </CardContent>
     </Card>
   );
