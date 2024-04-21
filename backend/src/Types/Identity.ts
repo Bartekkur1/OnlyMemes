@@ -36,6 +36,17 @@ export interface IdentityRepository {
   useInviteToken(token: string): Promise<void>;
 }
 
+export interface Vote {
+  id: number;
+  meme: number;
+  user: number;
+  up: boolean;
+}
+
+export interface VoteRepository {
+  createVote(): Promise<boolean>;
+}
+
 export interface JWTPayload {
   id: number;
   displayName: string;

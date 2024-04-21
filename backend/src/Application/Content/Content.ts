@@ -105,6 +105,11 @@ class Content {
     }
   }
 
+  async voteMeme(memeId: number, up: boolean) {
+    this.logger.debug(`Voting meme with id ${memeId}...`);
+    return this.contentRepository.voteMeme(memeId, up);
+  }
+
 }
 
 export default Content;

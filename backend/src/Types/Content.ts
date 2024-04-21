@@ -31,6 +31,7 @@ export interface ContentRepository {
   findMemes(query: ContentSearch): Promise<Meme[]>;
   findMeme(id: string): Promise<Meme | undefined>;
   approveMeme(id: string, approve: boolean): Promise<boolean>;
+  voteMeme(memeId: number, up: boolean): Promise<boolean>;
 }
 
 export abstract class Transactional {

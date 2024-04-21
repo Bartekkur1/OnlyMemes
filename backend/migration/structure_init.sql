@@ -14,7 +14,8 @@ CREATE TABLE "Meme" (
   "author" int,
   "url" text,
   "published_at" date,
-  "approved": boolean default FALSE
+  "approved": boolean default FALSE,
+  "votes": int default 0
 );
 
 CREATE TABLE "Vote" (

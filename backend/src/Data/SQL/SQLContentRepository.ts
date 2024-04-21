@@ -6,6 +6,15 @@ import { SQLRepositoryBase } from "./SQLRepository";
 
 export default class SQLContentRepository extends SQLRepositoryBase implements ContentRepository {
 
+  async voteMeme(memeId: number, up: boolean): Promise<boolean> {
+    const result = await this.client.query('Meme')
+      .increment('votes', up ? 1 : -1)
+      .where('id', memeId);
+
+    console.log(result);
+    return true;
+  }
+
   approveMeme(id: string, approve: boolean): Promise<boolean> {
     return this.client.query('Meme')
       .update({ approved: approve })
