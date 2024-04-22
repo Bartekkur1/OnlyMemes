@@ -60,3 +60,5 @@ Add tests 🥶
 
 ### PS
 If I forget a single commit this project yeets straight to **trash**
+
+- Lazy commit #1
