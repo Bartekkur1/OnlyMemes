@@ -6,7 +6,9 @@ enum Routes {
   health = '/health',
   prefix = '/api',
   content = '/content',
-  contentId = '/content/:id',
+  contentId = '/content/:id(\\d+)',
+  upvote = '/content/:memeId(\\d+)/upvote',
+  downvote = '/content/:memeId(\\d+)/downvote',
   approve = '/content/:memeId/approve',
   profile = '/profile/:displayName'
 }

@@ -28,6 +28,8 @@ export const createWebModule = (applicationContext: ApplicationContext) => {
     router.delete(Routes.contentId, requireAuth, contentHandler.deleteMeme.bind(contentHandler));
     router.patch(Routes.approve, requireAuth, contentHandler.approveMeme.bind(contentHandler));
     router.delete(Routes.approve, requireAuth, contentHandler.disableMeme.bind(contentHandler));
+    router.post(Routes.upvote, requireAuth, contentHandler.upVote.bind(contentHandler));
+    router.post(Routes.downvote, requireAuth, contentHandler.downVote.bind(contentHandler));
     // PROFILE
     router.get(Routes.profile, requireAuth, profileHandler.findUser.bind(profileHandler));
   });

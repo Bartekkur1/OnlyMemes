@@ -21,8 +21,7 @@ CREATE TABLE "Meme" (
 CREATE TABLE "Vote" (
   "id" SERIAL PRIMARY KEY,
   "meme" int,
-  "user" int,
-  "up" boolean
+  "user" int
 );
 
 CREATE TABLE "Comment" (

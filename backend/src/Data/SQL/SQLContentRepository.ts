@@ -6,23 +6,47 @@ import { SQLRepositoryBase } from "./SQLRepository";
 
 export default class SQLContentRepository extends SQLRepositoryBase implements ContentRepository {
 
+  deleteVoteRecord(memeId: number, userId: number): Promise<void> {
+    return this.client.query('Vote')
+      .where('meme', memeId)
+      .andWhere('user', userId)
+      .del();
+  }
+
+  async createVoteRecord(memeId: number, userId: number, up: boolean) {
+    await this.client.query('Vote')
+      .insert({
+        meme: memeId,
+        user: userId,
+        up
+      });
+  }
+
+  async voteRecordExists(memeId: number, userId: number): Promise<boolean> {
+    const record = await this.client.query('Vote')
+      .where('meme', memeId)
+      .andWhere('user', userId)
+      .first();
+
+    return record !== undefined;
+  }
+
   async voteMeme(memeId: number, up: boolean): Promise<boolean> {
     const result = await this.client.query('Meme')
       .increment('votes', up ? 1 : -1)
       .where('id', memeId);
 
-    console.log(result);
-    return true;
+    return result === 1;
   }
 
-  approveMeme(id: string, approve: boolean): Promise<boolean> {
+  approveMeme(id: number, approve: boolean): Promise<boolean> {
     return this.client.query('Meme')
       .update({ approved: approve })
       .where('id', id)
       .then((count) => count >= 1);
   }
 
-  async deleteMeme(id: string, userId: number): Promise<boolean> {
+  async deleteMeme(id: number, userId: number): Promise<boolean> {
     const deletedRow = await this.client.query('Meme')
       .where('id', id)
       .andWhere('author', userId)
@@ -90,7 +114,7 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
     });
   }
 
-  async findMeme(id: string): Promise<Meme | undefined> {
+  async findMeme(id: number): Promise<Meme | undefined> {
     return this.client.query('Meme')
       .select('Meme.*')
       .from('Meme')
@@ -103,7 +127,8 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
           url: row.url,
           title: row.title,
           externalId: row.external_id,
-          publishedDate: row.published_at
+          publishedDate: row.published_at,
+          approved: row.approved
         } : undefined
       });
   }

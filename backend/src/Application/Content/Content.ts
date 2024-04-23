@@ -52,7 +52,7 @@ class Content {
   }
 
   // @TODO: Check if user can remove meme
-  async deleteMeme(id: string, userId: number): Promise<boolean> {
+  async deleteMeme(id: number, userId: number): Promise<boolean> {
     try {
       const meme = await this.contentRepository.findMeme(id);
       const user = await this.identityRepository.findUserBydId(userId);
@@ -74,7 +74,7 @@ class Content {
     }
   }
 
-  async approveMeme(id: string, approve: boolean = true): AsyncResultObject {
+  async approveMeme(id: number, approve: boolean = true): AsyncResultObject {
     this.logger.debug(`Approving meme with id ${id}...`);
     const meme = await this.contentRepository.findMeme(id);
     if (!meme) {
@@ -105,9 +105,63 @@ class Content {
     }
   }
 
-  async voteMeme(memeId: number, up: boolean) {
+  async voteMeme(memeId: number, userId: number, up: boolean): AsyncResultObject<boolean> {
     this.logger.debug(`Voting meme with id ${memeId}...`);
-    return this.contentRepository.voteMeme(memeId, up);
+
+    const voteExists = await this.contentRepository.voteRecordExists(memeId, userId);
+    if (up) {
+      if (voteExists) {
+        return {
+          status: 'error',
+          error: 'User already voted!'
+        };
+      }
+      await this.contentRepository.createVoteRecord(memeId, userId, up);
+    } else {
+      if (!voteExists) {
+        return {
+          status: 'error',
+          error: 'User has not voted yet!'
+        };
+      }
+      await this.contentRepository.deleteVoteRecord(memeId, userId);
+    }
+
+    const voteCreated = await this.contentRepository.voteMeme(memeId, up);
+    if (voteCreated) {
+      return {
+        status: 'success',
+        data: true
+      };
+    } else {
+      return {
+        status: 'error',
+        error: 'Failed to vote meme!'
+      };
+    }
+  }
+
+  async memeExists(memeId: number): AsyncResultObject<Meme> {
+    const meme = await this.contentRepository.findMeme(memeId);
+
+    if (meme === undefined) {
+      return {
+        status: 'error',
+        error: 'Meme not found!'
+      };
+    }
+
+    if (meme.approved === false) {
+      return {
+        status: 'error',
+        error: 'Meme is not approved!'
+      };
+    }
+
+    return {
+      status: 'success',
+      data: meme
+    };
   }
 
 }

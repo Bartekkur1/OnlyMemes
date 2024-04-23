@@ -61,4 +61,6 @@ Add tests 🥶
 ### PS
 If I forget a single commit this project yeets straight to **trash**
 
+## Commits of shame
+
 - Lazy commit #1

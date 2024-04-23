@@ -27,11 +27,14 @@ export interface ContentSearch {
 
 export interface ContentRepository {
   saveMeme(meme: Meme): AsyncResultObject<boolean>;
-  deleteMeme(id: string, userId: number): Promise<boolean>;
+  deleteMeme(id: number, userId: number): Promise<boolean>;
   findMemes(query: ContentSearch): Promise<Meme[]>;
-  findMeme(id: string): Promise<Meme | undefined>;
-  approveMeme(id: string, approve: boolean): Promise<boolean>;
+  findMeme(id: number): Promise<Meme | undefined>;
+  approveMeme(id: number, approve: boolean): Promise<boolean>;
   voteMeme(memeId: number, up: boolean): Promise<boolean>;
+  voteRecordExists(memeId: number, userId: number): Promise<boolean>;
+  createVoteRecord(memeId: number, userId: number, up: boolean): Promise<void>;
+  deleteVoteRecord(memeId: number, userId: number): Promise<void>;
 }
 
 export abstract class Transactional {
