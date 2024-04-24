@@ -64,3 +64,4 @@ If I forget a single commit this project yeets straight to **trash**
 ## Commits of shame
 
 - Lazy commit #1
+- I have no clue what to do next, too many issues, not sure where to start, vacation day 1
