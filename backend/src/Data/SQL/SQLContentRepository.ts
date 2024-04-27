@@ -109,7 +109,8 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
         authorId: row.author,
         publishedDate: row.published_at,
         title: row.title,
-        approved: row.approved
+        approved: row.approved,
+        votes: row.votes
       }))
     });
   }

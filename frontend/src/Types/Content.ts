@@ -11,6 +11,7 @@ export interface Meme {
   publishedDate: string;
   title: string;
   approved: boolean;
+  votes: number;
 }
 
 export interface FetchMemesQuery {

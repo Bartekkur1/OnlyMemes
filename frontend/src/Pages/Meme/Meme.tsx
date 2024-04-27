@@ -51,7 +51,7 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
         <Box alignContent={'center'} alignItems={'center'} display={'flex'} flexDirection={'row'}>
           <Box display={'flex'} flexDirection={'row'} paddingRight={2}>
             <Typography paddingRight={1}>
-              321
+              {meme.votes}
             </Typography>
             <Favorite />
           </Box>

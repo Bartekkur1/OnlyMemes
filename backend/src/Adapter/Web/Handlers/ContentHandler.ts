@@ -50,7 +50,7 @@ class ContentHandler {
     }
   }
 
-  async getMemesHomepage(req: AuthorizedRequest, res: Response, next: NextFunction) {
+  async findMemes(req: AuthorizedRequest, res: Response, next: NextFunction) {
     try {
       const pagination = extractPagination(req);
       const paginationValidatorError = validatePagination(pagination);
