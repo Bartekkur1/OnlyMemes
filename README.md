@@ -70,3 +70,4 @@ If I forget a single commit this project yeets straight to **trash**
 - Vacation day 4
 - Vacation day 5
 - Vacation day 6
+- Vacation day 7
