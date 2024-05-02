@@ -12,9 +12,12 @@ const createSQLBasedApplicationContext = (): ApplicationContext => {
   const sqlClient = new SQLClient();
   const contentStore = new Discord();
 
+  const identityRepository = new SQLIdentityRepository(sqlClient);
+  const contentRepository = new SQLContentRepository(sqlClient);
+
   return {
-    identity: new Identity(new SQLIdentityRepository(sqlClient)),
-    content: new Content(contentStore, new SQLContentRepository(sqlClient)),
+    identity: new Identity(identityRepository),
+    content: new Content(contentStore, contentRepository, identityRepository),
     profile: new Profile(new SQLProfileRepository(sqlClient))
   }
 };
