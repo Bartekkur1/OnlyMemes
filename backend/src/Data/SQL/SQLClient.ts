@@ -48,6 +48,11 @@ export default class SQLClient extends Transactional implements DataClient {
     }
   }
 
+  // Destroy the connection
+  async pepsi() {
+    await this.query.destroy();
+  }
+
   /**
    * @returns Transaction id, transactions are stored in this instance at this.transactions property
    */

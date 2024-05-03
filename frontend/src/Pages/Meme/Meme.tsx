@@ -14,6 +14,11 @@ const cardStyle = {
 };
 
 export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
+
+  const onVote = (up: boolean = true) => {
+    // @TODO: Finish this
+  };
+
   const navigate = useNavigate();
   return (
     <Card style={cardStyle}>
@@ -53,7 +58,7 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
             <Typography paddingRight={1}>
               {meme.votes}
             </Typography>
-            <Favorite />
+            <Favorite onClick={() => onVote()} cursor={'pointer'} />
           </Box>
           <Box display={'flex'} flexDirection={'row'}>
             <Typography paddingRight={1}>

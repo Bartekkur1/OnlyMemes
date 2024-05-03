@@ -2,6 +2,11 @@
   "name": "backend",
   "module": "index.ts",
   "type": "commonjs",
+  "scripts": {
+    "migration:clear": "bun run ./migration/sql-runner.ts --clear",
+    "migration:init": "bun run ./migration/sql-runner.ts --init",
+    "migration:populate": "bun run ./migration/sql-runner.ts --populate"
+  },
   "devDependencies": {
     "@types/bun": "^1.0.12",
     "@types/cors": "^2.8.17",
@@ -12,7 +17,7 @@
     "@types/joi": "^17.2.3",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/knex": "^0.16.1",
-    "@types/node": "^20.12.6",
+    "@types/node": "^20.12.8",
     "@types/pg": "^8.11.2",
     "@types/uuid": "^9.0.8",
     "better-sqlite3": "^9.2.2",
