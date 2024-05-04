@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Box, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { Meme } from "../../Types/Content";
 import { useNavigate } from "react-router-dom";
@@ -15,8 +15,13 @@ const cardStyle = {
 
 export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
 
-  const onVote = (up: boolean = true) => {
-    // @TODO: Finish this
+  const [upVotes, setUpVotes] = useState<number>(meme.votes);
+  const [upVoted, setUpVoted] = useState<boolean>(false);
+
+  const onVote = () => {
+    // @TODO: Add API call
+    setUpVotes(upVotes + (upVoted ? -1 : 1));
+    setUpVoted(!upVoted);
   };
 
   const navigate = useNavigate();
@@ -56,7 +61,7 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
         <Box alignContent={'center'} alignItems={'center'} display={'flex'} flexDirection={'row'}>
           <Box display={'flex'} flexDirection={'row'} paddingRight={2}>
             <Typography paddingRight={1}>
-              {meme.votes}
+              {upVotes}
             </Typography>
             <Favorite onClick={() => onVote()} cursor={'pointer'} />
           </Box>
