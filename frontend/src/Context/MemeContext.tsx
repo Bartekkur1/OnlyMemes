@@ -9,6 +9,7 @@ interface MemeContexetType {
   fetchMemes: (query: FetchMemesQuery) => Promise<number>;
   clearMemes: () => void;
   changeMemeApproval: (memeId: number, approve: boolean) => Promise<void>;
+  voteMeme: (memeId: number, vote: 'up' | 'down') => Promise<void>;
 }
 
 const MemeContext = createContext<MemeContexetType>({} as MemeContexetType);
@@ -48,13 +49,18 @@ const MemeProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const voteMeme = async (memeId: number, vote: 'up' | 'down') => {
+    await ContentApi.voteMeme(memeId, vote);
+  };
+
   const contextValue: MemeContexetType = {
     memes,
     // addMeme,
     deleteMeme,
     fetchMemes,
     clearMemes,
-    changeMemeApproval
+    changeMemeApproval,
+    voteMeme
   };
   return <MemeContext.Provider value={contextValue}> {children} </MemeContext.Provider>;
 };

@@ -41,6 +41,10 @@ export const ContentApi = {
   disableMeme: async (memeId: number) => {
     const response = await getHttpClient().delete(`/content/${memeId}/approve`);
     return response.status === 200;
-  }
+  },
 
+  voteMeme: async (memeId: number, vote: 'up' | 'down') => {
+    const response = await getHttpClient().post(`/content/${memeId}/${vote === 'up' ? 'upvote' : 'downvote'}`);
+    return response.status === 200;
+  }
 }

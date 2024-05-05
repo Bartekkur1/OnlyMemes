@@ -105,7 +105,7 @@ class Content {
     }
   }
 
-  async voteMeme(memeId: number, userId: number, up: boolean): AsyncResultObject<boolean> {
+  async  voteMeme(memeId: number, userId: number, up: boolean): AsyncResultObject<boolean> {
     this.logger.debug(`Voting meme with id ${memeId}...`);
 
     const voteExists = await this.contentRepository.voteRecordExists(memeId, userId);

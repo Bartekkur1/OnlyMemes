@@ -1,9 +1,10 @@
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { Box, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { Meme } from "../../Types/Content";
 import { useNavigate } from "react-router-dom";
 import { MemeOption } from "./MemeOption";
 import { ChatBubble, Favorite } from "@mui/icons-material";
+import { MemeContext } from "../../Context/MemeContext";
 
 const cardStyle = {
   width: '45%',
@@ -15,13 +16,16 @@ const cardStyle = {
 
 export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
 
+  const { voteMeme } = useContext(MemeContext);
   const [upVotes, setUpVotes] = useState<number>(meme.votes);
   const [upVoted, setUpVoted] = useState<boolean>(false);
 
   const onVote = () => {
-    // @TODO: Add API call
-    setUpVotes(upVotes + (upVoted ? -1 : 1));
+    // THIS DOESNT WORK UGHHHHHH
+    // @TODO: Join votes table on meme table to check if used upvoted
     setUpVoted(!upVoted);
+    setUpVotes(upVotes + (upVoted ? -1 : 1));
+    voteMeme(meme.id, upVoted ? 'down' : 'up');
   };
 
   const navigate = useNavigate();
