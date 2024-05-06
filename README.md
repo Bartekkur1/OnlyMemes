@@ -12,12 +12,13 @@ This project is made completely for fun.
 You shouldn't make any opinion about my tech skills based on this project.
 Many technical decisions are made because sane person wouldn't do it, Im curious and I'll go there.
 I want to learn make bad decisions and learn from them.
+Im a better paratrooper then a frontend dev (I've never jumped from a plane)
 
 ## S#@t to do
 1. ~~Figure out a reasonable architecture~~
 	2. Provider high availability and performance, no one wants to wait for memes they pay for - research performance
-2. Figure out where to store memes (best case scenario without breaking the law) edit: probably S3 or try to store them on a free discord server
-3. Figure out how to filter sensible content (I don't want it to be a Pope memes hosting)
+2. ~~Figure out where to store memes (best case scenario without breaking the law) edit: probably S3 or try to store them on a free discord server~~ Yeah, free discord storage FTW (dont ban me pls). I see that sometimes discord likes to change messages content URL which can be a problem of future me, but not now hehe
+3. ~~Figure out how to filter sensible content (I don't want it to be a Pope memes hosting)~~
 4. ~~Steal~~ Create a design
 5. ~~Figure out where to store users considering our lovely RODO~~ edit: I'll go with external providers for now, login with google, discord or facebook
 6. Figure out how much of subscription money I can steal for memes creator before they rebel against me
@@ -29,13 +30,14 @@ Its just a draft
 
 
 ## Content Filtering
-TODO
+
+So AI filtering is expensive which is bad because Im poor and Im not going to spend a single dime on this project, best I can do is my priceless time.
 
 ## User identity
 
 Im not going to store any users personal data because of RODO
-Users will log in using their email and password, I'll store only hash values of those for verification.
-This creates a problem of what to display as a user name under a comment or a meme publisher - this will be resolved as a "display name" which user will set manually when registering.
+Users will log in using their email and password, I'll store only hash values of those for verification (Im not sure thats legal)
+This creates a problem of what to display as a user name under a comment or a meme publisher - this will be resolved as a "display name" which user will set manually when registering (Im not sure if thats sensitive data)
 Additionally I will forbid of using emails as a display name because thats a personal information.
 
 ## Features
@@ -49,8 +51,15 @@ Additionally I will forbid of using emails as a display name because thats a per
  	- [x] Figure out where and how to store memes efficiently
 	- [x] Upload
 	- [x] Fetching memes and feed? like home page that shows you trending/fresh/top
-  	- [ ] Scoring system, likes etc.
-- [ ] Comments system?
+		- [ ] Likes
+			- [x] Backend
+			- [ ] Frontend
+		- [ ] Comments
+		- [ ] User feed algorithm
+			- [ ] Trending
+			- [ ] Fresh
+			- [ ] Top week/month/yeah
+- [ ] Follow system
 - [ ] Paywall - enable possibility to upload paid content
 - [ ] Payments - I have no idea what Im doing
 
