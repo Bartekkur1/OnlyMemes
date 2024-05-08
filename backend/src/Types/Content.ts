@@ -16,6 +16,7 @@ export interface Meme {
   title: string;
   url?: string;
   approved: boolean;
+  upVoted?: boolean;
 }
 
 export interface ContentSearch {

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { MemeOption } from "./MemeOption";
 import { ChatBubble, Favorite } from "@mui/icons-material";
 import { MemeContext } from "../../Context/MemeContext";
+import { useAuth } from "../../Context/AuthContext";
 
 const cardStyle = {
   width: '45%',
@@ -15,17 +16,18 @@ const cardStyle = {
 };
 
 export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
-
   const { voteMeme } = useContext(MemeContext);
   const [upVotes, setUpVotes] = useState<number>(meme.votes);
-  const [upVoted, setUpVoted] = useState<boolean>(false);
+  const [upVoted, setUpVoted] = useState<boolean>(meme.upVoted || false);
+
+  const { user } = useAuth();
 
   const onVote = () => {
-    // THIS DOESNT WORK UGHHHHHH
-    // @TODO: Join votes table on meme table to check if used upvoted
-    setUpVoted(!upVoted);
-    setUpVotes(upVotes + (upVoted ? -1 : 1));
-    voteMeme(meme.id, upVoted ? 'down' : 'up');
+    if (user?.id !== meme.authorId) {
+      setUpVotes(upVotes + (upVoted ? -1 : 1));
+      voteMeme(meme.id, upVoted ? 'down' : 'up');
+      setUpVoted(!upVoted);
+    }
   };
 
   const navigate = useNavigate();
@@ -67,7 +69,7 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
             <Typography paddingRight={1}>
               {upVotes}
             </Typography>
-            <Favorite onClick={() => onVote()} cursor={'pointer'} />
+            <Favorite onClick={() => onVote()} cursor={user?.id === meme.authorId ? 'not-allowed' : 'pointer'} />
           </Box>
           <Box display={'flex'} flexDirection={'row'}>
             <Typography paddingRight={1}>

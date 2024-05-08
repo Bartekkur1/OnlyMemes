@@ -12,6 +12,7 @@ export interface Meme {
   title: string;
   approved: boolean;
   votes: number;
+  upVoted?: boolean;
 }
 
 export interface FetchMemesQuery {

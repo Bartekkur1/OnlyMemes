@@ -86,9 +86,10 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
 
   async findMemes({ pagination, authorId, role, approved = true }: ContentSearch): Promise<Meme[]> {
     let query = this.client.query('Meme')
-      .select('Meme.*', 'User.display_name')
+      .select('Meme.*', 'User.display_name', 'Vote.up as upVoted')
       .from('Meme')
       .join('User', 'User.id', '=', 'Meme.author')
+      .leftJoin('Vote', 'Vote.meme', '=', 'Meme.id')
       .limit(pagination.size)
       .offset((pagination.page - 1) * pagination.size)
       .orderBy('published_at', 'desc');
@@ -110,7 +111,8 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
         publishedDate: row.published_at,
         title: row.title,
         approved: row.approved,
-        votes: row.votes
+        votes: row.votes,
+        ...(row.upVoted ? { upVoted: row.upVoted !== null && row.upVoted } : {})
       }))
     });
   }
