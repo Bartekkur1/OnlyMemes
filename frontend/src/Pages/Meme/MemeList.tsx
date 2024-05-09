@@ -8,9 +8,10 @@ import { MemeContext } from '../../Context/MemeContext';
 interface MemeListProps {
   author?: number;
   approved?: boolean;
+  marginTop?: boolean;
 }
 
-const MemeList: FC<MemeListProps> = ({ author, approved }) => {
+const MemeList: FC<MemeListProps> = ({ author, approved, marginTop = true }) => {
 
   const { memes, fetchMemes, clearMemes } = useContext(MemeContext);
   const [page, setPage] = useState<number>(1);
@@ -50,7 +51,7 @@ const MemeList: FC<MemeListProps> = ({ author, approved }) => {
   }
 
   return (
-    <Container style={containerStyle}>
+    <Container style={marginTop ? containerStyle : {}}>
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <InfiniteScroll

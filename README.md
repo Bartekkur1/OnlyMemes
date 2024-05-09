@@ -59,13 +59,21 @@ Additionally I will forbid of using emails as a display name because thats a per
 			- [ ] Trending
 			- [ ] Fresh
 			- [ ] Top week/month/yeah
+			- [ ] Following
 - [ ] Follow system
 - [ ] Paywall - enable possibility to upload paid content
 - [ ] Payments - I have no idea what Im doing
 
+## Improvements
+
+- [ ] Move async actions into queue
+	- [ ] Likes
+	- [ ] Uploads
+
 ## TODO
 
 Add tests 🥶
+Add frontend network error handling 💀
 
 ### PS
 If I forget a single commit this project yeets straight to **trash**
