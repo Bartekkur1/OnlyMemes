@@ -46,7 +46,12 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
             >
               {meme.author}
             </Typography>
-            <Typography variant="h5" component="div">
+            <Typography
+              variant="h5"
+              component="div"
+              style={{ cursor: 'pointer' }}
+              onClick={() => navigate(`/meme/${meme.id}`)}
+            >
               {meme.title}
             </Typography>
           </Grid>
@@ -79,6 +84,6 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
           </Box>
         </Box>
       </CardContent>
-    </Card>
+    </Card >
   );
 };
