@@ -39,6 +39,12 @@ CREATE TABLE "InviteToken" (
   "owner" int NULL,
   "invites" int
 );
+--
+CREATE TABLE "Follow" (
+  "id" SERIAL PRIMARY KEY,
+  "follower" int,
+  "followed" int
+);
 -- 
 ALTER TABLE "Meme" ADD CONSTRAINT meme_author_id FOREIGN KEY ("author") REFERENCES "User" ("id");
 -- 
@@ -51,3 +57,6 @@ ALTER TABLE "Comment" ADD CONSTRAINT comment_user_id FOREIGN KEY ("user") REFERE
 ALTER TABLE "Comment" ADD CONSTRAINT comment_meme_id FOREIGN KEY ("meme") REFERENCES "Meme" ("id");
 -- 
 ALTER TABLE "InviteToken" ADD CONSTRAINT token_owner_id FOREIGN KEY ("owner") REFERENCES "User" ("id");
+--
+ALTER TABLE "Follow" ADD CONSTRAINT follow_follower_id FOREIGN KEY ("follower") REFERENCES "User" ("id");
+ALTER TABLE "Follow" ADD CONSTRAINT follow_followed_id FOREIGN KEY ("followed") REFERENCES "User" ("id");

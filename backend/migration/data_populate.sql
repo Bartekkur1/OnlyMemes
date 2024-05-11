@@ -13,3 +13,7 @@ INSERT INTO public."InviteToken" (token, owner, invites) VALUES
 INSERT INTO public."Vote" (meme, "user", up) VALUES
 (1, 2, true),
 (2, 1, true);
+
+INSERT INTO public."Follow" (follower, followed) VALUES
+(1, 2),
+(2, 1);
