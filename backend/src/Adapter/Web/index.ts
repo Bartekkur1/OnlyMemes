@@ -6,6 +6,7 @@ import WebServer from "./WebServer";
 import Routes from "./routes";
 import { requireAuth } from './Middleware/requireAuth';
 import ProfileHandler from "./Handlers/ProfileHandler";
+import FollowHandler from './Handlers/FollowHandler';
 
 // @TODO: Find a way to clean this up
 export const createWebModule = (applicationContext: ApplicationContext) => {
@@ -14,6 +15,7 @@ export const createWebModule = (applicationContext: ApplicationContext) => {
   const identityHandler = new IdentityHandler(applicationContext.identity);
   const contentHandler = new ContentHandler(applicationContext.content);
   const profileHandler = new ProfileHandler(applicationContext.profile);
+  const followHandler = new FollowHandler();
 
   server.registerRoutes(router => {
     router.get(Routes.health, healthCheck.handler.bind(healthCheck));
@@ -32,6 +34,8 @@ export const createWebModule = (applicationContext: ApplicationContext) => {
     router.post(Routes.downvote, requireAuth, contentHandler.downVote.bind(contentHandler));
     // PROFILE
     router.get(Routes.profile, requireAuth, profileHandler.findUser.bind(profileHandler));
+    // FOLLOW
+    router.post(Routes.follow, requireAuth, followHandler.followUser.bind(followHandler));
   });
 
   return server;

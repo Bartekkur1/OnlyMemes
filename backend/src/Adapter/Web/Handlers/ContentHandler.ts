@@ -14,7 +14,7 @@ import { Logger } from '../../../Util/types';
 // @TODO: Add meme upload limit
 class ContentHandler {
 
-  private logger: Logger = getConsoleLogger('WebServer');
+  private logger: Logger = getConsoleLogger('ContentHandler');
 
   constructor(private content: Content) { }
 
