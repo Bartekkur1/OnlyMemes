@@ -15,7 +15,7 @@ export const createWebModule = (applicationContext: ApplicationContext) => {
   const identityHandler = new IdentityHandler(applicationContext.identity);
   const contentHandler = new ContentHandler(applicationContext.content);
   const profileHandler = new ProfileHandler(applicationContext.profile);
-  const followHandler = new FollowHandler();
+  const followHandler = new FollowHandler(applicationContext.follow);
 
   server.registerRoutes(router => {
     router.get(Routes.health, healthCheck.handler.bind(healthCheck));

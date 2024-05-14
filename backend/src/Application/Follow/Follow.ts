@@ -7,7 +7,6 @@ class Follow {
 
   constructor() { }
 
-
   followUser(followerId: number, followingId: number) {
     this.logger.info(`User ${followerId} following ${followingId}`);
   }
