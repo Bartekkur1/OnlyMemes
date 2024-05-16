@@ -3,7 +3,6 @@ import { Role } from "../../Types/Identity";
 import { AsyncResultObject } from "../../Util/types";
 import { SQLRepositoryBase } from "./SQLRepository";
 
-
 export default class SQLContentRepository extends SQLRepositoryBase implements ContentRepository {
 
   deleteVoteRecord(memeId: number, userId: number): Promise<void> {
