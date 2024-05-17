@@ -3,8 +3,13 @@ import { SQLRepositoryBase } from "./SQLRepository";
 
 export default class SQLFollowRepository extends SQLRepositoryBase implements FollowRepository {
 
-  followUser(followerId: number, followingId: number): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  async followUser(followerId: number, followingId: number): Promise<boolean> {
+    const result = await this.client.query('Follow').insert({
+      follower: followerId,
+      followed: followingId
+    });
+
+    return result ? true : false;
   }
 
 }
