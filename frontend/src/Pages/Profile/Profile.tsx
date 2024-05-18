@@ -13,6 +13,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
   const [userProfile, setUserProfile] = useState<UserProfile | undefined>();
+  const [followerCount, setFollowerCount] = useState<number>();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -22,8 +23,17 @@ const Profile = () => {
         navigate('/');
       }
       setUserProfile(profile);
+      setFollowerCount(profile?.followerCount || 0);
     });
   }, []);
+
+  const onFollow = () => {
+    ProfileApi.followUser(Number(userId)).then((success) => {
+      if (success) {
+        setFollowerCount((followerCount || 0) + 1);
+      }
+    });
+  };
 
   return (
     <HomeLayout>
@@ -40,11 +50,12 @@ const Profile = () => {
         <Grid item xs={8}>
           <Typography variant="h4">{userProfile?.displayName}</Typography>
           <Typography>Posts: {userProfile?.memesCount}</Typography>
+          <Typography>Followers: {userProfile?.followerCount}</Typography>
         </Grid>
         {
           (userProfile && user) && (userProfile?.id !== user?.id) ?
             <Grid item>
-              <Button variant="contained">Follow</Button>
+              <Button onClick={onFollow} variant="contained">Follow</Button>
             </Grid>
             : null
         }

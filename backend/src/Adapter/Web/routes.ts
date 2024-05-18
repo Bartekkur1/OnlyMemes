@@ -10,7 +10,7 @@ enum Routes {
   upvote = '/content/:memeId(\\d+)/upvote',
   downvote = '/content/:memeId(\\d+)/downvote',
   approve = '/content/:memeId/approve',
-  profile = '/profile/:displayName',
+  profile = '/profile/:userId',
   follow = '/follow/:followedId(\\d+)'
 }
 

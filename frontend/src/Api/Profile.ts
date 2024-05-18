@@ -11,6 +11,16 @@ export const ProfileApi = {
       console.log(err);
       return undefined;
     }
+  },
+
+  followUser: async (id: number) => {
+    try {
+      const response = await getHttpClient().post(`/follow/${id}`);
+      return response.status === 200;
+    } catch (err) {
+      console.log(err);
+      return undefined;
+    }
   }
 
 };

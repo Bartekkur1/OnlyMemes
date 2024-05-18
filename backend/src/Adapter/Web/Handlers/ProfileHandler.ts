@@ -7,8 +7,8 @@ class ProfileHandler {
 
   async findUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const { displayName } = req.params;
-      const user = await this.profile.findUser(displayName);
+      const { userId } = req.params;
+      const user = await this.profile.findUser(Number(userId));
       if (!user) {
         return res.sendStatus(404);
       }

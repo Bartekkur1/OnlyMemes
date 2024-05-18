@@ -18,6 +18,10 @@ class Profile {
 
     const memesCount = await this.repository.countUserMemes(userId);
     profile.memesCount = memesCount;
+
+    const followerCount = await this.repository.countUserFollows(userId);
+    profile.followerCount = followerCount;
+
     return profile;
   }
 
