@@ -14,6 +14,7 @@ const Profile = () => {
   const { userId } = useParams();
   const [userProfile, setUserProfile] = useState<UserProfile | undefined>();
   const [followerCount, setFollowerCount] = useState<number>();
+  const [isFollowed, setFollowed] = useState<boolean>(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -24,6 +25,7 @@ const Profile = () => {
       }
       setUserProfile(profile);
       setFollowerCount(profile?.followerCount || 0);
+      setFollowed(profile?.following || false);
     });
   }, []);
 
@@ -55,7 +57,7 @@ const Profile = () => {
         {
           (userProfile && user) && (userProfile?.id !== user?.id) ?
             <Grid item>
-              <Button onClick={onFollow} variant="contained">Follow</Button>
+              <Button onClick={onFollow} variant="contained">{isFollowed ? 'Unfollow' : 'Follow'}</Button>
             </Grid>
             : null
         }

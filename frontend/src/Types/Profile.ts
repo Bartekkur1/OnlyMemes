@@ -3,4 +3,5 @@ export interface UserProfile {
   displayName: string;
   memesCount: number;
   followerCount: number;
+  following: boolean;
 }

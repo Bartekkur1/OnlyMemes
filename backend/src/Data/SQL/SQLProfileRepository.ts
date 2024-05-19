@@ -5,6 +5,17 @@ export default class SQLProfileRepository implements ProfileRepository {
 
   constructor(private client: SQLClient) { }
 
+  isUserFollowing(userId: number, followedId: number): Promise<boolean> {
+    return this.client.query('Follow')
+      .select('id')
+      .from('Follow')
+      .where('Follow.follower', '=', userId)
+      .where('Follow.followed', '=', followedId)
+      .then(rows => {
+        return rows.length > 0;
+      });
+  }
+
   async countUserFollows(userId: number): Promise<number> {
     const result = await this.client.query('Follow').count().where('Follow.followed', '=', userId);
     return Number(result[0].count);
