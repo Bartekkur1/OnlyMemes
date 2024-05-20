@@ -11,13 +11,19 @@ class Follow {
   ) { }
 
   async followUser(followerId: number, followingId: number): Promise<boolean> {
+    this.logger.debug(`User ${followerId} is trying to follow user ${followingId}`);
     if (followerId === followingId) {
       this.logger.error('User cannot follow themselves');
       return false;
     }
-
     try {
-      const success = await this.followRepository.followUser(followerId, followingId);
+      const isUserFollowed = await this.followRepository.isUserFollowed(followerId, followingId);
+      let success = false;
+      if (isUserFollowed) {
+        success = await this.followRepository.unFollowUser(followerId, followingId);
+      } else {
+        success = await this.followRepository.followUser(followerId, followingId);
+      }
       if (!success) {
         this.logger.error('Failed to follow user');
         return false;

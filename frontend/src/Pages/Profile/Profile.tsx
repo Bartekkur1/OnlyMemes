@@ -32,7 +32,12 @@ const Profile = () => {
   const onFollow = () => {
     ProfileApi.followUser(Number(userId)).then((success) => {
       if (success) {
-        setFollowerCount((followerCount || 0) + 1);
+        if (isFollowed) {
+          setFollowerCount((followerCount || 0) - 1);
+        } else {
+          setFollowerCount((followerCount || 0) + 1);
+        }
+        setFollowed(!isFollowed);
       }
     });
   };
@@ -49,10 +54,10 @@ const Profile = () => {
             <AccountCircle />
           </Avatar>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={7}>
           <Typography variant="h4">{userProfile?.displayName}</Typography>
           <Typography>Posts: {userProfile?.memesCount}</Typography>
-          <Typography>Followers: {userProfile?.followerCount}</Typography>
+          <Typography>Followers: {followerCount}</Typography>
         </Grid>
         {
           (userProfile && user) && (userProfile?.id !== user?.id) ?
