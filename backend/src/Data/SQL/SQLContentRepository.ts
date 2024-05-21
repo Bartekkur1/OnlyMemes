@@ -83,12 +83,14 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
     }
   }
 
-  async findMemes({ pagination, authorId, role, approved = true }: ContentSearch): Promise<Meme[]> {
+  async findMemes({ contextUserId, pagination, authorId, role, approved = true }: ContentSearch): Promise<Meme[]> {
+    let knex = this.client.query;
     let query = this.client.query('Meme')
-      .select('Meme.*', 'User.display_name', 'Vote.up as upVoted')
-      .from('Meme')
+      .select('Meme.*', 'User.display_name', 'v.up as upVoted')
       .join('User', 'User.id', '=', 'Meme.author')
-      .leftJoin('Vote', 'Vote.meme', '=', 'Meme.id')
+      .leftJoin('Vote as v', function () {
+        this.on('v.meme', '=', 'Meme.id').andOn('v.user', '=', knex.raw('?', [contextUserId]));
+      })
       .limit(pagination.size)
       .offset((pagination.page - 1) * pagination.size)
       .orderBy('published_at', 'desc');

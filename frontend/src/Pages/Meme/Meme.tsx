@@ -3,7 +3,7 @@ import { Box, Card, CardContent, CardMedia, Grid, Typography } from "@mui/materi
 import { Meme } from "../../Types/Content";
 import { useNavigate } from "react-router-dom";
 import { MemeOption } from "./MemeOption";
-import { ChatBubble, Favorite } from "@mui/icons-material";
+import { ChatBubble, Favorite, FavoriteBorder } from "@mui/icons-material";
 import { MemeContext } from "../../Context/MemeContext";
 import { useAuth } from "../../Context/AuthContext";
 
@@ -74,7 +74,9 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
             <Typography paddingRight={1}>
               {upVotes}
             </Typography>
-            <Favorite onClick={() => onVote()} cursor={user?.id === meme.authorId ? 'not-allowed' : 'pointer'} />
+            {upVoted ?
+              <Favorite onClick={() => onVote()} cursor={user?.id === meme.authorId ? 'not-allowed' : 'pointer'} /> :
+              <FavoriteBorder onClick={() => onVote()} cursor={user?.id === meme.authorId ? 'not-allowed' : 'pointer'} />}
           </Box>
           <Box display={'flex'} flexDirection={'row'}>
             <Typography paddingRight={1}>

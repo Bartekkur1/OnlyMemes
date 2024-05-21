@@ -60,6 +60,7 @@ class ContentHandler {
 
       const author = req.query.author ? Number(req.query.author) : undefined;
       const memes = await this.content.findMemes({
+        contextUserId: req.user.id,
         pagination,
         authorId: author,
         role: req.user.role,

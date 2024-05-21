@@ -20,6 +20,7 @@ export interface Meme {
 }
 
 export interface ContentSearch {
+  contextUserId: number;
   pagination: Pagination;
   authorId?: number;
   role: Role;
