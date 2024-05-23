@@ -47,13 +47,14 @@ Additionally I will forbid of using emails as a display name because thats a per
 	- [x] Login
 	- [x] Register
 	- [ ] Password recovery
+	- [x] Invite token
  - [ ] Memes
  	- [x] Figure out where and how to store memes efficiently
 	- [x] Upload
 	- [x] Fetching memes and feed? like home page that shows you trending/fresh/top
-		- [ ] Likes
+		- [x] Likes
 			- [x] Backend
-			- [ ] Frontend
+			- [x] Frontend
 		- [ ] Comments
 		- [ ] User feed algorithm
 			- [ ] Trending
