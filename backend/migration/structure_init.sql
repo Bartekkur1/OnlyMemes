@@ -28,7 +28,7 @@ CREATE TABLE "Vote" (
 CREATE TABLE "Comment" (
   "id" SERIAL PRIMARY KEY,
   "meme" int,
-  "user" int,
+  "author" int,
   "content" text,
   "published_at" date
 );
