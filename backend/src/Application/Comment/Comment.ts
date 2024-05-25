@@ -6,11 +6,10 @@ class Comment {
 
   private logger: Logger = getConsoleLogger('Comment');
 
-  constructor(private commentRepository: CommentRepository) {
-    this.logger.info('Comment Service initialized');
-  }
+  constructor(private commentRepository: CommentRepository) { }
 
   async addComment(meme: number, author: number, content: string): Promise<boolean> {
+    this.logger.debug(`User ${author} commenting on meme ${meme}...`);
     return this.commentRepository.addComment(meme, author, content);
   }
 

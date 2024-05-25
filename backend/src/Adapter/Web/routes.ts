@@ -11,7 +11,8 @@ enum Routes {
   downvote = '/content/:memeId(\\d+)/downvote',
   approve = '/content/:memeId/approve',
   profile = '/profile/:userId',
-  follow = '/follow/:followedId(\\d+)'
+  follow = '/follow/:followedId(\\d+)',
+  comment = '/comment'
 }
 
 export default Routes;

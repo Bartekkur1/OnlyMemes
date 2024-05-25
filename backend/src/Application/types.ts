@@ -2,6 +2,7 @@ import type Content from "./Content/Content";
 import type Identity from "./Identity/Identity";
 import type Follow from './Follow/Follow';
 import type Profile from "./Profile/Profile";
+import type Comment from "./Comment/Comment";
 
 export class UnexpectedError extends Error {
   constructor(message: string) {
@@ -20,6 +21,7 @@ export interface ApplicationContext {
   content: Content;
   profile: Profile;
   follow: Follow;
+  comment: Comment;
 }
 
 export interface InviteTokenDetails {
