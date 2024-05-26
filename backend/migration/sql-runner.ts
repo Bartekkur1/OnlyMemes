@@ -58,8 +58,12 @@ const runMigration = async (client: SQLClient, command: COMMAND) => {
   try {
     logger.info(`Running migration command: ${command}`);
     const query = readSQLFile(COMMAND_MAP[command]);
-    logger.info('Executing query...');
-    await transaction.raw(query);
+
+    const queries = query.split('--');
+    logger.info(`Executing ${queries.length} query...`);
+    for (const q of queries) {
+      await transaction.raw(q);
+    }
     logger.info('Committing transaction...');
     await client.commitTransaction(transactionId);
   } catch (err) {

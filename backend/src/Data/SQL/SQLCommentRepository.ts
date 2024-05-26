@@ -1,18 +1,19 @@
 import { Comment, CommentRepository } from "../../Application/Comment/types";
 import { SQLRepositoryBase } from './SQLRepository';
+import { QueryResult } from 'pg';
 
-export class SQLCommentRepository extends SQLRepositoryBase implements CommentRepository {
+export default class SQLCommentRepository extends SQLRepositoryBase implements CommentRepository {
 
   async addComment(meme: number, author: number, content: string): Promise<boolean> {
     const publishedAt = new Date(Date.now());
-    const result = await this.client.query('Comment').insert({
+    const result: QueryResult = await this.client.query('Comment').insert({
       meme,
       author,
       content,
       published_at: publishedAt
     });
 
-    return result.length > 0 && result[0] > 0;
+    return (result.rowCount || 0) > 0;
   }
 
   // @TODO: Implement pagination

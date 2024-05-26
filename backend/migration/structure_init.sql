@@ -52,7 +52,7 @@ ALTER TABLE "Vote" ADD CONSTRAINT vote_author_id FOREIGN KEY ("user") REFERENCES
 -- 
 ALTER TABLE "Vote" ADD CONSTRAINT vote_meme_id FOREIGN KEY ("meme") REFERENCES "Meme" ("id");
 -- 
-ALTER TABLE "Comment" ADD CONSTRAINT comment_user_id FOREIGN KEY ("user") REFERENCES "User" ("id");
+ALTER TABLE "Comment" ADD CONSTRAINT comment_user_id FOREIGN KEY ("author") REFERENCES "User" ("id");
 -- 
 ALTER TABLE "Comment" ADD CONSTRAINT comment_meme_id FOREIGN KEY ("meme") REFERENCES "Meme" ("id");
 -- 
