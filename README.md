@@ -2,55 +2,65 @@
 Basically OF but with better content.
 
 ## How it works?
-Lets say you think your humor is unique and you can easily find a following that have some spare money that they can use to support you, you come to the right place.
-OnlyMemes allows you to share your originally created memes, its important that they are originally created by your because sharing someones work and getting paid for that would be a dishonour to your family name.
-Best part about sharing these funny images is that they (optionally) are behind a paywall that followers have to pay for if they want access, so stonks for you.
-As a creator I'll buy you a beer and host a party for you in my 25k USD mansion (you have to pay for transport yourself)
+If you believe your humor is unique and you can attract followers willing to support you financially, you’ve come to the right place. OnlyMemes allows you to share your original memes. It's important that the memes you share are your own creations, as posting someone else’s work and profiting from it would be unethical.
+
+The best part is that you can choose to place your memes behind a paywall, allowing your followers to pay for access, which can be financially rewarding for you.
+
+If you decide to participate in this lovely community and earn me a lot of money, I would love to show my appreciation by buying you a drink and hosting a party for you at my $25,000 mansion. However, please note that you will need to cover your own transportation costs.
 
 ## Important note
-This project is made completely for fun.
-You shouldn't make any opinion about my tech skills based on this project.
-Many technical decisions are made because sane person wouldn't do it, Im curious and I'll go there.
-I want to learn make bad decisions and learn from them.
-Im a better paratrooper then a frontend dev (I've never jumped from a plane)
+This project is created purely for fun. Please do not judge my technical skills based on this project. Many of the technical decisions made here are unconventional, as I'm interested in exploring and learning from them. My goal is to learn from making unusual decisions.
 
-## S#@t to do
+For context, I'm a better paratrooper than a frontend developer (though I've never actually jumped from a plane).
+
+## ADR TODO
 1. ~~Figure out a reasonable architecture~~
-	2. Provider high availability and performance, no one wants to wait for memes they pay for - research performance
-2. ~~Figure out where to store memes (best case scenario without breaking the law) edit: probably S3 or try to store them on a free discord server~~ Yeah, free discord storage FTW (dont ban me pls). I see that sometimes discord likes to change messages content URL which can be a problem of future me, but not now hehe
-3. ~~Figure out how to filter sensible content (I don't want it to be a Pope memes hosting)~~
-4. ~~Steal~~ Create a design
-5. ~~Figure out where to store users considering our lovely RODO~~ edit: I'll go with external providers for now, login with google, discord or facebook
-6. Figure out how much of subscription money I can steal for memes creator before they rebel against me
-7. Plan to use all of 100 commit days for this garbonzo so I don't have to force features
+	2. Provider high availability and performance, no one wants to wait for memes they pay for - research performance - Im not sure yet where to host it so for now its just a point here.
+2. ~~Figure out where to store memes (best case scenario without breaking the law) edit: probably S3 or try to store them on a free discord server~~ Discord FTW
+3. ~~Figure out how to filter sensible content (I don't want it to be a Pope memes hosting)~~ Achieved by memes approval by admin process
+4. ~~Steal~~ Create a design - Im going with default react material ui
+5. ~~Figure out where to store users considering our lovely RODO~~ Storing users in my database completely anonymously so that I dont break GDPR
 
 ## Architecture
-Its just a draft
-<img width="916" alt="image" src="https://github.com/Bartekkur1/OnlyMemes/assets/15158339/f860f23f-7c12-4833-9ff8-da695e71fb79">
 
+### Solution overview architecture
+<img width="663" alt="image" src="https://github.com/Bartekkur1/OnlyMemes/assets/15158339/c8f24676-a5e1-4377-9cec-5e647dbbba8b">
+Yeah, nothing special
+
+### Software architecture
+
+#### High Level
+<img width="500" alt="image" src="https://github.com/Bartekkur1/OnlyMemes/assets/15158339/2082a7f1-5663-4199-9ef0-5b5788cadf0d">
+
+#### Low Level
+<img width="856" alt="image" src="https://github.com/Bartekkur1/OnlyMemes/assets/15158339/fb169177-8a5b-43e8-bec2-34c1b5deb2be">
 
 ## Content Filtering
 
-So AI filtering is expensive which is bad because Im poor and Im not going to spend a single dime on this project, best I can do is my priceless time.
+
+Certainly! Here is a more regular and polite version of that message:
+
+AI filtering is quite expensive, which is unfortunate because I have a limited budget and cannot spend any money on this project. The best I can offer is my valuable time.
 
 ## User identity
 
-Im not going to store any users personal data because of RODO
-Users will log in using their email and password, I'll store only hash values of those for verification (Im not sure thats legal)
-This creates a problem of what to display as a user name under a comment or a meme publisher - this will be resolved as a "display name" which user will set manually when registering (Im not sure if thats sensitive data)
-Additionally I will forbid of using emails as a display name because thats a personal information.
+
+Of course! Here is a more regular and polite version of that message:
+
+I will not store any personal data from users in compliance with GDPR regulations. Users will log in using their email and password, and I will only store the hash values of these for verification purposes (though I'm not entirely sure if this is legally compliant).
+
+This approach presents a challenge for displaying usernames under comments or for meme publishers. To address this, users will set a "display name" manually when registering (I'm not certain if this qualifies as sensitive data). Additionally, I will prohibit the use of emails as display names to protect personal information.
 
 ## Features
 
 - [ ] User identity
-	- [ ] ~~Itegrate login with google/facebook (Im not going to bother storing user credentials, maybe in future when I'll have more time to waste)~~ edit: Yeah, turns out I will
 	- [x] Login
 	- [x] Register
 	- [ ] Password recovery
 	- [x] Invite token
  - [ ] Memes
- 	- [x] Figure out where and how to store memes efficiently
-	- [x] Upload
+ 	- [x] Memes Storage
+		- [x] Upload
 	- [x] Fetching memes and feed? like home page that shows you trending/fresh/top
 		- [x] Likes
 			- [x] Backend
@@ -61,7 +71,7 @@ Additionally I will forbid of using emails as a display name because thats a per
 			- [ ] Fresh
 			- [ ] Top week/month/yeah
 			- [ ] Following
-- [ ] Follow system
+- [x] Follow system
 - [ ] Paywall - enable possibility to upload paid content
 - [ ] Payments - I have no idea what Im doing
 
@@ -71,10 +81,19 @@ Additionally I will forbid of using emails as a display name because thats a per
 	- [ ] Likes
 	- [ ] Uploads
 
-## TODO
+### TODO
 
-Add tests 🥶
-Add frontend network error handling 💀
+- [ ] Add tests
+- [ ] Review creating bot agents that would participate in community life, upload memes, add comments and follow each other just like a real users. Whole thing would be based on some LLM.
+
+### How to run
+
+@TODO: Improve this, move to docker
+1. Make sure you have bun installed
+2. Go to backend directory
+3. Run bun run index.ts
+4. Go to frontend
+5. Run bun run start
 
 ### PS
 If I forget a single commit this project yeets straight to **trash**
