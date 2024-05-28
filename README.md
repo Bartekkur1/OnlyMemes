@@ -111,3 +111,4 @@ If I forget a single commit this project yeets straight to **trash**
 - Im too tired boss day 1
 - Im too tired boss day 2, damn I wish I didn't have any responsibilities
 - Last minute commit of shame
+- Im too tired boss day 3
