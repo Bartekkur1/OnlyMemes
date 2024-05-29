@@ -74,6 +74,7 @@ class ContentHandler {
   }
 
   // @TODO: figure out how to handle rollback
+  // @TODO: Allow user to remove not their own memes
   async deleteMeme(req: AuthorizedRequest, res: Response, next: NextFunction) {
     const memeId = Number(req.params.id);
     try {
