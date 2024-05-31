@@ -40,7 +40,7 @@ export const createWebModule = (applicationContext: ApplicationContext) => {
     router.post(Routes.follow, requireAuth, followHandler.followUser.bind(followHandler));
     // COMMENT
     router.post(Routes.comment, requireAuth, commentHandler.addComment.bind(commentHandler));
-    router.get(Routes.comment, requireAuth, commentHandler.getComments.bind(commentHandler));
+    router.get(Routes.commentId, requireAuth, commentHandler.getComments.bind(commentHandler));
   });
 
   return server;

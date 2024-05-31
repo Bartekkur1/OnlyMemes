@@ -12,7 +12,8 @@ enum Routes {
   approve = '/content/:memeId/approve',
   profile = '/profile/:userId',
   follow = '/follow/:followedId(\\d+)',
-  comment = '/comment'
+  comment = '/comment',
+  commentId = '/comment/:memeId(\\d+)'
 }
 
 export default Routes;

@@ -39,9 +39,6 @@ const MemeList: FC<MemeListProps> = ({ author, approved, marginTop = true }) => 
   useEffect(() => {
     clearMemes();
     handleFetchMemes().then(() => {
-      console.log({
-        memes, hasMore
-      })
       setInitialize(true);
     });
   }, []);

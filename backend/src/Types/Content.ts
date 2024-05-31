@@ -25,6 +25,7 @@ export interface ContentSearch {
   authorId?: number;
   role: Role;
   approved?: boolean;
+  memeId?: number;
 }
 
 export interface ContentRepository {

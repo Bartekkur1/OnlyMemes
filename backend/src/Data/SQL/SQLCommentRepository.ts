@@ -18,7 +18,16 @@ export default class SQLCommentRepository extends SQLRepositoryBase implements C
 
   // @TODO: Implement pagination
   getComments(meme: number): Promise<Comment[]> {
-    return this.client.query('Comment').select('*').where({ meme });
+    return this.client.query('Comment as c')
+      .join('User as u', 'c.author', 'u.id')
+      .select(
+        { id: 'c.id' },
+        { display_name: 'u.display_name' },
+        { author: 'c.author' },
+        { content: 'c.content' },
+        { published_at: 'c.published_at' }
+      )
+      .where('c.meme', meme);
   }
 
 }

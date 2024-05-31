@@ -5,6 +5,7 @@ import { getConsoleLogger } from '../../../Util/logger';
 
 
 // @TODO: Add validation, limit comment length so that no one sends copy of Pan Tadeusz ifykyk
+// @TODO: Add comment delete route
 export class CommentHandler {
 
   private logger = getConsoleLogger('CommentHandler');

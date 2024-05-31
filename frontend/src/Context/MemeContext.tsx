@@ -7,6 +7,7 @@ interface MemeContexetType {
   // addMeme: (meme: Meme) => void;
   deleteMeme: (memeId: number) => Promise<void>;
   fetchMemes: (query: FetchMemesQuery) => Promise<number>;
+  fetchMeme: (memeId: number) => Promise<void>;
   clearMemes: () => void;
   changeMemeApproval: (memeId: number, approve: boolean) => Promise<void>;
   voteMeme: (memeId: number, vote: 'up' | 'down') => Promise<void>;
@@ -35,6 +36,17 @@ const MemeProvider: FC<PropsWithChildren> = ({ children }) => {
     return result.length;
   };
 
+  const fetchMeme = async (memeId: number) => {
+    const meme = await ContentApi.fetchMemes({
+      page: 1,
+      size: 1,
+      memeId
+    });
+    if (meme) {
+      setMemes([...meme]);
+    }
+  };
+
   const clearMemes = () => {
     setMemes([]);
   };
@@ -58,6 +70,7 @@ const MemeProvider: FC<PropsWithChildren> = ({ children }) => {
     // addMeme,
     deleteMeme,
     fetchMemes,
+    fetchMeme,
     clearMemes,
     changeMemeApproval,
     voteMeme

@@ -13,6 +13,7 @@ import Profile from './Pages/Profile/Profile';
 import MemeProvider from './Context/MemeContext';
 import { InviteToken } from './Pages/InviteToken/InviteToken';
 import { Approve } from './Pages/Approve/Approve';
+import MemePage from './Pages/Meme/MemePage';
 
 function App() {
   const { user } = useAuth();
@@ -28,6 +29,7 @@ function App() {
           {SecuredRoute({ element: <InviteToken />, path: '/invite' })}
           {SecuredRoute({ element: <Profile />, path: '/profile/:userId' })}
           {SecuredRoute({ element: <Profile />, path: '/profile/:userId' })}
+          {SecuredRoute({ element: <MemePage />, path: '/meme/:memeId' })}
           {SecuredRoute({ user, requiredRole: 'ADMIN', element: <Approve />, path: '/approve' })}
           {<Route path='*' element={<Navigate to={'/'} />} />}
         </Routes>

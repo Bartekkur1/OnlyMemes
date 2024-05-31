@@ -15,9 +15,18 @@ export interface Meme {
   upVoted?: boolean;
 }
 
+export interface Comment {
+  id: number;
+  author: number;
+  content: string;
+  display_name: string;
+  published_at: string;
+}
+
 export interface FetchMemesQuery {
   page: number;
   size: number;
   author?: number;
   approved?: boolean;
+  memeId?: number;
 }

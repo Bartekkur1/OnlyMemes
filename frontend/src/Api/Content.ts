@@ -14,10 +14,13 @@ export const ContentApi = {
   },
 
   // @TODO: Change page size lol
-  fetchMemes: async ({ page, size, author, approved }: FetchMemesQuery): Promise<Meme[]> => {
+  fetchMemes: async ({ page, size, author, approved, memeId }: FetchMemesQuery): Promise<Meme[]> => {
     const params = new URLSearchParams();
     params.append('page', page.toString());
     params.append('size', size.toString());
+    if (memeId) {
+      params.append('memeId', memeId.toString());
+    }
     if (author) {
       params.append('author', author.toString());
     }
