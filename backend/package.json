@@ -3,6 +3,7 @@
   "module": "index.ts",
   "type": "commonjs",
   "scripts": {
+    "build": "bun build ./index.ts --outdir ./build --target=bun",
     "migration:clear": "bun run ./migration/sql-runner.ts --clear",
     "migration:init": "bun run ./migration/sql-runner.ts --init",
     "migration:populate": "bun run ./migration/sql-runner.ts --populate"

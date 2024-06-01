@@ -16,6 +16,11 @@ services:
     volumes:
       - ./tmp:/var/lib/postgresql/data
 
+  bunbackend:
+    build: ./backend
+    ports:
+      - "3001:3001"
+
 networks:
   default:
     name: onlymemes_network
