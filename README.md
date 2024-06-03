@@ -114,3 +114,4 @@ If I forget a single commit this project yeets straight to **trash**
 - Im too tired boss day 3
 - Im too tired boss day 4
 - Sick leave day 1
+- Sick leave day 2
