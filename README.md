@@ -37,15 +37,9 @@ Yeah, nothing special
 
 ## Content Filtering
 
-
-Certainly! Here is a more regular and polite version of that message:
-
 AI filtering is quite expensive, which is unfortunate because I have a limited budget and cannot spend any money on this project. The best I can offer is my valuable time.
 
 ## User identity
-
-
-Of course! Here is a more regular and polite version of that message:
 
 I will not store any personal data from users in compliance with GDPR regulations. Users will log in using their email and password, and I will only store the hash values of these for verification purposes (though I'm not entirely sure if this is legally compliant).
 
