@@ -65,7 +65,7 @@ This approach presents a challenge for displaying usernames under comments or fo
 		- [x] Likes
 			- [x] Backend
 			- [x] Frontend
-		- [ ] Comments
+		- [x] Comments
 		- [ ] User feed algorithm
 			- [ ] Trending
 			- [ ] Fresh
@@ -115,3 +115,4 @@ If I forget a single commit this project yeets straight to **trash**
 - Im too tired boss day 4
 - Sick leave day 1
 - Sick leave day 2
+- Sick leave day 3
