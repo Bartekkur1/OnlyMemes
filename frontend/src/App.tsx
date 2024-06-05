@@ -14,27 +14,34 @@ import MemeProvider from './Context/MemeContext';
 import { InviteToken } from './Pages/InviteToken/InviteToken';
 import { Approve } from './Pages/Approve/Approve';
 import MemePage from './Pages/Meme/MemePage';
+import { MessageDisplay } from './Shared/MessageDisplay';
+import MessageProvider from './Context/MessageContext';
 
 function App() {
   const { user } = useAuth();
   return (
-    <AuthProvider>
-      <MemeProvider>
-        <Routes>
-          {UnsecuredRoute({ element: <Login />, path: '/login' })}
-          {UnsecuredRoute({ element: <Register />, path: '/register' })}
-          {SecuredRoute({ element: <Home />, path: '/' })}
-          {SecuredRoute({ element: <Upload />, path: '/upload' })}
-          {SecuredRoute({ element: <Logout />, path: '/logout' })}
-          {SecuredRoute({ element: <InviteToken />, path: '/invite' })}
-          {SecuredRoute({ element: <Profile />, path: '/profile/:userId' })}
-          {SecuredRoute({ element: <Profile />, path: '/profile/:userId' })}
-          {SecuredRoute({ element: <MemePage />, path: '/meme/:memeId' })}
-          {SecuredRoute({ user, requiredRole: 'ADMIN', element: <Approve />, path: '/approve' })}
-          {<Route path='*' element={<Navigate to={'/'} />} />}
-        </Routes>
-      </MemeProvider>
-    </AuthProvider>
+    <>
+      <MessageProvider>
+        <MessageDisplay />
+        <AuthProvider>
+          <MemeProvider>
+            <Routes>
+              {UnsecuredRoute({ element: <Login />, path: '/login' })}
+              {UnsecuredRoute({ element: <Register />, path: '/register' })}
+              {SecuredRoute({ element: <Home />, path: '/' })}
+              {SecuredRoute({ element: <Upload />, path: '/upload' })}
+              {SecuredRoute({ element: <Logout />, path: '/logout' })}
+              {SecuredRoute({ element: <InviteToken />, path: '/invite' })}
+              {SecuredRoute({ element: <Profile />, path: '/profile/:userId' })}
+              {SecuredRoute({ element: <Profile />, path: '/profile/:userId' })}
+              {SecuredRoute({ element: <MemePage />, path: '/meme/:memeId' })}
+              {SecuredRoute({ user, requiredRole: 'ADMIN', element: <Approve />, path: '/approve' })}
+              {<Route path='*' element={<Navigate to={'/'} />} />}
+            </Routes>
+          </MemeProvider>
+        </AuthProvider>
+      </MessageProvider>
+    </>
   );
 }
 

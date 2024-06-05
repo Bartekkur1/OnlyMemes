@@ -1,6 +1,6 @@
 import Profile from "../../../Application/Profile/Profile";
 import type { Request, Response, NextFunction } from "express";
-import { AuthorizedRequest } from "../types";
+import { AuthorizedRequest, HttpError } from "../types";
 
 class ProfileHandler {
 
@@ -15,7 +15,7 @@ class ProfileHandler {
       }
       return res.json(user);
     } catch (error) {
-      return next(error);
+      return next(new HttpError(500, 'Internal server error!'));
     }
   }
 }

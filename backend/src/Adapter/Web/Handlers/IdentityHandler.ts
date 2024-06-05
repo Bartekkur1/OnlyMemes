@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import type Identity from "../../../Application/Identity/Identity";
-import { InvalidCredentialsError, InvalidInviteTokenError, UserNotFoundError } from "../../../Application/Identity/error";
+import { EmailTakenError, InvalidCredentialsError, InvalidInviteTokenError, UserNotFoundError } from "../../../Application/Identity/error";
 import { AuthorizedRequest, HttpError } from "../types";
 import { UnexpectedError } from "../../../Application/types";
 
@@ -19,10 +19,11 @@ class IdentityHandler {
       return res.json({ token });
     } catch (error) {
       if (error instanceof InvalidCredentialsError
+        || error instanceof EmailTakenError
         || error instanceof UserNotFoundError) {
         return next(new HttpError(401, error.message));
       }
-      return next(error);
+      return next(new HttpError(500, 'Internal server error!'));
     }
   }
 
@@ -45,7 +46,7 @@ class IdentityHandler {
       else if (error instanceof UnexpectedError) {
         return next(new HttpError(500, error.message));
       }
-      return next(error);
+      return next(new HttpError(500, 'Internal server error!'));
     }
   }
 
@@ -67,7 +68,7 @@ class IdentityHandler {
       if (error instanceof UnexpectedError) {
         return next(new HttpError(500, error.message));
       }
-      return next(error);
+      return next(new HttpError(500, 'Internal server error!'));
     }
 
   }

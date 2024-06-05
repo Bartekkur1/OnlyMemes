@@ -39,7 +39,8 @@ class ContentHandler {
         publishedDate: new Date(),
         title: title,
         content: image.data,
-        approved: false
+        approved: false,
+        commentsCount: 0
       };
 
       await this.content.uploadMeme(meme);

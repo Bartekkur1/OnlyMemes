@@ -18,11 +18,6 @@ const MemeContext = createContext<MemeContexetType>({} as MemeContexetType);
 const MemeProvider: FC<PropsWithChildren> = ({ children }) => {
   const [memes, setMemes] = useState<Meme[]>([]);
 
-  // const addMeme = (meme: Meme) => {
-  //   if (memes.some(m => m.id === meme.id)) return;
-  //   setMemes(memes => [...memes, meme]);
-  // };
-
   const deleteMeme = async (memeId: number) => {
     const result = await ContentApi.deleteMeme(memeId);
     if (result) {

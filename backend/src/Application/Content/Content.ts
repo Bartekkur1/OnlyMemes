@@ -75,7 +75,7 @@ class Content {
   }
 
   async approveMeme(id: number, approve: boolean = true): AsyncResultObject {
-    this.logger.debug(`Approving meme with id ${id}...`);
+    this.logger.debug(`${approve ? 'Approving' : 'Disabling'} meme with id ${id}...`);
     const meme = await this.contentRepository.findMeme(id);
     if (!meme) {
       return {
@@ -84,7 +84,7 @@ class Content {
       };
     }
 
-    if (meme.approved) {
+    if (meme.approved && approve) {
       return {
         status: 'error',
         error: 'Meme already approved!'

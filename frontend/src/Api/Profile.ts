@@ -1,5 +1,5 @@
 import { UserProfile } from "../Types/Profile";
-import getHttpClient from "./HttpClient";
+import getHttpClient, { getAxiosErrorMessage } from "./HttpClient";
 
 export const ProfileApi = {
 
@@ -8,8 +8,7 @@ export const ProfileApi = {
       const response = await getHttpClient().get(`/profile/${id}`);
       return response.data;
     } catch (err) {
-      console.log(err);
-      return undefined;
+      throw new Error(getAxiosErrorMessage(err));
     }
   },
 
@@ -18,8 +17,7 @@ export const ProfileApi = {
       const response = await getHttpClient().post(`/follow/${id}`);
       return response.status === 200;
     } catch (err) {
-      console.log(err);
-      return undefined;
+      throw new Error(getAxiosErrorMessage(err));
     }
   }
 

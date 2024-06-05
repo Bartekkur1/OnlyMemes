@@ -1,16 +1,20 @@
 import { FetchMemesQuery, ImageUploadPayload, Meme } from "../Types/Content";
-import getHttpClient from "./HttpClient";
+import getHttpClient, { getAxiosErrorMessage } from "./HttpClient";
 
 export const ContentApi = {
 
   uploadMeme: async (payload: ImageUploadPayload) => {
-    const response = await getHttpClient().post('/content', payload, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
+    try {
+      const response = await getHttpClient().post('/content', payload, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
 
-    console.log(response);
+      console.log(response);
+    } catch (err) {
+      throw new Error(getAxiosErrorMessage(err));
+    }
   },
 
   // @TODO: Change page size lol
@@ -32,22 +36,38 @@ export const ContentApi = {
   },
 
   deleteMeme: async (memeId: number) => {
-    const response = await getHttpClient().delete(`/content/${memeId}`);
-    return response.status === 200;
+    try {
+      const response = await getHttpClient().delete(`/content/${memeId}`);
+      return response.status === 200;
+    } catch (err) {
+      throw new Error(getAxiosErrorMessage(err));
+    }
   },
 
   approveMeme: async (memeId: number) => {
-    const response = await getHttpClient().patch(`/content/${memeId}/approve`);
-    return response.status === 200;
+    try {
+      const response = await getHttpClient().patch(`/content/${memeId}/approve`);
+      return response.status === 200;
+    } catch (err) {
+      throw new Error(getAxiosErrorMessage(err));
+    }
   },
 
   disableMeme: async (memeId: number) => {
-    const response = await getHttpClient().delete(`/content/${memeId}/approve`);
-    return response.status === 200;
+    try {
+      const response = await getHttpClient().delete(`/content/${memeId}/approve`);
+      return response.status === 200;
+    } catch (err) {
+      throw new Error(getAxiosErrorMessage(err));
+    }
   },
 
   voteMeme: async (memeId: number, vote: 'up' | 'down') => {
-    const response = await getHttpClient().post(`/content/${memeId}/${vote === 'up' ? 'upvote' : 'downvote'}`);
-    return response.status === 200;
+    try {
+      const response = await getHttpClient().post(`/content/${memeId}/${vote === 'up' ? 'upvote' : 'downvote'}`);
+      return response.status === 200;
+    } catch (err) {
+      throw new Error(getAxiosErrorMessage(err));
+    }
   }
 }

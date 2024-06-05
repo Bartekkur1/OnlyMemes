@@ -15,4 +15,10 @@ const getHttpClient = () => {
   return httpClient;
 };
 
+const getAxiosErrorMessage = (err: unknown) => {
+  const error = err as any;
+  return error.response?.data.error || 'An error occurred';
+}
+
 export default getHttpClient;
+export { getAxiosErrorMessage };

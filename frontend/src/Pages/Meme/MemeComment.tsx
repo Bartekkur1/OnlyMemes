@@ -1,15 +1,17 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { Comment } from "../../Types/Content";
 import { CommentApi } from "../../Api/Comment";
 import { Box, Button, List, ListItem, TextField, Typography } from "@mui/material";
 import { useAuth } from "../../Context/AuthContext";
 import { Clear } from "@mui/icons-material";
+import { MessageContext } from "../../Context/MessageContext";
 
 interface MemeCommentProps {
   memeId: number;
 }
 
 export const MemeComment: FC<MemeCommentProps> = ({ memeId }) => {
+  const { push } = useContext(MessageContext);
   const [comment, setComment] = useState<string>('');
   const [comments, setComments] = useState<Comment[]>([]);
   const { user } = useAuth();
@@ -18,6 +20,9 @@ export const MemeComment: FC<MemeCommentProps> = ({ memeId }) => {
     CommentApi.getComments(memeId)
       .then((result) => {
         setComments(result);
+      })
+      .catch(err => {
+        push(err.message, 'error');
       });
   };
 
@@ -30,7 +35,11 @@ export const MemeComment: FC<MemeCommentProps> = ({ memeId }) => {
     CommentApi.addComment(memeId, comment)
       .then(() => {
         fetchComments();
-      });
+        push('Comment added successfully', 'success');
+      })
+      .catch(err => {
+        push(err.message, 'error');
+      })
   };
 
   const handleCommentRemove = (id: number) => {
@@ -39,6 +48,10 @@ export const MemeComment: FC<MemeCommentProps> = ({ memeId }) => {
       CommentApi.removeComment(id)
         .then(() => {
           fetchComments();
+          push('Comment removed successfully', 'success');
+        })
+        .catch(err => {
+          push(err.message, 'error');
         });
     }
   };

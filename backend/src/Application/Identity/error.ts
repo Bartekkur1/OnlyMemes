@@ -1,6 +1,6 @@
 export class InvalidCredentialsError extends Error {
-  constructor(message: string) {
-    super(`Invalid credentials! ${message}`);
+  constructor() {
+    super(`Invalid email or password!`);
   }
 }
 
@@ -12,6 +12,12 @@ export class UserNotFoundError extends Error {
 
 export class InvalidInviteTokenError extends Error {
   constructor() {
-    super('Invalid invite token');
+    super('Invite token is invalid, or token has already been used');
+  }
+}
+
+export class EmailTakenError extends Error {
+  constructor() {
+    super('Email is already taken');
   }
 }

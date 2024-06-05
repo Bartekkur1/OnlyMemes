@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Typography, TextField, Button, Container, Grid, Link } from '@mui/material';
 import { useAuth } from '../../Context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { MessageContext } from '../../Context/MessageContext';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login, user } = useAuth();
+  const { push } = useContext(MessageContext);
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    login({ email, password });
+    login({ email, password })
+      .catch(err => {
+        push(err.message, 'error');
+      });
   };
 
   return (
@@ -62,12 +67,12 @@ const Login: React.FC = () => {
         </form>
         <Grid container justifyContent={'space-between'}>
           <Grid item>
-            <Link variant="body2">
+            <Link onClick={() => alert('Not implemented yet :(')} style={{ cursor: 'pointer' }}>
               Forgot password?
             </Link>
           </Grid>
           <Grid item>
-            <Link onClick={() => navigate('/register')} variant="body2">
+            <Link style={{ cursor: 'pointer' }} onClick={() => navigate('/register')}>
               Sign Up
             </Link>
           </Grid>

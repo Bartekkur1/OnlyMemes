@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { TextField, Button, Container, Typography, Grid, Link } from '@mui/material';
 import AuthClient from '../../Api/Auth';
 import { useNavigate } from 'react-router-dom';
+import { MessageContext } from '../../Context/MessageContext';
 
 interface FormData {
   displayName: string;
@@ -13,6 +14,7 @@ interface FormData {
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
+  const { push } = useContext(MessageContext);
 
   const [formData, setFormData] = useState<FormData>({
     displayName: '',
@@ -39,7 +41,10 @@ const Register: React.FC = () => {
       inviteToken: formData.inviteToken
     }).then(() => {
       // @TODO: Handle notification and error
+      push('Account created successfully. Please login to continue.', 'success');
       return navigate('/login');
+    }).catch((err) => {
+      push(err.message, 'error');
     });
   };
 
@@ -124,9 +129,10 @@ const Register: React.FC = () => {
         </Button>
         <Grid container justifyContent="flex-end">
           <Grid item>
-            <Link href="/login" variant="body2">
-              Already have an account? Sign in
-            </Link>
+            <Typography
+              style={{ cursor: 'pointer', color: 'blue' }}
+              onClick={() => navigate('/login')}
+            >Already have an account? Sign in</Typography>
           </Grid>
         </Grid>
       </form>

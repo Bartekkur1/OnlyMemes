@@ -1,12 +1,14 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { InviteTokenDetails } from "../../Types/Auth";
 import AuthClient from "../../Api/Auth";
 import { Box, Container, Typography } from "@mui/material";
 import { ContentCopy } from "@mui/icons-material";
 import { HomeLayout } from "../../Shared/HomeLayout";
+import { MessageContext } from "../../Context/MessageContext";
 
 export const InviteToken: FC = () => {
   const [details, setDetails] = useState<InviteTokenDetails | undefined>();
+  const { push } = useContext(MessageContext);
 
   useEffect(() => {
     if (!details) {
@@ -18,8 +20,7 @@ export const InviteToken: FC = () => {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(details?.token || '').then(() => {
-      // @TODO: Handle notifications
-      alert('Invite token copied to clipboard');
+      push('Invite token copied to clipboard', 'success');
     });
   };
 

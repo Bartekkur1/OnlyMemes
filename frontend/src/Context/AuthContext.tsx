@@ -40,16 +40,12 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const contextValue: AuthContextType = {
     user,
     async login(credentials: Credentials) {
-      try {
-        const token = await AuthClient.login(credentials);
-        setUser({
-          token,
-          ...getTokenDetails(token)
-        });
-        localStorage.setItem('token', token);
-      } catch (err) {
-        console.log(err);
-      }
+      const token = await AuthClient.login(credentials);
+      setUser({
+        token,
+        ...getTokenDetails(token)
+      });
+      localStorage.setItem('token', token);
     },
     logout() {
       setUser(undefined);

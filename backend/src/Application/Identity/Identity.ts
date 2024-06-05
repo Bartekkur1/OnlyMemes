@@ -5,7 +5,7 @@ import { InviteTokenDetails, TokenAlreadyGenerated, UnexpectedError } from "../t
 import { hashCredentials, hashRegisterForm } from "./util";
 import { sign, verify } from 'jsonwebtoken';
 import { validateLoginCredentials, validateRegisterForm } from '../../Infrastructure/Validation/CredentialsValidator';
-import { InvalidCredentialsError, InvalidInviteTokenError, UserNotFoundError } from "./error";
+import { EmailTakenError, InvalidCredentialsError, InvalidInviteTokenError, UserNotFoundError } from "./error";
 import { Credentials, IdentityRepository, JWTPayload, RegisterForm } from "../../Types/Identity";
 import { IdentityConfiguration } from './config';
 import { randomBytes } from 'crypto';
@@ -28,7 +28,7 @@ class Identity {
     const errorMessage = validateLoginCredentials(credentials);
     if (errorMessage) {
       this.logger.error(`Invalid credentials: ${errorMessage}`);
-      throw new InvalidCredentialsError(errorMessage);
+      throw new InvalidCredentialsError();
     }
 
     const searchCredentials = hashCredentials(credentials);
@@ -40,7 +40,7 @@ class Identity {
 
     if (user.credentials.password !== searchCredentials.password) {
       this.logger.error(`Invalid password for user ${searchCredentials.email}`);
-      throw new InvalidCredentialsError('Invalid password');
+      throw new InvalidCredentialsError();
     }
 
     this.logger.debug(`User ${searchCredentials.email} logged in successfully`);
@@ -57,7 +57,7 @@ class Identity {
     const errorMessage = validateRegisterForm(form);
     if (errorMessage) {
       this.logger.error(`Invalid user identity: ${errorMessage}`);
-      throw new InvalidCredentialsError(errorMessage);
+      throw new InvalidCredentialsError();
     }
 
     const { email, password } = form;
@@ -65,7 +65,7 @@ class Identity {
     const emailTaken = await this.repository.isEmailTaken(hashedCredentials.email);
     if (emailTaken) {
       this.logger.error(`Email ${hashedCredentials.email} is already taken`);
-      throw new InvalidCredentialsError('Email is already taken');
+      throw new EmailTakenError();
     }
 
     const tokenValid = await this.repository.isInviteTokenValid(form.inviteToken);
