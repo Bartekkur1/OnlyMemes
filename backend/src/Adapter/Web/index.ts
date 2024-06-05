@@ -41,6 +41,7 @@ export const createWebModule = (applicationContext: ApplicationContext) => {
     // COMMENT
     router.post(Routes.comment, requireAuth, commentHandler.addComment.bind(commentHandler));
     router.get(Routes.commentId, requireAuth, commentHandler.getComments.bind(commentHandler));
+    router.delete(Routes.commentId, requireAuth, commentHandler.removeComment.bind(commentHandler));
   });
 
   return server;

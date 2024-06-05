@@ -91,9 +91,12 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
       .leftJoin('Vote as v', function () {
         this.on('v.meme', '=', 'Meme.id').andOn('v.user', '=', knex.raw('?', [contextUserId]));
       })
+      .leftJoin('Comment', 'Comment.meme', '=', 'Meme.id')
+      .count('Comment.id as comments')
       .limit(pagination.size)
       .offset((pagination.page - 1) * pagination.size)
-      .orderBy('published_at', 'desc');
+      .orderBy('published_at', 'desc')
+      .groupBy('Meme.id', 'User.display_name', 'v.up');
 
     if (memeId && memeId !== undefined) {
       query = query.where('Meme.id', memeId);
@@ -113,10 +116,11 @@ export default class SQLContentRepository extends SQLRepositoryBase implements C
         url: row.url,
         author: row.display_name,
         authorId: row.author,
-        publishedDate: row.published_at,
+        publishedDate: row.published_at as any,
         title: row.title,
-        approved: row.approved,
+        approved: row.approved as any,
         votes: row.votes,
+        commentsCount: Number(row.comments),
         ...(row.upVoted ? { upVoted: row.upVoted !== null && row.upVoted } : {})
       }))
     });

@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from "react";
 import { Comment } from "../../Types/Content";
 import { CommentApi } from "../../Api/Comment";
-import { Avatar, Box, Button, List, ListItem, ListItemText, TextField, Typography } from "@mui/material";
+import { Box, Button, List, ListItem, TextField, Typography } from "@mui/material";
+import { useAuth } from "../../Context/AuthContext";
+import { Clear } from "@mui/icons-material";
 
 interface MemeCommentProps {
   memeId: number;
@@ -10,6 +12,7 @@ interface MemeCommentProps {
 export const MemeComment: FC<MemeCommentProps> = ({ memeId }) => {
   const [comment, setComment] = useState<string>('');
   const [comments, setComments] = useState<Comment[]>([]);
+  const { user } = useAuth();
 
   const fetchComments = () => {
     CommentApi.getComments(memeId)
@@ -23,26 +26,36 @@ export const MemeComment: FC<MemeCommentProps> = ({ memeId }) => {
   }, []);
 
   const handleCommentSubmit = () => {
+    setComment('');
     CommentApi.addComment(memeId, comment)
       .then(() => {
         fetchComments();
       });
   };
 
+  const handleCommentRemove = (id: number) => {
+    const confirmed = window.confirm('Are you sure you want to remove your comment?');
+    if (confirmed) {
+      CommentApi.removeComment(id)
+        .then(() => {
+          fetchComments();
+        });
+    }
+  };
+
   return (
     <div style={{ width: '500px' }}>
-      <Box sx={{ maxWidth: 600, margin: '0 auto', padding: 2 }}>
+      <Box sx={{ maxWidth: 600, margin: '0 auto' }}>
         <List sx={{ marginTop: 2 }}>
-          {comments.map(({ id, display_name, content, published_at }) => (
-            <ListItem key={id} alignItems="flex-start">
-              <Avatar>{display_name.charAt(0).toUpperCase()}</Avatar>
-              <Box sx={{ marginLeft: 2 }}>
-                <ListItemText
-                  primary={display_name}
-                  secondary={(new Date(published_at)).toDateString()}
-                />
+          {comments.map(({ id, display_name, content, published_at, author }) => (
+            <ListItem key={id} alignItems="flex-start" style={{ justifyContent: 'space-between' }}>
+              <Box>
+                <Typography variant="subtitle2">{display_name} - {(new Date(published_at)).toDateString()}</Typography>
                 <Typography variant="body1">{content}</Typography>
               </Box>
+              {
+                user?.id === author && <Clear style={{ fontSize: '16px', cursor: 'pointer' }} onClick={() => handleCommentRemove(id)} />
+              }
             </ListItem>
           ))}
         </List>

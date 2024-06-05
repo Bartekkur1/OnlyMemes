@@ -13,6 +13,8 @@ export interface Meme {
   approved: boolean;
   votes: number;
   upVoted?: boolean;
+  commentsCount: number;
+  comments?: Comment[];
 }
 
 export interface Comment {

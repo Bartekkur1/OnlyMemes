@@ -21,7 +21,7 @@ const MemePage = () => {
         setLoading(false);
       });
     }
-  }, [loading]);
+  }, [fetchMeme, loading, meme, memeId, memes]);
 
   if (memeId === undefined) {
     navigate('/');
@@ -37,7 +37,7 @@ const MemePage = () => {
           !loading && meme &&
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <MemePost meme={meme} />
-            <MemeComment memeId={Number(memeId)} />
+            <MemeComment memeId={meme.id} />
           </div>
         }
       </div>

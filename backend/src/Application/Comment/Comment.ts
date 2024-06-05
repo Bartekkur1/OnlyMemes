@@ -17,6 +17,10 @@ class Comment {
     return this.commentRepository.getComments(meme);
   }
 
+  async removeComment(commentId: number, contextUserId: number) {
+    return this.commentRepository.removeComment(commentId, contextUserId);
+  }
+
 };
 
 export default Comment;

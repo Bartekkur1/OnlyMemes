@@ -1,9 +1,8 @@
 import { FC, useContext, useState } from "react";
 import { Box, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { Meme } from "../../Types/Content";
-import { useNavigate } from "react-router-dom";
 import { MemeOption } from "./MemeOption";
-import { ChatBubble, Favorite, FavoriteBorder } from "@mui/icons-material";
+import { ChatBubbleOutline, Favorite, FavoriteBorder } from "@mui/icons-material";
 import { MemeContext } from "../../Context/MemeContext";
 import { useAuth } from "../../Context/AuthContext";
 
@@ -30,15 +29,17 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
     }
   };
 
-  const navigate = useNavigate();
+  const openOnNewTab = (path: string) => {
+    window.open(path, '_blank')
+  };
+
   return (
     <Card style={cardStyle}>
-      {/* @TODO: Add user icon */}
       <Box padding={2}>
         <Grid container>
           <Grid item xs={6}>
             <Typography
-              onClick={() => navigate(`/profile/${meme.authorId}`)}
+              onClick={() => openOnNewTab(`/profile/${meme.authorId}`)}
               sx={{ fontSize: 12 }}
               color="text.secondary"
               style={{ cursor: 'pointer' }}
@@ -50,7 +51,7 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
               variant="h5"
               component="div"
               style={{ cursor: 'pointer' }}
-              onClick={() => navigate(`/meme/${meme.id}`)}
+              onClick={() => openOnNewTab(`/meme/${meme.id}`)}
             >
               {meme.title}
             </Typography>
@@ -58,8 +59,8 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
           <Grid item xs={6} textAlign={'end'}>
             <MemeOption meme={meme} />
           </Grid>
-        </Grid>
-      </Box>
+        </Grid >
+      </Box >
       <CardMedia
         component="img"
         alt={meme.title}
@@ -68,7 +69,6 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
         title={meme.title}
       />
       <CardContent>
-        {/* TODO: Meme statistics, comments and likes etc. */}
         <Box alignContent={'center'} alignItems={'center'} display={'flex'} flexDirection={'row'}>
           <Box display={'flex'} flexDirection={'row'} paddingRight={2}>
             <Typography paddingRight={1}>
@@ -80,9 +80,10 @@ export const MemePost: FC<{ meme: Meme }> = ({ meme }) => {
           </Box>
           <Box display={'flex'} flexDirection={'row'}>
             <Typography paddingRight={1}>
-              12343
+              {meme.commentsCount}
             </Typography>
-            <ChatBubble />
+            <ChatBubbleOutline style={{ cursor: 'pointer' }}
+              onClick={() => openOnNewTab(`/meme/${meme.id}`)} />
           </Box>
         </Box>
       </CardContent>

@@ -13,7 +13,7 @@ enum Routes {
   profile = '/profile/:userId',
   follow = '/follow/:followedId(\\d+)',
   comment = '/comment',
-  commentId = '/comment/:memeId(\\d+)'
+  commentId = '/comment/:id(\\d+)'
 }
 
 export default Routes;

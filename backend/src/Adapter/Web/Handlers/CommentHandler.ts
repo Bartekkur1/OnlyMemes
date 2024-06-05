@@ -26,10 +26,21 @@ export class CommentHandler {
 
   async getComments(req: AuthorizedRequest, res: Response, next: NextFunction) {
     try {
-      const meme = Number(req.params.memeId);
-      this.logger.debug(`Getting comments on meme ${meme}`);
-      const comments = await this.comment.getComments(meme);
+      const id = Number(req.params.id);
+      this.logger.debug(`Getting comments on meme ${id}`);
+      const comments = await this.comment.getComments(id);
       return res.status(200).json({ comments });
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
+  }
+
+  async removeComment(req: AuthorizedRequest, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+      this.logger.debug(`Removing comment ${id}`);
+      const result = await this.comment.removeComment(id, req.user.id);
+      return res.status(200).json({ success: result });
     } catch (err) {
       return res.status(400).json({ error: err.message });
     }

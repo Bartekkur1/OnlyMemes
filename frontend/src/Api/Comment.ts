@@ -10,6 +10,10 @@ export const CommentApi = {
 
   addComment: async (memeId: number, content: string) => {
     await getHttpClient().post(`/comment`, { meme: memeId, content });
+  },
+
+  removeComment: async (commentId: number) => {
+    await getHttpClient().delete(`/comment/${commentId}`);
   }
 
 };

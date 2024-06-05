@@ -2,7 +2,7 @@ import { Client, GatewayIntentBits, TextChannel } from 'discord.js';
 import { loadConfig } from '../config';
 import { ContentStore, ContentUploadResult, Image } from './types';
 import { fileTypeFromBuffer } from 'file-type';
-import { AsyncResultObject, ResultObject } from '../../Util/types';
+import { AsyncResultObject } from '../../Util/types';
 
 interface DiscordConfig {
   token: string;

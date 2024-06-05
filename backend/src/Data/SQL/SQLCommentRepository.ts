@@ -4,6 +4,11 @@ import { QueryResult } from 'pg';
 
 export default class SQLCommentRepository extends SQLRepositoryBase implements CommentRepository {
 
+  async removeComment(id: number, contextUserId: number): Promise<boolean> {
+    const res = await this.client.query('Comment').delete().where('id', id).andWhere('author', contextUserId);
+    return res > 0;
+  }
+
   async addComment(meme: number, author: number, content: string): Promise<boolean> {
     const publishedAt = new Date(Date.now());
     const result: QueryResult = await this.client.query('Comment').insert({
