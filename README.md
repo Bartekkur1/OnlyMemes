@@ -1,4 +1,6 @@
-# OnlyMemes
+<p align="center">
+	<img width="500" alt="image" src="https://github.com/Bartekkur1/OnlyMemes/blob/master/frontend/public/logo.png">
+</p>
 Basically OF but with better content.
 
 ## How it works?
