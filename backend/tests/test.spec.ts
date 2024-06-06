@@ -41,7 +41,7 @@ describe('IdentityHandler', async () => {
       nextMock
     );
     expect(nextMock.mock.calls[0][0].status).toEqual(401);
-    expect(nextMock.mock.calls[0][0].message).toEqual('Invalid credentials! Invalid password');
+    expect(nextMock.mock.calls[0][0].message).toEqual('Invalid email or password!');
   });
 
   test('Should return 401 if login user is not found', async () => {
@@ -63,7 +63,7 @@ describe('IdentityHandler', async () => {
       nextMock
     );
     expect(nextMock.mock.calls[0][0].status).toEqual(400);
-    expect(nextMock.mock.calls[0][0].message).toEqual('Invalid credentials! Invalid email');
+    expect(nextMock.mock.calls[0][0].message).toEqual('Invalid email or password!');
   });
 
   test('Should return 500 if an unexpected error occurs', async () => {

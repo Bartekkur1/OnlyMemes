@@ -40,7 +40,6 @@ const Register: React.FC = () => {
       password: formData.password,
       inviteToken: formData.inviteToken
     }).then(() => {
-      // @TODO: Handle notification and error
       push('Account created successfully. Please login to continue.', 'success');
       return navigate('/login');
     }).catch((err) => {

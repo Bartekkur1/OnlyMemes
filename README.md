@@ -82,12 +82,11 @@ This approach presents a challenge for displaying usernames under comments or fo
 
 ### How to run
 
-@TODO: Improve this, move to docker
-1. Make sure you have bun installed
-2. Go to backend directory
-3. Run bun run index.ts
-4. Go to frontend
-5. Run bun run start
+1. Create a .env.docker file inside backend directory
+1.1 Copy .env.dev example file, paste into .env.docker and fill out values
+2. Run `docker compose up -d` in main directory
+3. Open web browser, go to localhost
+4. Enjoy
 
 ### PS
 If I forget a single commit this project yeets straight to **trash**

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Typography, TextField, Button, Container, Grid, Link } from '@mui/material';
+import { TextField, Button, Container, Grid, Link } from '@mui/material';
 import { useAuth } from '../../Context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { MessageContext } from '../../Context/MessageContext';
@@ -22,9 +22,7 @@ const Login: React.FC = () => {
   return (
     <Container component="main" maxWidth="xs">
       <div style={{ marginTop: '8rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography component="h1" variant="h5">
-          Log in to OnlyMemes
-        </Typography>
+        <img src="/logo.png" alt="OnlyMemes Logo" style={{ width: '100%', margin: '1rem 0' }} />
         <form style={{ width: '100%', marginTop: '1rem' }} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>

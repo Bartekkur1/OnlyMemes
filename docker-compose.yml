@@ -18,8 +18,15 @@ services:
 
   bunbackend:
     build: ./backend
+    depends_on:
+      - database
     ports:
       - "3001:3001"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
 
 networks:
   default:

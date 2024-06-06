@@ -20,14 +20,7 @@
     "@types/knex": "^0.16.1",
     "@types/node": "^20.12.8",
     "@types/pg": "^8.11.2",
-    "@types/uuid": "^9.0.8",
-    "better-sqlite3": "^9.2.2",
-    "mysql": "^2.18.1",
-    "mysql2": "^3.6.5",
-    "oracledb": "^6.3.0",
-    "pg-query-stream": "^4.5.3",
-    "sqlite3": "^5.1.6",
-    "tedious": "^16.6.1"
+    "@types/uuid": "^9.0.8"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
