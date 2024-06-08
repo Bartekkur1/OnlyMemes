@@ -102,13 +102,15 @@ I feel bad that it is unfinished, adding any feature takes like 80% frontend tim
 
 ### How to run
 
-1. Create a .env.docker file inside backend directory
-1.1 Copy .env.dev example file, paste into .env.docker and fill out values
-2. Run `docker compose up -d` in main directory
-3. Run backend migration `bun run migration:init` and then `bun run migration:populate`
-3.1 In case you ever wanted to drop your structure/data run `bun run migration:clear` and go to step 3.
-4. Open web browser, go to localhost (probably port 3000 idk)
-4. Enjoy
+1. Prepare discord server that will store memes
+1.1 Paste your developer api key & discord channel id into .env
+2. Create a .env.docker file inside backend directory
+2.1 Copy .env.dev example file, paste into .env.docker and fill out values
+3. Run `docker compose up -d` in main directory
+4. Run backend migration `bun run migration:init` and then `bun run migration:populate`
+4.1 In case you ever wanted to drop your structure/data run `bun run migration:clear` and go to step 3.
+5. Open web browser, go to localhost (probably port 3000 idk)
+6. Enjoy
 
 ### PS
 ~~If I forget a single commit this project yeets straight to **trash**~~
