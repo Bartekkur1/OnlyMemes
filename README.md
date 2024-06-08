@@ -21,7 +21,7 @@ For context, I'm a better paratrooper than a frontend developer (though I've nev
 2. ~~Figure out where to store memes (best case scenario without breaking the law) edit: probably S3 or try to store them on a free discord server~~ Discord FTW
 3. ~~Figure out how to filter sensible content (I don't want it to be a Pope memes hosting)~~ Achieved by memes approval by admin process
 4. ~~Steal~~ Create a design - Im going with default react material ui
-5. ~~Figure out where to store users considering our lovely RODO~~ Storing users in my database completely anonymously so that I dont break GDPR
+5. ~~Figure out where to store users considering our lovely RODO~~ Storing users in my database completely anonymously so that I dont break GDPR (hopefully)
 
 ## Architecture
 
@@ -39,13 +39,25 @@ Yeah, nothing special
 
 ## Content Filtering
 
-AI filtering is quite expensive, which is unfortunate because I have a limited budget and cannot spend any money on this project. The best I can offer is my valuable time.
+AI filtering is quite expensive, which is unfortunate because I have a limited budget and cannot spend any money on this project. The best I can offer is my valuable time. Thats why approval tab was created, admins manually flag memes as appropriate, after acceptance memes are visible to users. This process can be reverted anytime.
+
+## UI/UX
+
+App UI/UX short summary (its not malware) https://shorturl.at/eP0Fm
 
 ## User identity
 
 I will not store any personal data from users in compliance with GDPR regulations. Users will log in using their email and password, and I will only store the hash values of these for verification purposes (though I'm not entirely sure if this is legally compliant).
 
 This approach presents a challenge for displaying usernames under comments or for meme publishers. To address this, users will set a "display name" manually when registering (I'm not certain if this qualifies as sensitive data). Additionally, I will prohibit the use of emails as display names to protect personal information.
+
+## Invite token
+
+In order to prevent my friendly colleagues from making millions of accounts with basic python script, I created a invite token system. I mean it's still possible to spam the system, but requires extra steps. Each user can invite up to N other users. While registering they have to provide the token.
+
+## Votes / Comments
+
+Each user can comment on any post and can upvote any meme (ofc. not their own)
 
 ## Features
 
@@ -71,27 +83,38 @@ This approach presents a challenge for displaying usernames under comments or fo
 - [ ] Paywall - enable possibility to upload paid content
 - [ ] Payments - I have no idea what Im doing
 
-## Improvements
+I feel bad that it is unfinished, adding any feature takes like 80% frontend time and only 20% on backend. Because of this I felt a real resistance in adding anything. After this project I grew some respect for frontend developers, imagine they do this every day lol
+
+## Technical Improvements
 
 - [ ] Move async actions into queue
 	- [ ] Likes
 	- [ ] Uploads
+- [ ] Rate limiter
+- [ ] FFS Add tests unit/integration
 
-### TODO
+### Improvements / Ideas
 
-- [ ] Add tests
-- [ ] Review creating bot agents that would participate in community life, upload memes, add comments and follow each other just like a real users. Whole thing would be based on some LLM.
+- [ ] Make meme upload more nice
+- [ ] Review creating bot agents that would participate in community life, upload memes, add comments and follow each other just like a real users. Whole thing would be based on some LLM. Basically making dead internet theory go real.
+- [ ] Implement stripe
+- [ ] Host the app somewhere for free (budget is tight (okay, not tight, it just doesn't exist))
 
 ### How to run
 
 1. Create a .env.docker file inside backend directory
 1.1 Copy .env.dev example file, paste into .env.docker and fill out values
 2. Run `docker compose up -d` in main directory
-3. Open web browser, go to localhost
+3. Run backend migration `bun run migration:init` and then `bun run migration:populate`
+3.1 In case you ever wanted to drop your structure/data run `bun run migration:clear` and go to step 3.
+4. Open web browser, go to localhost (probably port 3000 idk)
 4. Enjoy
 
 ### PS
-If I forget a single commit this project yeets straight to **trash**
+~~If I forget a single commit this project yeets straight to **trash**~~
+Update: OMG, I MADE IT TO THE END 🎉
+Update: It was quite a ride, I will feel much better now without the commit pressure on my neck through the day.
+Thanks to the organizers && thanks to my bestie *Rychu* for introducing me into this event #GVO
 
 ## Commits of shame
 
